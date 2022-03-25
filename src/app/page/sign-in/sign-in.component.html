@@ -1,9 +1,19 @@
 <app-header></app-header>
 <div class="container">
-    <h1>Sign in</h1>
-    <hr>
-    <input type="text" placeholder="Email" [(ngModel)]="_email">
-    <input placeholder="Password" type="password" [(ngModel)]="_pass">
-    <app-button text="Log in" color="green" (btnClick)="signIn();"></app-button>
-    <app-button text="Sign up" color="black"></app-button>
+    <mat-card class="example-form">
+        <h1>Sign in</h1>
+    <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput  type="text" placeholder="yourname@email.com" [(ngModel)]="_email">
+    </mat-form-field>
+    <br>
+    <mat-form-field  class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="_pass">
+    </mat-form-field>
+
+<br>
+    <button mat-raised-button color="primary" (click)="signIn();">Sign in</button>
+    <button mat-raised-button  color="accent" routerLink = '/dashboard'>Sign up</button>
+</mat-card>
 </div>
