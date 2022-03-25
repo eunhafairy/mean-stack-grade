@@ -1,0 +1,9 @@
+<app-header></app-header>
+<div class="container">
+    <h1>Sign in</h1>
+    <hr>
+    <input type="text" placeholder="Email" [(ngModel)]="_email">
+    <input placeholder="Password" type="password" [(ngModel)]="_pass">
+    <app-button text="Log in" color="green" (btnClick)="signIn();"></app-button>
+    <app-button text="Sign up" color="black"></app-button>
+</div>
