@@ -1,19 +1,21 @@
 <app-header></app-header>
 <div class="container">
     <mat-card class="example-form">
-        <h1>Sign in</h1>
-    <mat-form-field class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput  type="text" placeholder="yourname@email.com" [(ngModel)]="_email">
-    </mat-form-field>
-    <br>
-    <mat-form-field  class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" [(ngModel)]="_pass">
-    </mat-form-field>
 
-<br>
-    <button mat-raised-button color="primary" (click)="signIn();">Sign in</button>
-    <button mat-raised-button  color="accent" routerLink = '/dashboard'>Sign up</button>
-</mat-card>
+    <h1>Sign in</h1>
+        <form (submit) ="signIn(postForm);" #postForm="ngForm" >
+            <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput  type="email" placeholder="yourname@email.com" ngModel email name="_email" required #email="ngModel">
+                <mat-error *ngIf ="email.invalid">Please enter a valid email address</mat-error>
+            </mat-form-field><br>
+            <mat-form-field  class="full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" ngModel name="pass" required #pass="ngModel">
+                <mat-error *ngIf ="pass.invalid">Please enter a password</mat-error>
+            </mat-form-field><br><br>
+            <button mat-raised-button color="primary" type="submit">Sign in</button>
+            <button mat-raised-button  color="accent" routerLink = '/dashboard'>Sign up</button>
+        </form>
+    </mat-card>
 </div>

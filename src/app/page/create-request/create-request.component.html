@@ -1,0 +1,38 @@
+<app-header-dashboard-user></app-header-dashboard-user>
+<div class="container">
+    <mat-card class="example-form">
+
+    <h1>Create Request</h1>
+        <form (submit) ="createRequest(addRequest);" #addRequest="ngForm" >
+           <!-- REQUEST ID -->
+            <mat-form-field class="full-width">
+                <mat-label>Request_id</mat-label>
+                <input matInput  type="text" ngModel name="request_id" required #request_id="ngModel">
+                <mat-error *ngIf ="request_id.invalid">Please enter a valid request id</mat-error>
+            </mat-form-field><br>
+             <!-- REQUEST TITLE -->
+            <mat-form-field class="full-width">
+                <mat-label>Title</mat-label>
+                <input matInput  type="text" ngModel name="title" required #title="ngModel">
+                <mat-error *ngIf ="title.invalid">Please enter a valid title</mat-error>
+            </mat-form-field><br>
+             <!-- REQUEST USER ID  -->
+             <mat-form-field class="full-width">
+                <mat-label>User Id</mat-label>
+                <input matInput  type="text" ngModel name="user_id" required #user_id="ngModel">
+                <mat-error *ngIf ="user_id.invalid">Please enter a valid user id</mat-error>
+            </mat-form-field><br>
+            <!-- REQUEST FACULTY ID  -->
+            <mat-form-field class="full-width">
+                <mat-label>Faculty Id</mat-label>
+                <input matInput  type="text" ngModel name="faculty_id" required #faculty_id="ngModel">
+                <mat-error *ngIf ="faculty_id.invalid">Please enter a valid faculty_id</mat-error>
+            </mat-form-field><br><br>
+
+
+            <button mat-raised-button color="primary" type="submit">Create Request</button>
+            <button mat-raised-button color="accent" routerLink="/dashboard">Cancel</button>
+           
+        </form>
+    </mat-card>
+</div>

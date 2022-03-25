@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,8 +15,15 @@ _pass = '';
   ngOnInit(): void {
   }
 
-  signIn(){
-    console.log('the email and pass are: ' + this._email + ' ' + this._pass);
+  signIn(postForm: NgForm){
+    
+    if(postForm.invalid){
+      return;
+    }
+    this._email = postForm.value._email;
+    this._pass = postForm.value.pass;
+    console.log(this._email, this._pass);
+
   }
 
 }

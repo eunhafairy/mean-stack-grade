@@ -1,9 +1,17 @@
-<mat-accordion>
-    <mat-expansion-panel>
+<h1>Requests</h1>
+<mat-accordion >
+    <mat-expansion-panel *ngFor = "let request of requests" >
         <mat-expansion-panel-header>
-            Title
+            {{request.title}}
         </mat-expansion-panel-header>
+        <li>   {{request.user_id}}</li>
+        <li>   {{request.faculty_id}}</li>
+        <li>   {{request.status}}</li>
+        <mat-action-row>
+        <button mat-button color="primary">EDIT</button>
+        <button mat-button color="warn">DELETE</button>
 
-        <p>Samp;e sample</p>
+        </mat-action-row>
     </mat-expansion-panel>
+    
 </mat-accordion>

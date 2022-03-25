@@ -6,6 +6,7 @@ import {MatCardModule} from '@angular/material/card'
 import {MatButtonModule} from '@angular/material/button'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatExpansionModule} from '@angular/material/expansion'
+import {MatIconModule} from '@angular/material/icon'
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +18,9 @@ import { SignInComponent } from './page/sign-in/sign-in.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestComponent } from './elements/request/request.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
+import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/header-dashboard-user.component';
+import { RequestService } from './service/request.service';
+import { CreateRequestComponent } from './page/create-request/create-request.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,9 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
     InputTextComponent,
     SignInComponent,
     RequestComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderDashboardUserComponent,
+    CreateRequestComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,8 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
     MatCardModule,
     MatButtonModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
