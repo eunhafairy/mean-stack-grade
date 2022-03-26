@@ -10,7 +10,7 @@ import { RequestService } from 'src/app/service/request.service';
   styleUrls: ['./create-request.component.css']
 })
 export class CreateRequestComponent implements OnInit {
-  request_id: string = '';
+
   title: string = '';
   user_id: string = '';
   faculty_id: string = '';
@@ -27,8 +27,8 @@ export class CreateRequestComponent implements OnInit {
       return;
     }
 
-    this.requestService.addRequest( postForm.value.request_id,postForm.value.title, postForm.value.user_id ,postForm.value.faculty_id,this.status);
-    console.log(this.request_id + ' ' + this.title + ' ' + this.user_id + ' ' + this.faculty_id + ' ' + this.status);
+    this.requestService.addRequest( postForm.value.title, postForm.value.user_id ,postForm.value.faculty_id,this.status);
+
     postForm.resetForm();
     window.alert('Request added!');
     this.router.navigate(["/dashboard"]);

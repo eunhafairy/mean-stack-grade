@@ -13,7 +13,7 @@ requests : Request[] = [];
   constructor(public requestService: RequestService) { }
 
   ngOnInit(): void {
-    this.requests = this.requestService.getRequests();
+    this.requestService.getRequests();
     this.requestService.getRequestUpdateListener()
     .subscribe((requests: Request[]) => {
 
@@ -21,6 +21,19 @@ requests : Request[] = [];
 
     });
   }
+
+  deleteRequest(requestId: string){
+
+    if(window.confirm("Are you sure you want to delete?")){
+      this.requestService.deleteRequest(requestId);
+    }
+    else{
+      return;
+    }
+    
+      
+  }
+
   ngOnDestroy() {
     this.requestSub.unsubscribe();
   }
