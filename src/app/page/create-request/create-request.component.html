@@ -3,24 +3,61 @@
     <mat-card class="example-form">
 
     <h1>Create Request</h1>
-        <form (submit) ="createRequest(addRequest);" #addRequest="ngForm" >
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <form *ngIf="!isLoading" (submit) ="onSaveRequest(addRequest);" #addRequest="ngForm" >
               
              <!-- REQUEST TITLE -->
             <mat-form-field class="full-width">
                 <mat-label>Title</mat-label>
-                <input matInput  type="text" ngModel name="title" required #title="ngModel">
+                <input 
+                matInput  
+                type="text" 
+                [ngModel]="request.title"
+                name="title" 
+                required 
+                #title="ngModel">
                 <mat-error *ngIf ="title.invalid">Please enter a valid title</mat-error>
             </mat-form-field><br>
              <!-- REQUEST USER ID  -->
              <mat-form-field class="full-width">
                 <mat-label>User Id</mat-label>
-                <input matInput  type="text" ngModel name="user_id" required #user_id="ngModel">
+                <input 
+                matInput  
+                type="text" 
+                [ngModel] = "request.user_id"
+                name="user_id" 
+                required 
+                #user_id="ngModel">
                 <mat-error *ngIf ="user_id.invalid">Please enter a valid user id</mat-error>
             </mat-form-field><br>
+            
+            <!-- REQUEST STATUS  -->
+            <mat-form-field class="full-width">
+                <mat-label>Select Status</mat-label>
+                <mat-select 
+                [(value)]="selectedStatus"
+                [ngModel] = "request.status"
+                name = "__status"
+                #__status="ngModel"
+                >
+                <mat-option *ngFor="let stat of stats" [value] = "stat.value">
+                    {{stat.value}}
+                </mat-option>
+                </mat-select>
+               
+            </mat-form-field><br>
+
+    
             <!-- REQUEST FACULTY ID  -->
             <mat-form-field class="full-width">
                 <mat-label>Faculty Id</mat-label>
-                <input matInput  type="text" ngModel name="faculty_id" required #faculty_id="ngModel">
+                <input
+                matInput  
+                type="text" 
+                [ngModel] = "request.faculty_id"
+                name="faculty_id" 
+                required 
+                #faculty_id="ngModel">
                 <mat-error *ngIf ="faculty_id.invalid">Please enter a valid faculty_id</mat-error>
             </mat-form-field><br><br>
 

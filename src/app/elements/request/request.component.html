@@ -1,14 +1,15 @@
-<h1>Requests</h1>
-<mat-accordion >
-    <mat-expansion-panel *ngFor = "let request of requests" >
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-accordion multi=true *ngIf="requests.length > 0 && !isLoading" >
+    <mat-expansion-panel  *ngFor = "let request of requests" >
         <mat-expansion-panel-header>
-            {{request.title}}
+            <b style= "color: #673AB7;">{{request.title}}</b>
         </mat-expansion-panel-header>
-        <li>   {{request.user_id}}</li>
-        <li>   {{request.faculty_id}}</li>
-        <li>   {{request.status}}</li>
+        <li><b>User ID:</b> {{request.user_id}}</li>
+        <li><b>Faculty ID:</b>   {{request.faculty_id}}</li>
+        <li><b>Status:</b>   {{request.status}}</li>
         <mat-action-row>
-        <button mat-button color="primary">EDIT</button>
+        <button mat-button color="primary" [routerLink] = "['/edit', request.request_id]">EDIT</button>
         <button mat-button color="warn" (click)="deleteRequest(request.request_id)">DELETE</button>
 
         </mat-action-row>

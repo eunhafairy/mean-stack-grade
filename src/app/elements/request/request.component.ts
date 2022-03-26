@@ -9,15 +9,17 @@ import {Subject, Subscription} from 'rxjs'
 })
 export class RequestComponent implements OnInit, OnDestroy{
 requests : Request[] = [];
+isLoading = false;
   private requestSub: Subscription = new Subscription;
   constructor(public requestService: RequestService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.requestService.getRequests();
     this.requestService.getRequestUpdateListener()
     .subscribe((requests: Request[]) => {
-
-        this.requests = requests;
+      this.isLoading = false;
+      this.requests = requests;
 
     });
   }

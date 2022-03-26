@@ -8,6 +8,9 @@ import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatExpansionModule} from '@angular/material/expansion'
 import {MatIconModule} from '@angular/material/icon'
 import {HttpClientModule} from '@angular/common/http'
+import { MatOptionModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +24,7 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/header-dashboard-user.component';
 import { RequestService } from './service/request.service';
 import { CreateRequestComponent } from './page/create-request/create-request.component';
+
 
 @NgModule({
   declarations: [
@@ -45,7 +49,10 @@ import { CreateRequestComponent } from './page/create-request/create-request.com
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
-    HttpClientModule
+    HttpClientModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
