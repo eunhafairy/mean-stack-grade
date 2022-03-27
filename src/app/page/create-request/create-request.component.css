@@ -8,7 +8,18 @@
 .full-width {
     width: 100%;
   }
-  mat-spinner{
+mat-spinner{
 
-    margin:auto;
-  }
+  margin:auto;
+}
+
+.file-preview{
+height: 5rem;
+margin: 1rem 0;
+
+}
+
+.file-preview img{
+
+  height: 100%;
+}

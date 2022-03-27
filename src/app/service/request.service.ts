@@ -19,7 +19,7 @@ private requestsUpdated = new Subject<Request []>();
     this.http
     .get<{message: string, requests: any}>("http://localhost:3000/api/requests")
     .pipe(map((requestData)=>{
-        return requestData.requests.map((request: { _id: any; title: any; user_id: any; faculty_id: any; status: any; }) => {
+        return requestData.requests.map((request: any) => {
           return{
 
             request_id: request._id,
@@ -27,7 +27,7 @@ private requestsUpdated = new Subject<Request []>();
             user_id:request.user_id,
             faculty_id:request.faculty_id,
             status: request.status,
-
+            filePath: request.filePath
           }
         })
 
@@ -43,14 +43,27 @@ private requestsUpdated = new Subject<Request []>();
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(title: string, user_id: string, faculty_id: string, status: string){
+  addRequest(title: string, user_id: string, faculty_id: string, status: string, file:File){
 
-    const _request : Request = {request_id : '', title : title, user_id: user_id,  faculty_id:faculty_id, status: status} ;
+    const reqData = new FormData();
+    reqData.append("title" , title);
+    reqData.append("user_id" , user_id);
+    reqData.append("faculty_id" , faculty_id);
+    reqData.append("status" , status);
+    reqData.append("file" , file, file.name as string);
+
     
-    this.http.post<{ message:string, reqId: string }>("http://localhost:3000/api/requests", _request)
+    this.http.post<{ message:string, _request_: Request }>("http://localhost:3000/api/requests", reqData)
       .subscribe( (responseData) => {
-          const id = responseData.reqId;
-          _request.request_id = id;
+         
+          const _request : Request = {
+            request_id : responseData._request_.request_id, 
+            title : title, 
+            user_id: user_id,  
+            faculty_id:faculty_id, 
+            status: status,
+            filePath: responseData._request_.filePath } ;
+          
           console.log(responseData.message);
           this.requests.push(_request);
           this.requestsUpdated.next([...this.requests]);
@@ -59,7 +72,7 @@ private requestsUpdated = new Subject<Request []>();
   }
 
   getRequest(id : string){
-    return this.http.get<{_id: string; title: string; user_id: string; faculty_id: string; status: string}>("http://localhost:3000/api/requests/" + id);
+    return this.http.get<{_id: string; title: string; user_id: string; faculty_id: string; status: string, filePath: string}>("http://localhost:3000/api/requests/" + id);
 
   }
 
@@ -76,14 +89,47 @@ private requestsUpdated = new Subject<Request []>();
 
   }
 
-  updateRequest(_id:string, title:string, faculty_id:string, user_id:string, status: string){
+  updateRequest(_id:string, title:string, faculty_id:string, user_id:string, status: string, file: string| File){
 
-    const _request : Request = { request_id: _id, title: title, faculty_id: faculty_id, user_id: user_id, status: status };
-    this.http.put("http://localhost:3000/api/requests/" + _id, _request)
+    let requestData : Request | FormData;
+    if(typeof(file) === 'object'){
+     
+    requestData = new FormData();
+    requestData.append("request_id",_id);
+     requestData.append("title",title);
+     requestData.append("faculty_id",faculty_id);
+     requestData.append("user_id",user_id);
+     requestData.append("status",status);
+     requestData.append("file",file, file.name);
+
+    }
+    else{
+
+       requestData = {
+        request_id: _id,
+        title: title,
+        faculty_id: faculty_id,
+        user_id: user_id,
+        status: status,
+        filePath: file
+      }
+
+    }
+  
+    this.http
+    .put("http://localhost:3000/api/requests/" + _id, requestData)
     .subscribe(response =>{
 
     const updatedRequests = [...this.requests];
-    const oldRequestIndex = updatedRequests.findIndex(p=> p.request_id === _request.request_id);
+    const oldRequestIndex = updatedRequests.findIndex(p=> p.request_id === _id);
+    const _request : Request = { 
+      request_id: _id, 
+      title: title,
+      faculty_id: faculty_id,
+      user_id: user_id,
+      status: status,
+      filePath: "response.filePath"
+    };
     updatedRequests[oldRequestIndex] = _request;
     this.requests = updatedRequests;
     this.requestsUpdated.next([...this.requests])

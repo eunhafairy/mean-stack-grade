@@ -5,5 +5,6 @@ export interface Request{
     user_id: string;
     faculty_id: string;
     status: string;
+    filePath: string;
 
 }

@@ -2,3 +2,15 @@ li{
 list-style: none;
 
 }
+
+.file-img{
+
+    height: 5rem;
+margin: 1rem 0;
+
+}
+
+.file-img img {
+height: 100%;
+
+}

@@ -46,6 +46,11 @@
     font-size: 15px;
     font-family: inherit;
   }
+
+  
+input[type="file"]{
+  visibility: hidden;
+  }
   .btn:focus {
     outline: none;
   }
