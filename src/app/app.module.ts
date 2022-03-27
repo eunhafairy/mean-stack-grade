@@ -7,10 +7,12 @@ import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatExpansionModule} from '@angular/material/expansion'
 import {MatIconModule} from '@angular/material/icon'
 import {HttpClientModule} from '@angular/common/http'
-import { MatOptionModule } from '@angular/material/core';
+import {MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ReactiveFormsModule } from '@angular/forms';
+import {ReactiveFormsModule } from '@angular/forms';
+import {MatPaginatorModule} from '@angular/material/paginator'
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +26,7 @@ import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/header-dashboard-user.component';
 import { RequestService } from './service/request.service';
 import { CreateRequestComponent } from './page/create-request/create-request.component';
+import { SignupComponent } from './page/signup/signup.component';
 
 
 @NgModule({
@@ -36,7 +39,8 @@ import { CreateRequestComponent } from './page/create-request/create-request.com
     RequestComponent,
     DashboardComponent,
     HeaderDashboardUserComponent,
-    CreateRequestComponent
+    CreateRequestComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,9 @@ import { CreateRequestComponent } from './page/create-request/create-request.com
     MatOptionModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

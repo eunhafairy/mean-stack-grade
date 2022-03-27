@@ -45,12 +45,27 @@ router.post("", multer({storage: storage}).single('file'), (req,res,next) =>{
 
 router.get('' ,(req,res,next) =>{
 
-    Request.find()
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const postQuery = Request.find();
+    let fetchedRequests;
+
+    if(pageSize && currentPage){
+        postQuery
+        .skip(pageSize * (currentPage - 1))
+        .limit(pageSize);
+    }
+
+    postQuery
     .then((documents) =>{
-        console.log(documents);
+        fetchedRequests = documents;
+      return Request.count();  
+    })
+    .then(count => {
         res.status(200).json({
             message: 'Request fetched successfully',
-            requests: documents
+            requests: fetchedRequests,
+            maxRequests: count
         });
     });
 
@@ -92,7 +107,7 @@ router.delete("/:id", (req,res,next) => {
 
 
 
-router.put("/:id", (req,res, next) =>{
+router.put("/:id", multer({storage: storage}).single('file'), (req,res, next) =>{
 
     
     let filePath = req.body.filePath;
@@ -109,7 +124,7 @@ router.put("/:id", (req,res, next) =>{
         user_id: req.body.user_id,
         faculty_id: req.body.faculty_id,
         status: req.body.status,
-        filePath :req.body.filePath
+        filePath :filePath
 
     });
     console.log();

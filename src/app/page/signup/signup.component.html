@@ -1,0 +1,51 @@
+<app-header></app-header>
+<div class="container">
+    <mat-card class="example-form">
+
+    <h1>Register Account</h1>
+            <form (submit) ="onSignUp(signUpForm)" #signUpForm = "ngForm" >
+
+                <!--EMAIL-->
+                <mat-form-field class="full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput  name = "email" type="email" placeholder="yourname@email.com" ngModel  #emailInput = "ngModel" required email >
+                    <mat-error *ngIf = "emailInput.invalid">Please enter a valid email</mat-error>
+                </mat-form-field><br>
+
+                <!--PASSWORD-->
+                <mat-form-field  class="full-width">
+                    <mat-label>Password</mat-label>
+                    <input name="password" matInput type="password" ngModel #passwordInput="ngModel" required>
+                    <mat-error *ngIf = "passwordInput.invalid">Please enter a valid password</mat-error>
+                </mat-form-field><br>
+
+                <!--CONFIRM PASSWORD-->
+                <mat-form-field  class="full-width">
+                    <mat-label>Confirm Password</mat-label>
+                    <input  name="confirmPassword" matInput type="password" ngModel #confirmInput="ngModel" required>
+                    <mat-error *ngIf = "confirmInput.invalid">Please make sure that the passwords are the same.</mat-error>
+                </mat-form-field>
+
+                <!--STATUS-->
+                <mat-form-field class="full-width">
+                    <mat-label>Role</mat-label>
+                    <mat-select 
+                    [(value)]="selectedRole"
+                    name = "role"
+                    ngModel
+                    #roleInput = "ngModel"
+                    required
+                    >
+                    <mat-option *ngFor="let role of roles" [value] = "role.value">
+                        {{role.value}}
+                    </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf = "roleInput.invalid">Please choose a role.</mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" type="submit">Sign Up</button>
+                <button mat-raised-button  color="accent" routerLink = '/sign-in'>Cancel</button>
+
+        </form>
+    </mat-card>
+</div>
