@@ -3,16 +3,18 @@
     <mat-card class="example-form">
 
     <h1>Sign in</h1>
-            <form (submit) ="signIn();" >
+            <form (submit) ="signIn(signInForm)" #signInForm = "ngForm" >
+            
             <mat-form-field class="full-width">
                 <mat-label>Email</mat-label>
-                <input matInput  type="email" placeholder="yourname@email.com" name="email">
-             
+                <input name="email" matInput type="email" ngModel #email="ngModel" required email>
+                <mat-error *ngIf = "email.invalid">Please enter a valid email.</mat-error>
             </mat-form-field><br>
 
             <mat-form-field  class="full-width">
                 <mat-label>Password</mat-label>
-                <input name="pass" matInput type="password">
+                <input name="password" matInput type="password" ngModel #password="ngModel" required>
+                <mat-error *ngIf = "password.invalid">Please enter a valid password.</mat-error>
             </mat-form-field><br><br>
 
             <button mat-raised-button color="primary" type="submit">Sign in</button>

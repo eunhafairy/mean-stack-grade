@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormsModule,  FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from 'express';
+import { UserService } from 'src/app/service/user.service';
+
 
 @Component({
   selector: 'app-signup',
@@ -15,7 +19,7 @@ export class SignupComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
@@ -27,9 +31,11 @@ export class SignupComponent implements OnInit {
         return;
     }
 
+    this.userService.createUser(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password);
+  
+
   }
 
-  //-------------check if pass is equal
 
 
 }

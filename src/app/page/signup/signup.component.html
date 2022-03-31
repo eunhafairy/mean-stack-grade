@@ -5,6 +5,22 @@
     <h1>Register Account</h1>
             <form (submit) ="onSignUp(signUpForm)" #signUpForm = "ngForm" >
 
+        
+                  <!--FIRST NAME-->
+                  <mat-form-field  class="full-width">
+                    <mat-label>First Name</mat-label>
+                    <input  name="firstName" matInput type="text" ngModel #firstName="ngModel" required>
+                    <mat-error *ngIf = "firstName.invalid">Please enter your first name.</mat-error>
+                </mat-form-field>
+
+                
+                  <!--LAST NAME-->
+                  <mat-form-field  class="full-width">
+                    <mat-label>Surname</mat-label>
+                    <input  name="lastName" matInput type="text" ngModel #lastName="ngModel" required>
+                    <mat-error *ngIf = "lastName.invalid">Please enter your last name.</mat-error>
+                </mat-form-field>
+
                 <!--EMAIL-->
                 <mat-form-field class="full-width">
                     <mat-label>Email</mat-label>
