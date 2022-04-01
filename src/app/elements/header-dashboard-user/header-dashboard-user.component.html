@@ -1,14 +1,37 @@
 <mat-toolbar color="primary">
+
+    <!-- HEADER TITLE -->
     <span>Grade Completion System</span>
     <span class="example-spacer"></span>
   
-    <button mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/dashboard">
-        <mat-icon>home</mat-icon>
-      </button>
-    <button  routerLink="/create-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
+  
+
+    <!-- SIGN IN -->
+    <a *ngIf="userIsAuthenticated == false" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a> 
+    
+
+     <!-- SIGN UP -->
+     <a *ngIf="userIsAuthenticated == false" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a>
+
+       <!-- HOME BUTTON -->
+    <button *ngIf="userIsAuthenticated" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/dashboard">
+      <mat-icon>home</mat-icon>
+    </button>
+
+    <!-- PROFILE -->
+    <button *ngIf="userIsAuthenticated"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/profile">
+        <mat-icon>person</mat-icon>
+    </button>
+
+    <!-- CREATE/EDIT EVENT -->
+    <button *ngIf="userIsAuthenticated"   routerLink="/create-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
         <mat-icon>event_note</mat-icon>
-      </button>
-   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" routerLink="/sign-in">
+    </button>
+
+    <!-- LOGOUT -->
+ <button *ngIf="userIsAuthenticated"  mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
       <mat-icon>logout</mat-icon>
     </button>
+ 
+
 </mat-toolbar>

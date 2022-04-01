@@ -6,7 +6,7 @@ import {MatButtonModule} from '@angular/material/button'
 import {MatToolbarModule} from '@angular/material/toolbar'
 import {MatExpansionModule} from '@angular/material/expansion'
 import {MatIconModule} from '@angular/material/icon'
-import {HttpClientModule} from '@angular/common/http'
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
 import {MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -27,6 +27,8 @@ import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/h
 import { RequestService } from './service/request.service';
 import { CreateRequestComponent } from './page/create-request/create-request.component';
 import { SignupComponent } from './page/signup/signup.component';
+import { ProfileComponent } from './page/profile/profile.component';
+import { AuthInterceptor } from './service/auth-interceptor';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { SignupComponent } from './page/signup/signup.component';
     DashboardComponent,
     HeaderDashboardUserComponent,
     CreateRequestComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ import { SignupComponent } from './page/signup/signup.component';
     MatPaginatorModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS , useClass : AuthInterceptor, multi:true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

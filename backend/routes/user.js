@@ -75,11 +75,14 @@ router.post("/login", (req,res,next) => {
             {email: fetchedUser.email, u_id: fetchedUser._id },
             'secret_this_should_be_longer', { expiresIn: "1h" }
         );
+
+        console.log(token);
         res.status(200).json({
 
             token:token
 
         });
+    
 
     })
     .catch(err =>{
