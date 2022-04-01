@@ -51,7 +51,6 @@ router.post("/login", (req,res,next) => {
     .then(user =>{
        
         if(!user){
-
             return res.status(401).json({
                 message: 'No account found'
             });
@@ -63,10 +62,10 @@ router.post("/login", (req,res,next) => {
     .then(result =>{
    
             if(!result){
+                
                 return res
                 .status(401)
-                .json({
-                
+                .json({       
                     message: 'Wrong password'
                 });
             }
@@ -76,10 +75,11 @@ router.post("/login", (req,res,next) => {
             'secret_this_should_be_longer', { expiresIn: "1h" }
         );
 
-        console.log(token);
+
         res.status(200).json({
 
-            token:token
+            token:token,
+            expiresIn: 3600
 
         });
     
@@ -88,6 +88,7 @@ router.post("/login", (req,res,next) => {
     .catch(err =>{
 
         console.log(err);
+
         return res.status(401).json({
         message: 'Error occurred',
         error: err

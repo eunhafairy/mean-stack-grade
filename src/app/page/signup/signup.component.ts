@@ -11,6 +11,7 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  isLoading = false;
   selectedRole: string;
   public roles: any = [
     {value : "Student"}, 
@@ -31,6 +32,7 @@ export class SignupComponent implements OnInit {
         return;
     }
 
+    this.isLoading = true;
     this.userService.createUser(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password);
   
 

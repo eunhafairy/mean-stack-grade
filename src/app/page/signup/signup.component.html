@@ -60,7 +60,8 @@
                     <mat-error *ngIf = "roleInput.invalid">Please choose a role.</mat-error>
                 </mat-form-field>
 
-                <button mat-raised-button color="primary" type="submit">Sign Up</button>
+                <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
                 <button mat-raised-button  color="accent" routerLink = '/sign-in'>Cancel</button>
 
         </form>

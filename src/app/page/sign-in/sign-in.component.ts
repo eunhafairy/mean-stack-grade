@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { format } from 'path';
 import { UserService } from 'src/app/service/user.service';
 
@@ -9,9 +10,9 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./sign-in.component.css']
 })
 export class SignInComponent implements OnInit {
-
+isLoading = false;
  
-  constructor(private userService : UserService) { }
+  constructor(private userService : UserService, public router: Router) { }
 
   ngOnInit(): void {
 
@@ -22,7 +23,10 @@ export class SignInComponent implements OnInit {
       if(form.invalid){
         return;
       }
-      this.userService.loginUser(form.value.email, form.value.password);
+      this.isLoading=true;
+      this.userService.loginUser(form.value.email, form.value.password)
+      
+
 
   }
 }

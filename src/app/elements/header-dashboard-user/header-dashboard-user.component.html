@@ -7,11 +7,11 @@
   
 
     <!-- SIGN IN -->
-    <a *ngIf="userIsAuthenticated == false" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a> 
+    <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a> 
     
 
      <!-- SIGN UP -->
-     <a *ngIf="userIsAuthenticated == false" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a>
+     <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a>
 
        <!-- HOME BUTTON -->
     <button *ngIf="userIsAuthenticated" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/dashboard">
@@ -29,7 +29,7 @@
     </button>
 
     <!-- LOGOUT -->
- <button *ngIf="userIsAuthenticated"  mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+ <button *ngIf="userIsAuthenticated"  mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click) = "onLogout();">
       <mat-icon>logout</mat-icon>
     </button>
  
