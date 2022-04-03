@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const { restart } = require('nodemon');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+
+
 router.post("/signup", (req,res, next) =>{
 
     bcrypt.hash(req.body.password, 10)
@@ -23,15 +25,14 @@ router.post("/signup", (req,res, next) =>{
         .then(result => {
 
             res.status(201).json({
-
                 message: 'User created',
                 result: result
             });
+
         })
         .catch(err => {
-
             res.status(500).json({
-                error:err
+                err:err
             });
         })
     
@@ -39,7 +40,27 @@ router.post("/signup", (req,res, next) =>{
 
 
 
-})
+});
+
+router.delete("/:id",checkAuth, (req,res,next) => {
+
+    User.deleteOne({_id: req.params.id})
+    .then((result)=>{
+        console.log(result);
+        res.status(200).json({
+            message: "User deleted!"
+        });
+
+    })
+    .catch(err =>{
+       
+        res.status(500).json({
+            err:err
+        });
+
+    });
+    
+});
 
 router.post("/login", (req,res,next) => {
 

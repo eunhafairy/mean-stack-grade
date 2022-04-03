@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Create Account</h1>
+<div mat-dialog-content>
+
+<main>
+<form (submit) ="onSignUp(signUpForm)" #signUpForm = "ngForm" >
+
+        
+    <!--FIRST NAME-->
+    <mat-form-field  class="full-width">
+      <mat-label>First Name</mat-label>
+      <input  name="firstName" matInput type="text" ngModel #firstName="ngModel" required>
+      <mat-error *ngIf = "firstName.invalid">Please enter your first name.</mat-error>
+    </mat-form-field>
+
+  
+    <!--LAST NAME-->
+    <mat-form-field  class="full-width">
+      <mat-label>Surname</mat-label>
+      <input  name="lastName" matInput type="text" ngModel #lastName="ngModel" required>
+      <mat-error *ngIf = "lastName.invalid">Please enter your last name.</mat-error>
+  </mat-form-field>
+
+  <!--EMAIL-->
+  <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput  name = "email" type="email" placeholder="yourname@email.com" ngModel  #emailInput = "ngModel" required email >
+      <mat-error *ngIf = "emailInput.invalid">Please enter a valid email</mat-error>
+  </mat-form-field><br>
+
+  <!--PASSWORD-->
+  <mat-form-field  class="full-width">
+      <mat-label>Password</mat-label>
+      <input name="password" matInput type="password" ngModel #passwordInput="ngModel" required>
+      <mat-error *ngIf = "passwordInput.invalid">Please enter a valid password</mat-error>
+  </mat-form-field><br>
+
+  <!--CONFIRM PASSWORD-->
+  <mat-form-field  class="full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input  name="confirmPassword" matInput type="password" ngModel #confirmInput="ngModel" required>
+      <mat-error *ngIf = "confirmInput.invalid">Please make sure that the passwords are the same.</mat-error>
+  </mat-form-field>
+
+  <!--STATUS-->
+  <mat-form-field class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select 
+      [(value)]="selectedRole"
+      name = "role"
+      ngModel
+      #roleInput = "ngModel"
+      required
+      >
+      <mat-option *ngFor="let role of roles" [value] = "role.value">
+          {{role.value}}
+      </mat-option>
+      </mat-select>
+      <mat-error *ngIf = "roleInput.invalid">Please choose a role.</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+
+</form>
+</main>
+</div>

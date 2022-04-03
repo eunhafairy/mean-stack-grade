@@ -15,7 +15,7 @@ import {MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {  MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,21 +27,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestComponent } from './elements/request/request.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/header-dashboard-user.component';
-import { RequestService } from './service/request.service';
 import { CreateRequestComponent } from './page/create-request/create-request.component';
 import { SignupComponent } from './page/signup/signup.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { AuthInterceptor } from './service/auth-interceptor';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
-import { AccountsComponent } from './page/admin/accounts/accounts.component';
+import { AccountsComponent, DialogContent } from './page/admin/accounts/accounts.component';
 import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
-
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DialogContent,
     HeaderComponent,
     ButtonComponent,
     InputTextComponent,
@@ -78,7 +78,8 @@ import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settin
     MatTableModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
     
    
   ],

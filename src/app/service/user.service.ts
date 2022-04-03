@@ -1,9 +1,11 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Subject } from 'rxjs';
+import { catchError, Subject, throwError } from 'rxjs';
 import { AuthData } from '../models/auth_data';
 import { LoginData } from '../models/login_data';
+import { User } from '../models/user';
+import { map, retry } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,6 +33,26 @@ export class UserService {
       });
 
   }
+
+  //CREATE USER BY ADMIN  
+  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string) : any{
+    
+    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
+    
+    this.http.post("http://localhost:3000/api/users/signup", authData)
+    .subscribe(
+
+      data => console.log('data', data),
+      error => console.log('oops', error)
+
+    );
+  
+  }
+
+ 
+   
+ 
+   
 
   getUserId(){
     return this.u_id;

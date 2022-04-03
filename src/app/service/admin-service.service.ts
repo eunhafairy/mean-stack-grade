@@ -39,4 +39,9 @@ export class AdminServiceService {
     return this.usersUpdated.asObservable();
   }
 
+  deleteUser(u_id: string)
+  {
+      return this.http.delete("http://localhost:3000/api/users/" + u_id);
+  }
+
 }
