@@ -26,7 +26,8 @@ export class UserService {
     const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
       this.http.post("http://localhost:3000/api/users/signup", authData)
       .subscribe(result =>{
-        console.log(result);
+        window.alert("Success!");
+        this.router.navigate(['/sign-in']);
       });
 
   }
@@ -67,7 +68,19 @@ export class UserService {
         this.saveAuthData(token, expirationDate, this.u_id, this.role);
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
-        this.router.navigate(['/dashboard']);
+
+        if(this.role === 'Admin'){
+          this.router.navigate(['/admin-dashboard']);
+        }
+        else if (this.role === 'Student'){
+
+          this.router.navigate(['/dashboard']);
+        }
+        else{
+
+          this.router.navigate(['/dashboard']);
+        }
+        
     
       }
      

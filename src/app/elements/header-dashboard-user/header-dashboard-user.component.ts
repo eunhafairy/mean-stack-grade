@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule,Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
 
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
-
+  role :string;
   constructor(private userService: UserService, public router: Router) { }
   
   ngOnInit(): void {
@@ -25,8 +26,9 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
       .subscribe( isAuthenticated => {
 
         this.userIsAuthenticated = isAuthenticated;
-
+       
       });
+      this.role = this.userService.getRole();
       
     
 
@@ -42,6 +44,8 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
    
 
   }
+
+  
 
 
 }

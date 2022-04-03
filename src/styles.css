@@ -12,6 +12,10 @@
     margin: auto;
   }
 
+  th{
+    text-align: center;
+  }
+
   main{
 
     display: block;

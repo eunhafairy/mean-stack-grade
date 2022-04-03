@@ -4,7 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const { restart } = require('nodemon');
 const jwt = require('jsonwebtoken');
-
+const checkAuth = require('../middleware/check-auth');
 router.post("/signup", (req,res, next) =>{
 
     bcrypt.hash(req.body.password, 10)
@@ -98,6 +98,39 @@ router.post("/login", (req,res,next) => {
 
     })
 })
+
+
+router.get('',checkAuth ,(req,res,next) =>{
+
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const postQuery = User.find();
+    let fetchedRequests;
+
+    if(pageSize && currentPage){
+        postQuery
+        .skip(pageSize * (currentPage - 1))
+        .limit(pageSize);
+    }
+
+    postQuery
+    .then((documents) =>{
+      fetchedRequests = documents;
+      return User.count();  
+    })
+    .then(count => {
+       
+        res.status(200).json({
+            message: 'Request fetched successfully',
+            users: fetchedRequests,
+            maxUsers: count
+        });
+    });
+
+
+
+
+});
 
 
 module.exports = router;

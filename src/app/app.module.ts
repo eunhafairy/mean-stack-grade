@@ -1,18 +1,21 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatInputModule } from '@angular/material/input';
-import {MatCardModule} from '@angular/material/card'
-import {MatButtonModule} from '@angular/material/button'
-import {MatToolbarModule} from '@angular/material/toolbar'
-import {MatExpansionModule} from '@angular/material/expansion'
-import {MatIconModule} from '@angular/material/icon'
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http'
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MatOptionModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {ReactiveFormsModule } from '@angular/forms';
-import {MatPaginatorModule} from '@angular/material/paginator'
-import { FormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table';
+import {MatTableExporterModule } from 'mat-table-exporter';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +32,11 @@ import { CreateRequestComponent } from './page/create-request/create-request.com
 import { SignupComponent } from './page/signup/signup.component';
 import { ProfileComponent } from './page/profile/profile.component';
 import { AuthInterceptor } from './service/auth-interceptor';
+import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
+import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
+import { AccountsComponent } from './page/admin/accounts/accounts.component';
+import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
+import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 
 
 @NgModule({
@@ -43,7 +51,12 @@ import { AuthInterceptor } from './service/auth-interceptor';
     HeaderDashboardUserComponent,
     CreateRequestComponent,
     SignupComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminDashboardComponent,
+    FacultyDashboardComponent,
+    AccountsComponent,
+    AdminRequestComponent,
+    AdminSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -60,8 +73,14 @@ import { AuthInterceptor } from './service/auth-interceptor';
     MatSelectModule,
     MatProgressSpinnerModule,
     ReactiveFormsModule,
+    MatTableExporterModule,
+    FormsModule,
+    MatTableModule,
+    MatTooltipModule,
     MatPaginatorModule,
-    FormsModule
+    MatSortModule
+    
+   
   ],
   providers: [{provide: HTTP_INTERCEPTORS , useClass : AuthInterceptor, multi:true}],
   bootstrap: [AppComponent]
