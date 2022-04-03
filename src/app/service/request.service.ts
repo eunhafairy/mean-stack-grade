@@ -30,12 +30,15 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
             user_id:request.user_id,
             faculty_id:request.faculty_id,
             status: request.status,
-            filePath: request.filePath
+            filePath: request.filePath,
+            creator: request.creator
           };
         }), maxRequests : requestData.maxRequests};
 
     }))
     .subscribe((transformed_post_data) => {
+
+      console.log(transformed_post_data);
         this.requests = transformed_post_data.requests;
 
         this.requestsUpdated.next({

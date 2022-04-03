@@ -23,9 +23,13 @@ router.post("", checkAuth, multer({storage: storage}).single('file'), (req,res,n
         user_id:  req.body.user_id,
         faculty_id:  req.body.faculty_id,
         status:  req.body.status,
-        filePath: url+'/files/'+req.file.filename
+        filePath: url+'/files/'+req.file.filename,
+        creator : req.userData.u_id
+        
     });
 
+    console.log(req.userData.u_id);
+       
     request.save().then(result => {
         res.status(201).json({
             message: 'Request added successfully',
@@ -42,7 +46,7 @@ router.post("", checkAuth, multer({storage: storage}).single('file'), (req,res,n
 });
 
 
-router.get('' ,checkAuth ,(req,res,next) =>{
+router.get('',checkAuth ,(req,res,next) =>{
 
     const pageSize = +req.query.pagesize;
     const currentPage = +req.query.page;

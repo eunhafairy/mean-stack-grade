@@ -5,7 +5,8 @@ const requestSchema = mongoose.Schema({
     user_id: { type: String, required: true },
     faculty_id: { type: String, required: true },
     status: { type: String, default: "Requested" },
-    filePath: {type: String, default: ''}
+    filePath: {type: String, default: ''},
+   creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" ,required: true }
 
 });
 

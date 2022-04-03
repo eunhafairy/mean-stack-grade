@@ -71,7 +71,7 @@ router.post("/login", (req,res,next) => {
             }
         //create json web token for authentication 
         const token = jwt.sign(
-            {email: fetchedUser.email, u_id: fetchedUser._id },
+            {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role},
             'secret_this_should_be_longer', { expiresIn: "1h" }
         );
 
@@ -79,7 +79,9 @@ router.post("/login", (req,res,next) => {
         res.status(200).json({
 
             token:token,
-            expiresIn: 3600
+            expiresIn: 3600,
+            u_id: fetchedUser._id,
+            role: fetchedUser.role
 
         });
     

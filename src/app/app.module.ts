@@ -48,7 +48,7 @@ import { AuthInterceptor } from './service/auth-interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    
+    HttpClientModule,
     BrowserAnimationsModule,
     MatInputModule,
     MatCardModule,
@@ -56,7 +56,6 @@ import { AuthInterceptor } from './service/auth-interceptor';
     MatToolbarModule,
     MatExpansionModule,
     MatIconModule,
-    HttpClientModule,
     MatOptionModule,
     MatSelectModule,
     MatProgressSpinnerModule,
