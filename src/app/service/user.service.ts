@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, Subject, throwError } from 'rxjs';
+import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { AuthData } from '../models/auth_data';
 import { LoginData } from '../models/login_data';
 import { User } from '../models/user';
@@ -13,7 +13,7 @@ import {serializeError} from 'serialize-error';
 })
 export class UserService {
 
-  isAuthenticated = false;
+  private isAuthenticated = false;
   private token:string;
   private authStatusListener = new Subject<boolean>();
   private tokenTimer : any;
@@ -29,10 +29,15 @@ export class UserService {
 
     const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
       this.http.post("http://localhost:3000/api/users/signup", authData)
+      .pipe(
+        catchError(this.handleError)
+        )
       .subscribe(result =>{
         window.alert("Success!");
-        this.router.navigate(['/sign-in']);
-      });
+    
+      })
+     
+    ;
 
   }
 
@@ -62,7 +67,7 @@ export class UserService {
     }
     // Return an observable with a user-facing error message.
     const serialized = serializeError(error.error);
-    return throwError(() => new Error(serialized.err.message));
+    return throwError(() => new Error(serialized.error.message));
   }
    
  
@@ -79,7 +84,7 @@ export class UserService {
 
 
   //------------LOGIN USER ----------------------
-  loginUser(email:string, password: string){
+  loginUser(email:string, password: string) : Observable<any>{
 
     const loginData : LoginData = {
 
@@ -88,13 +93,14 @@ export class UserService {
 
     };
 
-    this.http.post<{token:string, expiresIn: number, u_id: string, role:string}>("http://localhost:3000/api/users/login", loginData)
-    .subscribe(response => {
+    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string}>("http://localhost:3000/api/users/login", loginData)
+    .pipe( map(response =>{
 
       const token = response.token;
-      this.token = token;
+      this.setToken(token);
       if(token){
 
+      
         this.u_id = response.u_id;
         this.role = response.role;
         const expiresInDuration  = response.expiresIn;
@@ -104,8 +110,9 @@ export class UserService {
         this.saveAuthData(token, expirationDate, this.u_id, this.role);
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
+    
 
-        if(this.role === 'Admin'){
+         if(this.role === 'Admin'){
           this.router.navigate(['/admin-dashboard']);
         }
         else if (this.role === 'Student'){
@@ -116,23 +123,28 @@ export class UserService {
 
           this.router.navigate(['/dashboard']);
         }
-        
+       }},
+       catchError(this.handleError)));
     
-      }
-     
-
-      
-
-      
-      
-    }, error => {
-
-      return {'error_message' : error.status};
-  
-    });
+ 
 
   
   }
+
+  setToken(token: string){
+
+    this.token = token;
+  }
+
+  setUID(id:string){
+    this.u_id = id;
+  }
+
+  setRole(role:string){
+    this.role = role;
+  }
+
+  
 
   getAuth(){
     return this.isAuthenticated;
@@ -158,7 +170,7 @@ export class UserService {
     return this.authStatusListener.asObservable();
   }
 
-  private saveAuthData(token: string, expirationDate: Date, u_id: string, role:string){
+  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string){
 
     localStorage.setItem('token', token);
     localStorage.setItem('expirationDate', expirationDate.toISOString()); 
@@ -219,7 +231,7 @@ export class UserService {
 
   }
 
-  private setAuthTimer(duration: number){
+  setAuthTimer(duration: number){
 
     this.tokenTimer = setTimeout(() =>{
       this.logout();

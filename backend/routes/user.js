@@ -32,7 +32,7 @@ router.post("/signup", (req,res, next) =>{
         })
         .catch(err => {
             res.status(500).json({
-                err:err
+                error:err
             });
         })
     
@@ -55,7 +55,7 @@ router.delete("/:id",checkAuth, (req,res,next) => {
     .catch(err =>{
        
         res.status(500).json({
-            err:err
+            error:err
         });
 
     });
@@ -64,26 +64,32 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 router.post("/login", (req,res,next) => {
 
-   
 
     let fetchedUser ;
+    let haveAccount;
     //does email exist?
     User.findOne({ email: req.body.email})
     .then(user =>{
        
         if(!user){
-            return res.status(401).json({
-                message: 'No account found'
-            });
+            console.log("NO ACCOUNT");
+            haveAccount = false;
+            return res.status(401).json({message: 'No account found'});
         }
-        fetchedUser = user;
-        return bcrypt.compare(req.body.password, user.password);
+        else{
+            console.log("FETCHING USER");
+            haveAccount = true;
+            fetchedUser = user;
+            return bcrypt.compare(req.body.password, user.password);
+
+        }
+        
      
     })
     .then(result =>{
    
             if(!result){
-                
+                console.log("WRONG PASSWORD!");
                 return res
                 .status(401)
                 .json({       
@@ -91,21 +97,27 @@ router.post("/login", (req,res,next) => {
                 });
             }
         //create json web token for authentication 
-        const token = jwt.sign(
-            {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role},
-            'secret_this_should_be_longer', { expiresIn: "1h" }
-        );
+      
+        if(haveAccount){
 
-
-        res.status(200).json({
-
-            token:token,
-            expiresIn: 3600,
-            u_id: fetchedUser._id,
-            role: fetchedUser.role
-
-        });
+            console.log("ADDING TOKEN!");
+            const token = jwt.sign(
+                {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role},
+                'secret_this_should_be_longer', { expiresIn: "1h" }
+            );
     
+    
+            res.status(200).json({
+    
+                token:token,
+                expiresIn: 3600,
+                u_id: fetchedUser._id,
+                role: fetchedUser.role
+    
+            });
+        
+
+        }
 
     })
     .catch(err =>{
