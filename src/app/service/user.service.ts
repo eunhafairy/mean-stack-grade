@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Subject, throwError } from 'rxjs';
@@ -6,6 +6,8 @@ import { AuthData } from '../models/auth_data';
 import { LoginData } from '../models/login_data';
 import { User } from '../models/user';
 import { map, retry } from 'rxjs/operators';
+import { JsonPipe } from '@angular/common';
+import {serializeError} from 'serialize-error';
 @Injectable({
   providedIn: 'root'
 })
@@ -39,17 +41,29 @@ export class UserService {
     
     const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
     
-    this.http.post("http://localhost:3000/api/users/signup", authData)
-    .subscribe(
-
-      data => console.log('data', data),
-      error => console.log('oops', error)
-
-    );
+    return this.http.post("http://localhost:3000/api/users/signup", authData)
+    .pipe(
+      catchError(this.handleError)
+      );
   
   }
 
  
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+        
+    }
+    // Return an observable with a user-facing error message.
+    const serialized = serializeError(error.error);
+    return throwError(() => new Error(serialized.err.message));
+  }
    
  
    

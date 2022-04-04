@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Subscription } from 'rxjs';
+import { Subscription, throwError } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import {MatTableDataSource} from '@angular/material/table';
@@ -11,6 +11,7 @@ import { NgForm } from '@angular/forms';
 import { MatLabel } from '@angular/material/form-field';
 import { UserService } from 'src/app/service/user.service';
 import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -205,12 +206,32 @@ export class DialogContent {
     }
 
     this.isLoading = true;
-    this.userService.createUserFromAdmin(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password);
-    this.isLoading = false;
-    this.dialogRef.close();
+    this.userService.createUserFromAdmin(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password)
+    .subscribe(
+      
+      (response)=>{
+
+        //success
+        console.log(response);
+        window.alert("Success!");
+        this.isLoading = false;
+        this.dialogRef.close();
+      },
+      
+      (error) =>{
+
+        //error
+      window.alert(error);
+      this.isLoading = false;
+      this.dialogRef.close();
+
+    });
+    
+
   
 
   }
+
 
 
 }
