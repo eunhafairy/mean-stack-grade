@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {  MatPaginatorModule } from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,10 +34,10 @@ import { ProfileComponent } from './page/profile/profile.component';
 import { AuthInterceptor } from './service/auth-interceptor';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
-import { AccountsComponent, DialogContent } from './page/admin/accounts/accounts.component';
-import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
+import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admin/accounts/accounts.component';
+import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
-import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     FacultyDashboardComponent,
     AccountsComponent,
     AdminRequestComponent,
-    AdminSettingsComponent
+    AdminSettingsComponent,
+    DialogContentEdit,
+    AddRequestDialog
   ],
   imports: [
     BrowserModule,

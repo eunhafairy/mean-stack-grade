@@ -38,7 +38,7 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
     }))
     .subscribe((transformed_post_data) => {
 
-      console.log(transformed_post_data);
+  
         this.requests = transformed_post_data.requests;
 
         this.requestsUpdated.next({

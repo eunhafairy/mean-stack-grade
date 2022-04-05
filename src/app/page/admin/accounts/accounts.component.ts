@@ -147,6 +147,38 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   }
 
+  editUser(user:any):void{
+
+    const editedUser : User =({
+      u_id : user._id,
+      f_name : user.f_name,
+      l_name: user.l_name,
+      role: user.role,
+      email: user.email
+    
+    });
+    const dialogRef = this.dialog.open(DialogContentEdit, {
+      width: '80%',
+      data: editedUser
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //after closing dialog, refresh the table
+      this.isLoading = true;
+      this.adminService.getUsers(this.usersPerPage, this.currentPage);
+      this.adminService.geUsersUpdateListener()
+      .subscribe((userData: {users: User[], userCount : number}) => {
+        this.isLoading = false;
+        this.users = userData.users;
+        this.totalRequests = userData.userCount;
+        this.dataSource = new MatTableDataSource(this.users);
+        this.dataSource.sort = this.sort;
+      });
+    });
+
+
+  }
+
   openDialog() : void{
     const dialogRef = this.dialog.open(DialogContent, {
       width: '80%',
@@ -172,6 +204,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
 }
 
+
+//add user modal
 
 @Component({
   selector: 'dialog-content',
@@ -235,4 +269,80 @@ export class DialogContent {
 
 
 }
+
+
+
+  //EDIT MODAL
+
+  
+
+  @Component({
+    selector: 'dialog-content-edit',
+    templateUrl: 'dialog-content-edit.html',
+     styleUrls: ['./accounts.component.css']
+  })
+  export class DialogContentEdit {
+  
+    isLoading = false;
+    selectedRole: string = '';
+    public roles: any = [
+      {value : "Student"}, 
+      {value: "Faculty"}, 
+      {value: "Admin"}];
+
+    _firstName : string;
+    _lastName: string;
+    _email:string;
+    _password:string;
+    _confirmPassword: string;
+  
+  
+    constructor(
+      public dialogRef: MatDialogRef<DialogContent>,
+      @Inject(MAT_DIALOG_DATA) public data: User,
+      private userService: UserService
+    ) {
+
+      this.selectedRole= data.role as string;
+      console.log(this.selectedRole);
+      
+
+    }
+  
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+
+
+    onEdit(form : NgForm){
+
+
+      if(form.invalid){
+        return;
+      }
+
+      this.isLoading = true;
+      this.userService.updateUser(this.data.u_id, form.value.firstName, form.value.lastName,form.value.email, form.value.role)
+      .subscribe(
+        response =>{
+
+          window.alert("User edited!");
+          this.isLoading = false;
+          this.dialogRef.close();
+        },
+        error =>{
+
+          window.alert(error);
+          this.isLoading = false;
+        }
+      );
+
+    }
+  
+    
+    
+  
+    }
+  
+  
 

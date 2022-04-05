@@ -135,6 +135,77 @@ router.post("/login", (req,res,next) => {
 })
 
 
+
+
+router.put("/:id", checkAuth, (req,res, next) =>{
+
+    
+
+    const user = new User({
+
+        _id: req.body.u_id,
+        f_name: req.body.f_name,
+        l_name: req.body.l_name,
+        role: req.body.role,
+        email: req.body.email,
+    
+
+    });
+ 
+
+    User.updateOne({_id: req.params.id}, user )
+    .then(result =>{
+        res.status(200).json({
+            message:'update successful',
+            result: result
+        });
+    })
+    .catch(err =>{
+
+        res.status(500).json({
+
+            message: 'Something went wrong',
+            error: err
+
+        });
+
+    })
+
+})
+
+
+router.get('/:role', checkAuth, (req, res, next) =>{
+
+   
+   User.find({role: req.params.role})
+   .then(documents =>{
+
+    res.status(200).json({
+
+        message: "Success!",
+        users: documents
+
+    });
+
+   })
+   .catch(err=>{
+
+    res.status(500).json({
+
+        message:"error occured",
+        error:err
+
+    });
+
+   });
+
+
+
+
+
+});
+
+
 router.get('',checkAuth ,(req,res,next) =>{
 
     const pageSize = +req.query.pagesize;

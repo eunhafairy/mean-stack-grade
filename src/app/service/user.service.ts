@@ -82,7 +82,25 @@ export class UserService {
 
   }
 
-
+  
+  updateUser(_id:string, firstName:string, lastName:string, email:string, role: string){
+  
+    let userData : User | FormData;
+    userData = {
+        u_id: _id,
+        f_name:   firstName,
+        l_name: lastName,
+        role: role,
+        email: email
+      }
+  
+    
+  
+    return this.http
+    .put("http://localhost:3000/api/users/" + _id, userData)
+    .pipe(catchError(this.handleError));
+  
+  }
   //------------LOGIN USER ----------------------
   loginUser(email:string, password: string) : Observable<any>{
 
@@ -135,7 +153,7 @@ export class UserService {
 
     this.token = token;
   }
-
+  
   setUID(id:string){
     this.u_id = id;
   }
@@ -239,6 +257,20 @@ export class UserService {
     }, duration * 1000);
 
   }
+
+
+
+  //find user by role
+
+  getUserByRole(role:string){
+    
+    return this.http.get("http://localhost:3000/api/users/"+ role)
+    .pipe(catchError(this.handleError));
+   
+  }
+
+  
+  
 
 
 

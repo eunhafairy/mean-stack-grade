@@ -1,0 +1,74 @@
+<h1 mat-dialog-title>Create Request Manually</h1>
+<div mat-dialog-content>
+
+<main>
+<form (submit) ="onAddRequest(signUpForm)" #signUpForm = "ngForm" >
+
+        
+    <!--TITLE-->
+    <mat-form-field  class="full-width">
+      <mat-label>Title</mat-label>
+      <input  name="firstName" matInput type="text" ngModel #firstName="ngModel" required>
+      <mat-error *ngIf = "firstName.invalid">Please enter a title.</mat-error>
+    </mat-form-field>
+
+
+    <!--STUDENT-->
+  <mat-form-field class="full-width">
+    <mat-label>Choose a student</mat-label>
+    <mat-select 
+    name = "student"
+    ngModel
+    #studentInput = "ngModel"
+    required
+    >
+    <mat-option *ngFor="let student of students" [value] = "student.f_name">
+        {{student.l_name + ", " + student.f_name}}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "studentInput.invalid">Please choose a student.</mat-error>
+    </mat-form-field>
+
+    
+    <!-- FACULTY -->
+  <mat-form-field class="full-width">
+    <mat-label>Choose a professor.</mat-label>
+    <mat-select 
+    name = "faculty"
+    ngModel
+    #roleInput = "ngModel"
+    required
+    >
+    <mat-option *ngFor="let professor of professors" [value] = "professor.f_name">
+        {{professor.l_name + ", "+professor.f_name }}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "roleInput.invalid">Please choose a professor.</mat-error>
+    </mat-form-field>
+
+
+
+  <!--STATUS-->
+  <mat-form-field class="full-width">
+      <mat-label>Status</mat-label>
+      <mat-select 
+      [(value)]="selectedStatus"
+      name = "status"
+      ngModel
+      #statInput = "ngModel"
+      required
+      >
+      <mat-option *ngFor="let stat of stats" [value] = "stat.value">
+          {{stat.value}}
+      </mat-option>
+      </mat-select>
+      <mat-error *ngIf = "statInput.invalid">Please choose a status.</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+
+</form>
+</main>
+</div>
