@@ -2,14 +2,14 @@
 <div mat-dialog-content>
 
 <main>
-<form (submit) ="onAddRequest(signUpForm)" #signUpForm = "ngForm" >
+<form [formGroup] = "form" (submit) ="onAddRequest()" >
 
         
     <!--TITLE-->
     <mat-form-field  class="full-width">
       <mat-label>Title</mat-label>
-      <input  name="firstName" matInput type="text" ngModel #firstName="ngModel" required>
-      <mat-error *ngIf = "firstName.invalid">Please enter a title.</mat-error>
+      <input  name="title" formControlName="title" matInput type="text" required>
+      <mat-error *ngIf = "form.get('title').invalid">Please enter a title.</mat-error>
     </mat-form-field>
 
 
@@ -18,15 +18,14 @@
     <mat-label>Choose a student</mat-label>
     <mat-select 
     name = "student"
-    ngModel
-    #studentInput = "ngModel"
+    formControlName="student"
     required
     >
-    <mat-option *ngFor="let student of students" [value] = "student.f_name">
-        {{student.l_name + ", " + student.f_name}}
+    <mat-option *ngFor="let student of students" [value] = "student['_id']">
+        {{ student.l_name + ", " + student.f_name}}
     </mat-option>
     </mat-select>
-    <mat-error *ngIf = "studentInput.invalid">Please choose a student.</mat-error>
+    <mat-error *ngIf = "form.get('student').invalid">Please choose a student.</mat-error>
     </mat-form-field>
 
     
@@ -35,15 +34,14 @@
     <mat-label>Choose a professor.</mat-label>
     <mat-select 
     name = "faculty"
-    ngModel
-    #roleInput = "ngModel"
+    formControlName="faculty"
     required
     >
-    <mat-option *ngFor="let professor of professors" [value] = "professor.f_name">
+    <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
         {{professor.l_name + ", "+professor.f_name }}
     </mat-option>
     </mat-select>
-    <mat-error *ngIf = "roleInput.invalid">Please choose a professor.</mat-error>
+    <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
     </mat-form-field>
 
 
@@ -54,16 +52,25 @@
       <mat-select 
       [(value)]="selectedStatus"
       name = "status"
-      ngModel
-      #statInput = "ngModel"
+      formControlName ="status"
       required
       >
       <mat-option *ngFor="let stat of stats" [value] = "stat.value">
           {{stat.value}}
       </mat-option>
       </mat-select>
-      <mat-error *ngIf = "statInput.invalid">Please choose a status.</mat-error>
+      <mat-error *ngIf = "form.get('status').invalid">Please choose a status.</mat-error>
   </mat-form-field>
+
+
+  <div style="margin-bottom: 1rem">
+    <button mat-button type="button" (click)="filePicker.click()">Choose file</button>
+    <input type="file" #filePicker (change) = "onFilePicked($event)">
+    <div class= "file-preview" >
+     <p>{{fileTitle}}</p>
+    </div>
+
+  </div>
 
   <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
   <mat-spinner *ngIf="isLoading"></mat-spinner>

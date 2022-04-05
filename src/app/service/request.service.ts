@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { catchError, Subject, throwError } from 'rxjs';
 import {Request} from '../models/request'
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {map} from 'rxjs';
+import { serializeError } from 'serialize-error';
+import { UserService } from './user.service';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +13,11 @@ import {map} from 'rxjs';
 export class RequestService {
 private requests: Request[] = [];
 private requestsUpdated = new Subject<{requests: Request [], requestCount: number}>();
+private studentName:string;
+private facultyName: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
+
 
 
   getRequests(requestsPerPage: number, currentPage : number){
@@ -19,28 +25,31 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
     
     const queryParams = `?pagesize=${requestsPerPage}&page=${currentPage}`;
 
+  
     this.http
     .get<{message: string, requests: any, maxRequests: number}>("http://localhost:3000/api/requests" + queryParams)
     .pipe(map((requestData)=>{
         return { requests: requestData.requests.map((request: any) => {
+           
           return{
 
             request_id: request._id,
             title: request.title,
-            user_id:request.user_id,
-            faculty_id:request.faculty_id,
+            user_id: request.user_id,
+            faculty_id: request.faculty_id,
             status: request.status,
             filePath: request.filePath,
             creator: request.creator
           };
+
+       
         }), maxRequests : requestData.maxRequests};
 
     }))
     .subscribe((transformed_post_data) => {
 
-  
         this.requests = transformed_post_data.requests;
-
+     
         this.requestsUpdated.next({
           requests : [...this.requests],
           requestCount: transformed_post_data.maxRequests
@@ -71,11 +80,8 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
     reqData.append("file" , file, filename);
 
     
-    this.http.post<{ message:string, _request_: Request }>("http://localhost:3000/api/requests", reqData)
-      .subscribe( (responseData) => {
-         
-       
-      });
+    return this.http.post<{ message:string, _request_: Request }>("http://localhost:3000/api/requests", reqData)
+    .pipe(catchError(this.handleError));
 
   }
 
@@ -86,13 +92,31 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
 
   deleteRequest(requestId: string){
 
-  return this.http.delete("http://localhost:3000/api/requests/" + requestId);
+  return this.http.delete("http://localhost:3000/api/requests/" + requestId)
+  .pipe(catchError(this.handleError));
 
   }
 
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+        
+    }
+    // Return an observable with a user-facing error message.
+    const serialized = serializeError(error.error);
+    return throwError(() => new Error(serialized.error.message));
+  }
+   
 
 
-updateRequest(_id:string, title:string, faculty_id:string, user_id:string, status: string, file: string| File){
+
+updateRequest(_id:string, title:string, faculty_id:string, user_id:string, status: string, creator:string,file: string| File){
 
     let requestData : Request | FormData;
     if(typeof(file) === 'object'){
@@ -114,7 +138,8 @@ updateRequest(_id:string, title:string, faculty_id:string, user_id:string, statu
         faculty_id: faculty_id,
         user_id: user_id,
         status: status,
-        filePath: file
+        filePath: file,
+        creator: creator
       }
 
     }

@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { RequestService } from 'src/app/service/request.service';
 import { Request } from 'src/app/models/request';
 import { RequestComponent } from 'src/app/elements/request/request.component';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-create-request',
@@ -31,7 +32,7 @@ export class CreateRequestComponent implements OnInit {
     {value: "Accepted"}, 
     {value: "Revised"}];
 
-  constructor(public requestService: RequestService, public router: Router, public activeRoute: ActivatedRoute) { }
+  constructor(public requestService: RequestService, public router: Router, public activeRoute: ActivatedRoute, private userService: UserService) { }
 
 
 
@@ -115,7 +116,7 @@ export class CreateRequestComponent implements OnInit {
 
     //===============UPDATE=================
     else{
-      this.requestService.updateRequest(this.requestId,  this.form.value.__title,  this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status, this.form.value.__file);
+      this.requestService.updateRequest(this.requestId,  this.form.value.__title,  this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status, this.userService.getUserId() ,this.form.value.__file);
       window.alert('Request updated!');
     }
 

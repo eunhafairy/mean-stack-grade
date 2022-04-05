@@ -6,5 +6,6 @@ export interface Request{
     faculty_id: string;
     status: string;
     filePath: string;
+    creator: string;
 
 }

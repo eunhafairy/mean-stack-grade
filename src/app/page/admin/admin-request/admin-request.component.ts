@@ -6,9 +6,12 @@ import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
 import { Request } from 'src/app/models/request';
 import { PageEvent } from '@angular/material/paginator';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { map } from 'rxjs';
 @Component({
   selector: 'app-admin-request',
   templateUrl: './admin-request.component.html',
@@ -20,7 +23,7 @@ export class AdminRequestComponent implements OnInit {
   public requests : Request[] = [];
 
 
-  displayedColumns: string[] = [ 'title', 'faculty', 'status', 'file', 'action'];
+  displayedColumns: string[] = [ 'title', 'faculty','student', 'status', 'file', 'action'];
 
   //pagination
   totalRequests = 0;
@@ -35,16 +38,20 @@ export class AdminRequestComponent implements OnInit {
   _filter = "";
 
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private requestService: RequestService, private dialog : MatDialog) { }
+  constructor(private requestService: RequestService, private dialog : MatDialog, private userService:UserService) { }
 
   ngOnInit(): void {
 
     this.isLoading = true;
+    
     this.requestService.getRequests(this.requestsPerPage, this.currentPage);
     this.requestService.getRequestUpdateListener()
-    .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
-      this.isLoading = false;
+     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
+   
       this.requests = requestsData.requests;
+
+      this.transformRequests(requestsData.requests);
+
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       this.dataSource.sort = this.sort;
@@ -55,6 +62,67 @@ export class AdminRequestComponent implements OnInit {
   showAll(){
 
   }
+
+  transformRequests(request:Request[]){
+
+   
+
+    this.requests = request;
+
+    for(let i = 0; i < request.length; i++){
+
+      //console.log("request no. "+i+": " + JSON.stringify(request[i]));
+      this.userService.getUser(request[i].user_id)
+      .subscribe(responseData =>{
+
+        this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+
+        this.isLoading=false;
+
+
+      });
+
+      this.userService.getUser(request[i].faculty_id)
+      .subscribe(responseData =>{
+
+        this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
+        this.isLoading=false;
+
+      });
+     
+     
+
+    }
+    
+
+  }
+
+
+
+  // getUserName(id:string): string{
+
+  //   let name : string;
+
+  //   this.userService.getUser(id)
+  //   .subscribe(
+
+  //     res =>{
+
+  //       console.log(res);
+  //       name = res['l_name']+", "+ res['f_name'];
+
+
+  //     },
+  //     err =>{
+
+  //       console.log("Error " + err);
+  //     }
+
+  //   );
+
+  //     return name;
+  
+  // }
 
   openDialog(){
 
@@ -70,7 +138,7 @@ export class AdminRequestComponent implements OnInit {
     this.requestService.getRequestUpdateListener()
     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
       this.isLoading = false;
-      this.requests = requestsData.requests;
+      this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       });
@@ -96,7 +164,7 @@ export class AdminRequestComponent implements OnInit {
     this.requestService.getRequestUpdateListener()
     .subscribe((requestsData: {requests: Request[], requestCount : number}) => {
       this.isLoading = false;
-      this.requests = requestsData.requests;
+      this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       this.dataSource.sort = this.sort;
@@ -111,6 +179,36 @@ export class AdminRequestComponent implements OnInit {
   }
 
   deleteRequest(request: Request){
+
+
+    this.isLoading= true;
+
+    if(window.confirm("Are you sure you want to delete?")){
+      this.requestService.deleteRequest(request.request_id)
+      .subscribe( 
+        (response) =>{
+        
+          console.log(response);
+          window.alert("Successfully deleted request!");
+          this.isLoading = true;
+          this.requestService.getRequests(this.requestsPerPage, this.currentPage);
+          this.requestService.getRequestUpdateListener()
+          .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
+            this.isLoading = false;
+            this.transformRequests(requestsData.requests);
+            this.totalRequests = requestsData.requestCount;
+            this.dataSource = new MatTableDataSource(this.requests);
+      });
+      },
+      (error) =>{
+        window.alert("Error deleting" + error);
+        this.isLoading= false;
+      });
+    }
+    else{
+      return;
+    }
+    
 
 
   }
@@ -129,6 +227,8 @@ export class AdminRequestComponent implements OnInit {
 export class AddRequestDialog implements OnInit{
 
   isLoading = false;
+  form: FormGroup;
+  fileTitle: string;
   selectedStatus = '';
   public stats: any = [
     {value : "Requested"}, 
@@ -154,6 +254,14 @@ export class AddRequestDialog implements OnInit{
     
     
     this.getStudents();
+
+    this.form = new FormGroup({
+      'title': new FormControl(null, {validators: [Validators.required]}),
+      'student' : new FormControl(null, {validators: [Validators.required]}),
+      'faculty' : new FormControl(null, {validators: [Validators.required]}),
+      'status' : new FormControl('Requested', {validators: [Validators.required]}),
+      '__file' : new FormControl(null)
+  });
     
   }
 
@@ -166,6 +274,7 @@ export class AddRequestDialog implements OnInit{
 
        this.students = response['users'];
        this.students.sort((a,b)=>a.l_name.localeCompare(b.l_name));
+
 
       },
       err =>{
@@ -195,19 +304,56 @@ export class AddRequestDialog implements OnInit{
     this.dialogRef.close();
   }
 
-  onAddRequest(form: NgForm){
+  onAddRequest(){
 
-    if(form.value.confirmPassword !== form.value.password){
-        window.alert("Make sure the password and confirm password are the same.");
+
+    if(this.form.invalid){
+        
         return;
+    }
+    else{
+
+      console.log('went here');
+      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.__file)
+      .subscribe(
+        res=>{
+          
+          //success
+          console.log("Success!", res);
+          window.alert("Success!");
+          this.dialogRef.close();
+
+        },
+        
+        err => {
+            //error
+            window.alert("Something went wrong. " + err);
+            this.form.reset();
+
+        }
+      );
+
     }
 
     
-
-
-
-    
   }
+
+
+   //===============SAVE FILE=================
+   onFilePicked(event: Event){
+
+    const file = (event.target as HTMLInputElement).files[0];
+    this.fileTitle = file.name;
+    this.form.patchValue({__file : file});
+    this.form.get('__file').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () =>{
+      
+    }
+    reader.readAsDataURL(file);
+
+  }
+
 
 
 

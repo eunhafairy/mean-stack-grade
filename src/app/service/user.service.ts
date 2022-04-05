@@ -83,6 +83,15 @@ export class UserService {
   }
 
   
+  getRequestFacultyStudentName(user_id:string, faculty_id:string){
+
+    const queryParams = `?user_id=${user_id}&faculty_id=${faculty_id}`;
+    return this.http.get<{user_id: string, faculty_id:string}>("http://localhost:3000/api/users/findnames/" + queryParams)
+    .pipe(catchError(this.handleError));
+
+  }
+
+  
   updateUser(_id:string, firstName:string, lastName:string, email:string, role: string){
   
     let userData : User | FormData;
@@ -267,6 +276,14 @@ export class UserService {
     return this.http.get("http://localhost:3000/api/users/"+ role)
     .pipe(catchError(this.handleError));
    
+  }
+
+  getUser(id:string){
+
+ 
+    return this.http.get<{_id: string, f_name:string, l_name:string, email:string, role:string}>("http://localhost:3000/api/users/find/" + id)
+    .pipe(catchError(this.handleError));
+
   }
 
   

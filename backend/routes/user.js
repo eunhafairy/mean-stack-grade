@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
 
 
+
 router.post("/signup", (req,res, next) =>{
 
     bcrypt.hash(req.body.password, 10)
@@ -205,6 +206,30 @@ router.get('/:role', checkAuth, (req, res, next) =>{
 
 });
 
+router.get('/find/:id', checkAuth ,(req, res, next) =>{
+
+    console.log('went here');
+    User.findById(req.params.id)
+    .then( user =>{
+        if(user){
+
+            console.log("database"+user);
+            res.status(200).json(user);
+        }
+        else{
+
+            res.status(404).json({
+
+                message: "not found"
+
+            });
+        }
+
+    });
+ 
+ 
+ });
+
 
 router.get('',checkAuth ,(req,res,next) =>{
 
@@ -238,5 +263,36 @@ router.get('',checkAuth ,(req,res,next) =>{
 
 });
 
+
+// router.get('/findnames',checkAuth ,(req,res,next) =>{
+
+//     const u_id = +req.query.user_id;
+//     const f_id = +req.query.faculty_id;
+//     const postQuery = Request.find();
+//     let fetchedRequests;
+
+//     if(pageSize && currentPage){
+//         postQuery
+//         .skip(pageSize * (currentPage - 1))
+//         .limit(pageSize);
+//     }
+
+//     postQuery
+//     .then((documents) =>{
+//         fetchedRequests = documents;
+//       return Request.count();  
+//     })
+//     .then(count => {
+//         res.status(200).json({
+//             message: 'Request fetched successfully',
+//             requests: fetchedRequests,
+//             maxRequests: count
+//         });
+//     });
+
+
+
+
+// });
 
 module.exports = router;
