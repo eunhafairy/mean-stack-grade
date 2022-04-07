@@ -8,6 +8,8 @@ import { User } from '../models/user';
 import { map, retry } from 'rxjs/operators';
 import { JsonPipe } from '@angular/common';
 import {serializeError} from 'serialize-error';
+import { AdminServiceService } from './admin-service.service';
+import { DataRowOutlet } from '@angular/cdk/table';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,9 +21,11 @@ export class UserService {
   private tokenTimer : any;
   private u_id: string;
   private role:string;
+  public users: User[]=[];
+  private usersUpdated = new Subject<{users: User [], userCount: number}>();
 
 
-  constructor(public http: HttpClient, public router: Router) { }
+  constructor(public http: HttpClient, public router: Router, private adminService: AdminServiceService) { }
 
 
   // ----------CREATE USER-------------
@@ -41,6 +45,10 @@ export class UserService {
 
   }
 
+  getAllUsers(){
+
+
+  }
   //CREATE USER BY ADMIN  
   createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string) : any{
     
@@ -113,6 +121,7 @@ export class UserService {
   //------------LOGIN USER ----------------------
   loginUser(email:string, password: string) : Observable<any>{
 
+  
     const loginData : LoginData = {
 
       email:email,
@@ -213,6 +222,25 @@ export class UserService {
     localStorage.removeItem("role");
   }
 
+  // storeUsers(){
+
+  //   console.log("here in user");
+  //   this.adminService.getUsers();
+  //   this.adminService.geUsersUpdateListener()
+  //   .subscribe((userData: {users: User[], userCount : number}) => {
+  
+  //     console.log("here in user service: "+userData.users);
+  //     this.users = userData.users;
+    
+  //   },
+  //   error =>{
+
+  //     console.log("here in error: "+ error);
+  //   });
+
+  // }
+
+
   autoAuthUser(){
 
     const authInformation = this.getAuthData();
@@ -234,6 +262,8 @@ export class UserService {
 
 
   }
+
+
 
   private getAuthData(){
     const token = localStorage.getItem('token');

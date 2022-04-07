@@ -231,6 +231,7 @@ router.get('/find/:id', checkAuth ,(req, res, next) =>{
  });
 
 
+
 router.get('',checkAuth ,(req,res,next) =>{
 
     const pageSize = +req.query.pagesize;
@@ -262,6 +263,8 @@ router.get('',checkAuth ,(req,res,next) =>{
 
 
 });
+
+
 
 
 // router.get('/findnames',checkAuth ,(req,res,next) =>{

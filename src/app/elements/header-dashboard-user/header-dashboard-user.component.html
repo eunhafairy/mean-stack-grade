@@ -28,8 +28,8 @@
             <mat-icon>person</mat-icon>
         </button>
 
-        <!-- CREATE/EDIT EVENT -->
-        <button matTooltip="Your requests" *ngIf="userIsAuthenticated  && role ==='Student'"   routerLink="/create-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
+        <!-- MY REQUESTS -->
+        <button matTooltip="Your requests" *ngIf="userIsAuthenticated  && role ==='Student'"   routerLink="/myrequest" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
             <mat-icon>event_note</mat-icon>
         </button>
       

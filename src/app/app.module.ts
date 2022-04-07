@@ -17,6 +17,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,6 +38,7 @@ import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/facu
 import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admin/accounts/accounts.component';
 import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
+import { MyrequestComponent } from './user/myrequest/myrequest.component';
 
 
 @NgModule({
@@ -59,7 +61,8 @@ import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settin
     AdminRequestComponent,
     AdminSettingsComponent,
     DialogContentEdit,
-    AddRequestDialog
+    AddRequestDialog,
+    MyrequestComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settin
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTabsModule
     
    
   ],

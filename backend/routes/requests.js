@@ -17,6 +17,7 @@ const storage = multer.diskStorage({
 });
 
 router.post("", checkAuth, multer({storage: storage}).single('file'), (req,res,next) =>{
+   
     const url = req.protocol + '://'+req.get('host');
     const request = new Request({
         title:  req.body.title,
@@ -76,6 +77,31 @@ router.get('',checkAuth ,(req,res,next) =>{
 
 
 });
+
+
+
+router.get('/:status',checkAuth ,(req,res,next) =>{
+
+    Request.find(req.params.id).then( post =>{
+        if(post){
+            res.status(200).json(post);
+        }
+        else{
+
+            res.status(404).json({
+
+                message: "not found"
+
+            });
+        }
+
+    });
+
+
+
+});
+
+
 
 router.get("/:id",checkAuth, (req, res, next) =>{
 

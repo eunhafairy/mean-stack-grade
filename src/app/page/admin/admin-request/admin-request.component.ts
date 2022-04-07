@@ -49,8 +49,8 @@ export class AdminRequestComponent implements OnInit {
      .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
    
       this.requests = requestsData.requests;
-
-      this.transformRequests(requestsData.requests);
+      this.isLoading = false;
+      //this.transformRequests(requestsData.requests);
 
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
@@ -61,41 +61,56 @@ export class AdminRequestComponent implements OnInit {
 
   showAll(){
 
+    this._filter = "";
+    this.isLoading = true;
+    this.currentPage = 1;
+    this.requestsPerPage = this.totalRequests;
+    this.requestService.getRequests(this.requestsPerPage, this.currentPage);
+    this.requestService.getRequestUpdateListener()
+    .subscribe((requestData: {requests: Request[], requestCount : number}) => {
+      this.isLoading = false;
+      this.requests = requestData.requests;
+      this.totalRequests = requestData.requestCount;
+      this.dataSource = new MatTableDataSource(this.requests);
+      this.dataSource.sort = this.sort;
+    });
+
+
   }
 
-  transformRequests(request:Request[]){
+  // transformRequests(request:Request[]){
 
    
 
-    this.requests = request;
+  //   this.requests = request;
 
-    for(let i = 0; i < request.length; i++){
+  //   for(let i = 0; i < request.length; i++){
 
-      //console.log("request no. "+i+": " + JSON.stringify(request[i]));
-      this.userService.getUser(request[i].user_id)
-      .subscribe(responseData =>{
+  //     //console.log("request no. "+i+": " + JSON.stringify(request[i]));
+  //     this.userService.getUser(request[i].user_id)
+  //     .subscribe(responseData =>{
 
-        this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+  //       this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
 
-        this.isLoading=false;
+  //       this.isLoading=false;
 
 
-      });
+  //     });
 
-      this.userService.getUser(request[i].faculty_id)
-      .subscribe(responseData =>{
+  //     this.userService.getUser(request[i].faculty_id)
+  //     .subscribe(responseData =>{
 
-        this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
-        this.isLoading=false;
+  //       this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
+  //       this.isLoading=false;
 
-      });
+  //     });
      
      
 
-    }
+  //   }
     
 
-  }
+  // }
 
 
 
@@ -138,7 +153,8 @@ export class AdminRequestComponent implements OnInit {
     this.requestService.getRequestUpdateListener()
     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
       this.isLoading = false;
-      this.transformRequests(requestsData.requests);
+      this.requests = requestsData.requests;
+    //  this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       });
@@ -154,6 +170,8 @@ export class AdminRequestComponent implements OnInit {
 
   }
 
+  
+
   onChangedPage(pageData: PageEvent){
 
 
@@ -164,7 +182,8 @@ export class AdminRequestComponent implements OnInit {
     this.requestService.getRequestUpdateListener()
     .subscribe((requestsData: {requests: Request[], requestCount : number}) => {
       this.isLoading = false;
-      this.transformRequests(requestsData.requests);
+      this.requests = requestsData.requests;
+     // this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       this.dataSource.sort = this.sort;
@@ -184,6 +203,7 @@ export class AdminRequestComponent implements OnInit {
     this.isLoading= true;
 
     if(window.confirm("Are you sure you want to delete?")){
+
       this.requestService.deleteRequest(request.request_id)
       .subscribe( 
         (response) =>{
@@ -195,7 +215,8 @@ export class AdminRequestComponent implements OnInit {
           this.requestService.getRequestUpdateListener()
           .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
             this.isLoading = false;
-            this.transformRequests(requestsData.requests);
+            this.requests = requestsData.requests;
+         //   this.transformRequests(requestsData.requests);
             this.totalRequests = requestsData.requestCount;
             this.dataSource = new MatTableDataSource(this.requests);
       });

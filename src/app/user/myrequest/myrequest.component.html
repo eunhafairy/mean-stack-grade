@@ -1,0 +1,33 @@
+<app-header-dashboard-user></app-header-dashboard-user>
+
+<main>
+
+<button mat-raised-button color="primary" routerLink="/create-request">Create Request</button>
+
+<mat-tab-group animationDuration="1000ms">
+
+    <!-- TAB 1 REQUESTSED -->
+  <mat-tab label="Requested">
+    <app-request></app-request>
+
+  </mat-tab>
+
+  <!-- TAB 2 ACCEPTED -->
+  <mat-tab label="Accepted">
+
+    <app-request></app-request>
+  </mat-tab>
+
+<!-- TAB 3 REVISION -->
+  <mat-tab label="Revision">
+    <app-request></app-request>
+  </mat-tab>
+
+
+<!-- TAB 4 PROCESSING -->
+  <mat-tab label="Processing">
+    <app-request></app-request>
+    </mat-tab>
+</mat-tab-group>
+
+</main>

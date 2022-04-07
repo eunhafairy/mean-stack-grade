@@ -6,6 +6,7 @@ import {map} from 'rxjs';
 import { serializeError } from 'serialize-error';
 import { UserService } from './user.service';
 import { User } from '../models/user';
+import { AdminServiceService } from './admin-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,8 @@ private requestsUpdated = new Subject<{requests: Request [], requestCount: numbe
 private studentName:string;
 private facultyName: string;
 
-  constructor(private http: HttpClient, private userService: UserService) { }
+
+  constructor(private http: HttpClient, private userService: UserService, private adminService: AdminServiceService) { }
 
 
 
@@ -49,6 +51,25 @@ private facultyName: string;
     .subscribe((transformed_post_data) => {
 
         this.requests = transformed_post_data.requests;
+
+        for(let i =0; i < this.requests.length; i++){
+
+
+          this.userService.getUser(this.requests[i].user_id)
+          .subscribe(responseData =>{
+
+             this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+
+          });
+
+          this.userService.getUser(this.requests[i].faculty_id)
+          .subscribe(responseData =>{
+
+             this.requests[i].faculty_id = responseData.l_name + ", "+ responseData.f_name;
+
+          });
+     
+      }
      
         this.requestsUpdated.next({
           requests : [...this.requests],
@@ -57,6 +78,9 @@ private facultyName: string;
     });
 
   }
+
+
+  
 
   getRequestUpdateListener(){
     return this.requestsUpdated.asObservable();

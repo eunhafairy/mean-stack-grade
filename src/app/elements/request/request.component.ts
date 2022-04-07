@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { RequestService } from 'src/app/service/request.service';
 import {Request} from '../../models/request'
 import {Subject, Subscription} from 'rxjs'
@@ -9,6 +9,8 @@ import {PageEvent} from '@angular/material/paginator'
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit, OnDestroy{
+
+@Input() status:string;
 requests : Request[] = [];
 totalRequests = 0;
 requestPerPage = 2;

@@ -9,7 +9,7 @@ import { User } from '../models/user';
 })
 export class AdminServiceService {
 
-  users: User[] = [];
+  public users: User[] = [];
   private usersUpdated = new Subject<{users: User [], userCount: number}>();
 
 

@@ -16,6 +16,7 @@ import { FacultyGuard } from './service/faculty-guard';
 import { AccountsComponent } from './page/admin/accounts/accounts.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
+import { MyrequestComponent } from './user/myrequest/myrequest.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
   {path : 'edit/:requestId', component: CreateRequestComponent,  canActivate: [AuthGuard]},
   {path : 'sign-up', component: SignupComponent},
   {path : 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
+  {path : 'myrequest', component: MyrequestComponent ,  canActivate: [AuthGuard, StudentGuard]},
   {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
 
   //ADMIN GUARDS
