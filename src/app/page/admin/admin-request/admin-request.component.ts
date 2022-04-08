@@ -23,7 +23,7 @@ export class AdminRequestComponent implements OnInit {
   public requests : Request[] = [];
 
 
-  displayedColumns: string[] = [ 'title', 'faculty','student', 'status', 'file', 'action'];
+  displayedColumns: string[] = [ 'title', 'user_id','faculty_id', 'status', 'action'];
 
   //pagination
   totalRequests = 0;

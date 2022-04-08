@@ -42,13 +42,18 @@
 
         <!-- PROFILE -->
         <button matTooltip="Accounts" *ngIf="userIsAuthenticated  && role ==='Admin'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/accounts">
-            <mat-icon>person</mat-icon>
+            <mat-icon>people</mat-icon>
         </button>
 
         <!-- REQUESTS LIST-->
         <button matTooltip="Requests" *ngIf="userIsAuthenticated  && role ==='Admin'"   routerLink="/admin-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
             <mat-icon>event_note</mat-icon>
         </button>
+
+        <!-- REQUESTS LIST-->
+        <button matTooltip="Subjects" *ngIf="userIsAuthenticated  && role ==='Admin'"   routerLink="/subject" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
+          <mat-icon>collections_bookmark</mat-icon>
+      </button>
 
          <!-- SETTINGS -->
         <button matTooltip="Settings" *ngIf="userIsAuthenticated  && role ==='Admin'"   routerLink="/admin-settings" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">

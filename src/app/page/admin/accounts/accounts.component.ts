@@ -26,12 +26,12 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   totalRequests = 0;
   usersPerPage = 2;
   currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
-  displayedColumns: string[] = [ 'first', 'last', 'email', 'role', 'delete'];
   isLoading = false;
   resultsLength = 0;
   dataSource: any;
+  displayedColumns: string[] = [ 'f_name', 'l_name', 'email', 'role', 'action'];
  
+  pageSizeOptions : number[];
   // sort
   @ViewChild(MatSort) sort: MatSort;
 
@@ -56,7 +56,15 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       this.totalRequests = userData.userCount;
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.sort = this.sort;
-    
+
+      //set page size options
+      if( this.dataSource.data.length > 10){
+        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+      }
+      else{
+        this.pageSizeOptions =  [1, 2, 5,  10];
+      }
+      
     });
   
   }
@@ -84,6 +92,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
           this.totalRequests = userData.userCount;
           this.dataSource = new MatTableDataSource(this.users);
           this.dataSource.sort = this.sort;
+          //set page size options
+          if( this.dataSource.data.length > 10){
+            this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+          }
+          else{
+            this.pageSizeOptions =  [1, 2, 5,  10];
+          }
         
         });
 
@@ -107,6 +122,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       this.totalRequests = userData.userCount;
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.sort = this.sort;
+      //set page size options
+      if( this.dataSource.data.length > 10){
+        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+      }
+      else{
+        this.pageSizeOptions =  [1, 2, 5,  10];
+      }
     });
  
 
@@ -134,6 +156,14 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       this.totalRequests = userData.userCount;
       this.dataSource = new MatTableDataSource(this.users);
       this.dataSource.sort = this.sort;
+      //set page size options
+      console.log(this.dataSource.data.length);
+      if( this.dataSource.data.length > 10){
+        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+      }
+      else{
+        this.pageSizeOptions =  [1, 2, 5,  10];
+      }
     });
 
 
@@ -173,6 +203,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
         this.totalRequests = userData.userCount;
         this.dataSource = new MatTableDataSource(this.users);
         this.dataSource.sort = this.sort;
+        //set page size options
+        if( this.dataSource.data.length > 10){
+          this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+        }
+        else{
+          this.pageSizeOptions =  [1, 2, 5,  10];
+        }
       });
     });
 
@@ -196,6 +233,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
         this.totalRequests = userData.userCount;
         this.dataSource = new MatTableDataSource(this.users);
         this.dataSource.sort = this.sort;
+        //set page size options
+        if( this.dataSource.data.length > 10){
+          this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+        }
+        else{
+          this.pageSizeOptions =  [1, 2, 5,  10];
+        }
       
       });
     });

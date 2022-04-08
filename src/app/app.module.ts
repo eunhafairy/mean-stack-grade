@@ -39,6 +39,7 @@ import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admi
 import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 import { MyrequestComponent } from './user/myrequest/myrequest.component';
+import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
 
 
 @NgModule({
@@ -62,7 +63,9 @@ import { MyrequestComponent } from './user/myrequest/myrequest.component';
     AdminSettingsComponent,
     DialogContentEdit,
     AddRequestDialog,
-    MyrequestComponent
+    MyrequestComponent,
+    SubjectsComponent,
+    CreateSubjectDialog
   ],
   imports: [
     BrowserModule,

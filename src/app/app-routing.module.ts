@@ -17,6 +17,7 @@ import { AccountsComponent } from './page/admin/accounts/accounts.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
 import { MyrequestComponent } from './user/myrequest/myrequest.component';
+import { SubjectsComponent } from './page/admin/subjects/subjects.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
@@ -33,7 +34,8 @@ const routes: Routes = [
   {path : 'admin-dashboard', component: AdminDashboardComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'accounts', component: AccountsComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'admin-request', component: AdminRequestComponent,  canActivate: [AuthGuard, AdminGuard] },
-  {path : 'admin-settings', component: AdminSettingsComponent,  canActivate: [AuthGuard, AdminGuard] }
+  {path : 'admin-settings', component: AdminSettingsComponent,  canActivate: [AuthGuard, AdminGuard] },
+  {path : 'subject', component: SubjectsComponent ,  canActivate: [AuthGuard, AdminGuard]},
 ];
 
 @NgModule({

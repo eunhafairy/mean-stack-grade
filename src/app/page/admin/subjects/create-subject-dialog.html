@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Create Subject</h1>
+
+<div mat-dialog-content>
+
+    <main>
+        <form (submit) ="onCreateSubject(signUpForm)" #signUpForm = "ngForm">
+
+                
+            <!--SUBJECT CODE-->
+        <mat-form-field  class="full-width">
+            <mat-label>Subject Code</mat-label>
+            <input   name="subjectCode" matInput type="text" ngModel #subjectCode="ngModel" required>
+            <mat-error *ngIf = "subjectCode.invalid">Please enter a unique subject code.</mat-error>
+        </mat-form-field>
+
+        
+            <!--SUBJECT NAME-->
+        <mat-form-field  class="full-width">
+            <mat-label>Subject Name</mat-label>
+            <input  name="subjectName" matInput type="text" ngModel #subjectName="ngModel" required>
+            <mat-error *ngIf = "subjectName.invalid">Please enter the subject name.</mat-error>
+        </mat-form-field>
+
+        <!--SUBJECT DESCRIPTION-->
+        <mat-form-field class="full-width">
+            <mat-label>Subject Description</mat-label>
+            <textarea matInput name = "subjectDesc" type="text" ngModel #subjectDesc = "ngModel"></textarea>
+            <mat-error *ngIf = "subjectDesc.invalid">Please enter a a subject description.</mat-error>
+        </mat-form-field><br>
+
+
+        <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Create Subject</button>
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+
+        </form>
+
+    </main>
+
+</div>
