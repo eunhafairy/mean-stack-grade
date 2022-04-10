@@ -2,9 +2,23 @@
 <main>
 
     <div class='container' >
-        <button class="admin-btn" routerLink="/accounts">Accounts</button>
-        <button  class="admin-btn">Requests</button>
-        <button  class="admin-btn">Reports</button>
+
+        <button mat-raised-button color="primary" matTooltip="Manage Accounts" class="admin-btn" routerLink="/accounts">
+           <mat-icon color="accent">people</mat-icon>
+        </button>
+
+        <button mat-raised-button color="primary" matTooltip="Manage Requests" class="admin-btn" routerLink="/admin-request">
+            <mat-icon  color="accent">event_note</mat-icon>
+        </button>
+
+        <button mat-raised-button color="primary" matTooltip="Manage Subjects" class="admin-btn"  routerLink="/subject">
+            <mat-icon  color="accent">collections_bookmark</mat-icon>
+        </button>
+
+        <button mat-raised-button color="primary" matTooltip="Settings" class="admin-btn">
+            <mat-icon  color="accent">settings</mat-icon>
+        </button>
+    
     </div>
     
      

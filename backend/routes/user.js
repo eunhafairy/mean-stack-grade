@@ -234,30 +234,35 @@ router.get('/find/:id', checkAuth ,(req, res, next) =>{
 
 router.get('',checkAuth ,(req,res,next) =>{
 
-    const pageSize = +req.query.pagesize;
-    const currentPage = +req.query.page;
-    const postQuery = User.find();
-    let fetchedRequests;
+  
+    const userQuery = User.find();
 
-    if(pageSize && currentPage){
-        postQuery
-        .skip(pageSize * (currentPage - 1))
-        .limit(pageSize);
-    }
-
-    postQuery
+   
+    userQuery
     .then((documents) =>{
-      fetchedRequests = documents;
-      return User.count();  
-    })
-    .then(count => {
-       
+    
+
+        console.log('success');
         res.status(200).json({
-            message: 'Request fetched successfully',
-            users: fetchedRequests,
-            maxUsers: count
+            message: "Success!",
+            users: documents
+
         });
+    })
+    .catch(err=>{
+
+        console.log('err' + err);
+        res.status(500).json({
+
+
+            error:err,
+            message: "something went wrong "
+
+        });
+
     });
+    
+
 
 
 

@@ -53,6 +53,7 @@ export class SubjectsComponent implements AfterViewInit  {
     else{
       this.pageSizeOptions =  [1, 2, 5, 10];
     }
+    this.paginator.pageSize= this.dataSource.data.length;
   }
 
   applyFilter(event: Event){
@@ -76,7 +77,7 @@ export class SubjectsComponent implements AfterViewInit  {
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
       console.log(result);
-     // this.refreshTable();
+      this.refreshTable();
     });
 
 
@@ -205,6 +206,10 @@ export class CreateSubjectDialog implements OnInit {
   
   
     this.isLoading = true;
+
+    if(form.invalid){
+      return;
+    }
 
     if(this.mode == "create"){
 

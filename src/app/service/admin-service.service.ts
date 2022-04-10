@@ -12,7 +12,7 @@ import { serializeError } from 'serialize-error';
 export class AdminServiceService {
 
   public users: User[] = [];
-  private usersUpdated = new Subject<{users: User [], userCount: number}>();
+  private usersUpdated = new Subject<{users: User []}>();
 
   private subjects : Subjects[]=[];
   private subjectsUpdated = new Subject<{subjects: Subjects[]}>();
@@ -20,21 +20,18 @@ export class AdminServiceService {
 
   constructor(public http: HttpClient, public router: Router) { }
 
-  getUsers(usersPerPage: number, currentPage : number){
+  getUsers(){
 
     
-    const queryParams = `?pagesize=${usersPerPage}&page=${currentPage}`;
-
     this.http
-    .get<{message: string, users: any, maxUsers: number}>("http://localhost:3000/api/users" + queryParams)
+    .get<{message: string, users: User[]}>("http://localhost:3000/api/users")
     .subscribe((userData) => {
 
-        console.log(userData.maxUsers);
+  
         this.users = userData.users;
 
         this.usersUpdated.next({
-          users : [...this.users],
-          userCount: userData.maxUsers
+          users : [...this.users]
         });
     });
 
@@ -76,7 +73,7 @@ export class AdminServiceService {
 
     const subjectData : Subjects = { subject_id:null ,subject_code: subjectCode, subject_name: subjectName,  subject_description:subjectDesc};
     
-    return this.http.post("http://localhost:3000/api/subjects/create", subjectData)
+   return this.http.post("http://localhost:3000/api/subjects/create", subjectData)
     .pipe(
       catchError(this.handleError)
       );

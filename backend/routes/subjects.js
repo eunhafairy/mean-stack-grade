@@ -75,7 +75,8 @@ router.post("/create", (req,res, next) =>{
         
     });
 
-    subject.save().then(result => {
+    subject.save()
+    .then(result => {
 
         res.status(201).json({
             message: 'Subject added successfully',
@@ -86,6 +87,16 @@ router.post("/create", (req,res, next) =>{
 
            }
         });
+    })
+    .catch(err =>{
+
+        res.status(500).json({
+
+            error: err,
+            message: "Subject creation error occurred!"
+
+        });
+
     });
 
 

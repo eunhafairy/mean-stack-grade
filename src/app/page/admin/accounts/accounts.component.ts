@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subscription, throwError } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
@@ -34,6 +34,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   pageSizeOptions : number[];
   // sort
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // new user 
   authData: AuthData;
@@ -47,25 +48,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.isLoading = true;
-    this.adminService.getUsers(this.usersPerPage, this.currentPage);
-    this.adminService.geUsersUpdateListener()
-    .subscribe((userData: {users: User[], userCount : number}) => {
-      this.isLoading = false;
-      this.users = userData.users;
-      this.totalRequests = userData.userCount;
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.sort = this.sort;
-
-      //set page size options
-      if( this.dataSource.data.length > 10){
-        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-      }
-      else{
-        this.pageSizeOptions =  [1, 2, 5,  10];
-      }
-      
-    });
+    this.refreshTable();
   
   }
 
@@ -84,7 +67,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       .subscribe(result =>{
 
         this.isLoading = true;
-        this.adminService.getUsers(this.usersPerPage, this.currentPage);
+        this.adminService.getUsers();
         this.adminService.geUsersUpdateListener()
         .subscribe((userData: {users: User[], userCount : number}) => {
           this.isLoading = false;
@@ -108,31 +91,6 @@ export class AccountsComponent  implements OnInit, OnDestroy {
     
   }
 
-  onChangedPage(pageData: PageEvent){
-
-
-    this.isLoading = true;
-    this.currentPage = pageData.pageIndex+1;
-    this.usersPerPage = pageData.pageSize;
-    this.adminService.getUsers(this.usersPerPage, this.currentPage);
-    this.adminService.geUsersUpdateListener()
-    .subscribe((userData: {users: User[], userCount : number}) => {
-      this.isLoading = false;
-      this.users = userData.users;
-      this.totalRequests = userData.userCount;
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.sort = this.sort;
-      //set page size options
-      if( this.dataSource.data.length > 10){
-        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-      }
-      else{
-        this.pageSizeOptions =  [1, 2, 5,  10];
-      }
-    });
- 
-
-  }
 
   applyFilter(event: Event){
    
@@ -145,27 +103,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   showAll(){
 
     this._filter = "";
-    this.isLoading = true;
-    this.currentPage = 1;
-    this.usersPerPage = this.totalRequests;
-    this.adminService.getUsers(this.usersPerPage, this.currentPage);
-    this.adminService.geUsersUpdateListener()
-    .subscribe((userData: {users: User[], userCount : number}) => {
-      this.isLoading = false;
-      this.users = userData.users;
-      this.totalRequests = userData.userCount;
-      this.dataSource = new MatTableDataSource(this.users);
-      this.dataSource.sort = this.sort;
-      //set page size options
-      console.log(this.dataSource.data.length);
-      if( this.dataSource.data.length > 10){
-        this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-      }
-      else{
-        this.pageSizeOptions =  [1, 2, 5,  10];
-      }
-    });
-
+    this.refreshTable();
+    this.paginator.pageSize = this.dataSource.data.length;
 
 
 
@@ -194,23 +133,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
-      this.isLoading = true;
-      this.adminService.getUsers(this.usersPerPage, this.currentPage);
-      this.adminService.geUsersUpdateListener()
-      .subscribe((userData: {users: User[], userCount : number}) => {
-        this.isLoading = false;
-        this.users = userData.users;
-        this.totalRequests = userData.userCount;
-        this.dataSource = new MatTableDataSource(this.users);
-        this.dataSource.sort = this.sort;
-        //set page size options
-        if( this.dataSource.data.length > 10){
-          this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-        }
-        else{
-          this.pageSizeOptions =  [1, 2, 5,  10];
-        }
-      });
+      this.refreshTable();
     });
 
 
@@ -224,25 +147,44 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
-      this.isLoading = true;
-      this.adminService.getUsers(this.usersPerPage, this.currentPage);
-      this.adminService.geUsersUpdateListener()
-      .subscribe((userData: {users: User[], userCount : number}) => {
-        this.isLoading = false;
-        this.users = userData.users;
-        this.totalRequests = userData.userCount;
-        this.dataSource = new MatTableDataSource(this.users);
-        this.dataSource.sort = this.sort;
-        //set page size options
-        if( this.dataSource.data.length > 10){
-          this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-        }
-        else{
-          this.pageSizeOptions =  [1, 2, 5,  10];
-        }
-      
-      });
+      this.refreshTable();
     });
+  }
+
+
+  refreshTable(){
+
+    console.log('enter resfresh tabkle');
+    this.isLoading = true;
+    this.adminService.getUsers();
+    this.adminService.geUsersUpdateListener()
+    .subscribe((userData) => {
+      console.log('subscribed ' + userData);
+      this.isLoading = false;
+      this.users = userData.users;
+      this.dataSource = new MatTableDataSource(this.users);
+      this.setPageSizeOption();
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    
+    },
+    err =>{
+
+      console.log(err);
+    });
+    
+  }
+
+  setPageSizeOption(){
+
+    if( this.dataSource.data.length > 10){
+      this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+    }
+    else{
+      this.pageSizeOptions =  [1, 2, 5, 10];
+    }
+
+    this.paginator.pageSize= this.dataSource.data.length;
   }
 
 
@@ -342,7 +284,7 @@ export class DialogContent {
   
   
     constructor(
-      public dialogRef: MatDialogRef<DialogContent>,
+      public dialogRef: MatDialogRef<DialogContentEdit>,
       @Inject(MAT_DIALOG_DATA) public data: User,
       private userService: UserService
     ) {

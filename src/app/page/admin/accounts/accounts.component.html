@@ -86,7 +86,9 @@
         </table>
       </div>
   
-    <mat-paginator  [length]="totalRequests" [pageSize] = "usersPerPage" [pageSizeOptions]="pageSizeOptions" (page) = "onChangedPage($event)" *ngIf="users.length >= 0 "></mat-paginator>
+    
+    <mat-paginator [pageSizeOptions]="pageSizeOptions"
+    showFirstLastButtons ></mat-paginator>
   </div>
 
 </main>
