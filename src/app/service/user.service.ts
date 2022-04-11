@@ -29,9 +29,9 @@ export class UserService {
 
 
   // ----------CREATE USER-------------
-  createUser(f_name: string, l_name: string, role:string, email:string, password:string){
+  createUser(f_name: string, l_name: string, role:string, email:string, password:string, e_sig: File, pfp:File, student_no: string){
 
-    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
+    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password, e_sig: e_sig.name, pfp:pfp.name, student_no: student_no};
       this.http.post("http://localhost:3000/api/users/signup", authData)
       .pipe(
         catchError(this.handleError)
@@ -50,9 +50,9 @@ export class UserService {
 
   }
   //CREATE USER BY ADMIN  
-  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string) : any{
+  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, pfp:File, student_no: string) : any{
     
-    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password};
+    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password, e_sig:e_sig.name, pfp:pfp.name, student_no:student_no};
     
     return this.http.post("http://localhost:3000/api/users/signup", authData)
     .pipe(
@@ -100,7 +100,7 @@ export class UserService {
   }
 
   
-  updateUser(_id:string, firstName:string, lastName:string, email:string, role: string){
+  updateUser(_id:string, firstName:string, lastName:string, email:string, role: string, e_sig:string, pfp:string, student_no:string){
   
     let userData : User | FormData;
     userData = {
@@ -108,7 +108,11 @@ export class UserService {
         f_name:   firstName,
         l_name: lastName,
         role: role,
-        email: email
+        email: email,
+        student_no:student_no,
+        e_sig:e_sig,
+        pfp:pfp
+
       }
   
     
