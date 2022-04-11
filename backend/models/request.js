@@ -5,7 +5,6 @@ const requestSchema = mongoose.Schema({
     user_id: {type:  mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     faculty_id: { type:  mongoose.Schema.Types.ObjectId,  ref: "User", required: true },
     status: { type: String, default: "Requested" },
-    filePath: {type: String, default: ''},
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" ,required: true }
 
 });

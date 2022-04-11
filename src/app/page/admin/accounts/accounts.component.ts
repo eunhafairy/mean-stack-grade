@@ -123,7 +123,10 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       f_name : user.f_name,
       l_name: user.l_name,
       role: user.role,
-      email: user.email
+      email: user.email,
+      student_no: user.student_no,
+      e_sig: user.e_sig,
+      pfp:user.pfp
     
     });
     const dialogRef = this.dialog.open(DialogContentEdit, {
@@ -200,6 +203,12 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 })
 export class DialogContent {
 
+
+  @ViewChild('signUpForm', {read: NgForm}) form : any;
+  fileTitlePFP:string;
+  imagePreviewPFP: string;
+  fileTitleESig:string;
+  imagePreviewESig: string;
   isLoading = false;
   selectedRole: string;
   public roles: any = [
@@ -226,7 +235,7 @@ export class DialogContent {
     }
 
     this.isLoading = true;
-    this.userService.createUserFromAdmin(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password)
+    this.userService.createUserFromAdmin(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password, form.value.filePickerESig, form.value.filePickerPFP, form.value.student_no)
     .subscribe(
       
       (response)=>{
@@ -249,6 +258,36 @@ export class DialogContent {
     
 
   
+
+  }
+
+  onFilePickedESig(event: Event){
+
+    const file = (event.target as HTMLInputElement).files[0];
+    this.fileTitleESig = file.name;
+    this.form.value.filePickerESig = file;
+  //  this.form.get('filePickerESig').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () =>{
+        this.imagePreviewESig = reader.result as string;
+    }
+    reader.readAsDataURL(file);
+
+
+  }
+
+  onFilePickedPFP(event: Event){
+
+    const file = (event.target as HTMLInputElement).files[0];
+    this.fileTitlePFP = file.name;
+    this.form.value.filePickerPFP=file;
+ //   this.form.get('filePickerPFP').updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () =>{
+        this.imagePreviewPFP = reader.result as string;
+    }
+    reader.readAsDataURL(file);
+
 
   }
 
@@ -308,7 +347,7 @@ export class DialogContent {
       }
 
       this.isLoading = true;
-      this.userService.updateUser(this.data.u_id, form.value.firstName, form.value.lastName,form.value.email, form.value.role)
+      this.userService.updateUser(this.data.u_id, form.value.firstName, form.value.lastName,form.value.email, form.value.role, form.value.filePickerESig, form.value.filePickerPFP, form.value.student_no)
       .subscribe(
         response =>{
 

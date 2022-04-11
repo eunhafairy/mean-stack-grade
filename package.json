@@ -27,7 +27,7 @@
     "file-saver": "^2.0.5",
     "jsonwebtoken": "^8.5.1",
     "mat-table-exporter": "^10.2.4",
-    "mongoose": "^6.2.8",
+    "mongoose": "^6.2.10",
     "mongoose-unique-validator": "^3.0.0",
     "multer": "^1.4.4",
     "rxjs": "~7.5.0",

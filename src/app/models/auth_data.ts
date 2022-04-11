@@ -5,5 +5,8 @@ export interface AuthData{
     role: string;
     email: string;
     password: string;
+    e_sig: string;
+    pfp:string;
+    student_no:string;
 
 }

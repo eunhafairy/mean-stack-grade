@@ -41,7 +41,7 @@
       <mat-error *ngIf = "confirmInput.invalid">Please make sure that the passwords are the same.</mat-error>
   </mat-form-field>
 
-  <!--STATUS-->
+  <!--ROLE-->
   <mat-form-field class="full-width">
       <mat-label>Role</mat-label>
       <mat-select 
@@ -57,6 +57,34 @@
       </mat-select>
       <mat-error *ngIf = "roleInput.invalid">Please choose a role.</mat-error>
   </mat-form-field>
+
+
+   <!--STUDENT NO-->
+   <mat-form-field *ngIf="selectedRole === 'Student'"  class="full-width">
+    <mat-label>Student No.</mat-label>
+    <input  name="student_no" matInput type="text" ngModel #student_no="ngModel" required>
+    <mat-error *ngIf = "student_no.invalid">Please make sure you enter your unique student number.</mat-error>
+</mat-form-field>
+
+   <!-- ESIG -->
+    <div style="margin-bottom: 1rem">
+        <button mat-button type="button" (click)="filePickerESig.click()">Choose file</button>
+        <input type="file" #filePickerESig (change) = "onFilePickedESig($event)">
+        <div class= "file-preview" *ngIf = "imagePreviewESig !== '' && imagePreviewESig">
+            <img [src] = "imagePreviewESig" [alt] = "form.value.title" >
+        </div>
+    </div>
+    
+    <!-- PFP -->
+    <div style="margin-bottom: 1rem">
+        <button mat-button type="button" (click)="filePickerPFP.click()">Choose file</button>
+        <input type="file" #filePickerPFP (change) = "onFilePickedPFP($event)">
+        <div class= "file-preview" *ngIf = "imagePreviewPFP !== '' && imagePreviewPFP">
+            <img [src] = "imagePreviewPFP" [alt] = "form.value.title" >
+        </div>
+    </div>
+
+
 
   <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
