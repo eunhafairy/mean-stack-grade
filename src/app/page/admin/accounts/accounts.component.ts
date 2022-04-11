@@ -7,7 +7,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import {MatDialog, MatDialogContent, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { AuthData } from 'src/app/models/auth_data';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MatLabel } from '@angular/material/form-field';
 import { UserService } from 'src/app/service/user.service';
 import { Observable } from 'rxjs';
@@ -201,12 +201,12 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   templateUrl: 'dialog-content.html',
    styleUrls: ['./accounts.component.css']
 })
-export class DialogContent {
+export class DialogContent implements OnInit {
 
 
-  @ViewChild('signUpForm', {read: NgForm}) form : any;
+ form : FormGroup;
   fileTitlePFP:string;
-  imagePreviewPFP: string;
+  imagePreviewPFP: string = '../../../assets/images/default_cict.png';
   fileTitleESig:string;
   imagePreviewESig: string;
   isLoading = false;
@@ -222,20 +222,36 @@ export class DialogContent {
     @Inject(MAT_DIALOG_DATA) public data: User,
     private userService: UserService
   ) {}
+  ngOnInit(): void {
+
+    this.form = new FormGroup({
+      '__first_name': new FormControl(null, {validators: [Validators.required]}),
+      '__last_name' : new FormControl(null, {validators: [Validators.required]}),
+      '__role' : new FormControl(null, {validators: [Validators.required]}),
+      '__email' : new FormControl(null, {validators: [Validators.required]}),
+      '__password' : new FormControl(null, {validators: [Validators.required]}),
+      '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
+      '__filePFP' : new FormControl(null),
+      '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
+      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+
+
+  });
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSignUp(form: NgForm){
+  onSignUp(){
 
-    if(form.value.confirmPassword !== form.value.password){
+    if(this.form.value.__confirm_password !== this.form.value.__password){
         window.alert("Make sure the password and confirm password are the same.");
         return;
     }
 
     this.isLoading = true;
-    this.userService.createUserFromAdmin(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password, form.value.filePickerESig, form.value.filePickerPFP, form.value.student_no)
+    this.userService.createUserFromAdmin(this.form.value.__first_name,this.form.value.__last_name, this.selectedRole, this.form.value.__email,  this.form.value.__password, this.form.value.__fileESig, this.form.value.__filePFP, this.form.value.__student_no)
     .subscribe(
       
       (response)=>{
@@ -265,8 +281,8 @@ export class DialogContent {
 
     const file = (event.target as HTMLInputElement).files[0];
     this.fileTitleESig = file.name;
-    this.form.value.filePickerESig = file;
-  //  this.form.get('filePickerESig').updateValueAndValidity();
+    this.form.patchValue({__fileESig: file});
+    this.form.get('__fileESig').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () =>{
         this.imagePreviewESig = reader.result as string;
@@ -280,8 +296,8 @@ export class DialogContent {
 
     const file = (event.target as HTMLInputElement).files[0];
     this.fileTitlePFP = file.name;
-    this.form.value.filePickerPFP=file;
- //   this.form.get('filePickerPFP').updateValueAndValidity();
+    this.form.patchValue({__filePFP: file});
+  this.form.get('__filePFP').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () =>{
         this.imagePreviewPFP = reader.result as string;

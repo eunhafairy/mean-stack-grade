@@ -5,10 +5,27 @@ const bcrypt = require('bcrypt');
 const { restart } = require('nodemon');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+const multer = require('multer');
 
+const storage = multer.diskStorage({
 
+    destination: (req, file, cb) => {
 
-router.post("/signup", (req,res, next) =>{
+        cb(null, "backend/pfp");
+
+    },
+    filename: (req,file,cb) => {
+
+        cb(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
+
+    }
+
+});
+const upload = multer({storage: storage});
+
+router.post("/signup", upload.fields([{name : 'pfp'}, {name: 'e_sig'}]), (req,res, next) =>{
+
+    const url = req.protocol + '://'+req.get('host');
 
     bcrypt.hash(req.body.password, 10)
     .then(hash =>{
@@ -18,8 +35,10 @@ router.post("/signup", (req,res, next) =>{
             l_name: req.body.l_name,
             email:req.body.email,
             password: hash,
-            role: req.body.role
-    
+            role: req.body.role,
+            student_no : req.body.student_no,
+            pfp: url+'/pfp/'+req.files['pfp'][0].filename,
+            e_sig: url+'/pfp/'+req.files['e_sig'][0].filename
 
         });
         user.save()
@@ -270,7 +289,9 @@ router.get('',checkAuth ,(req,res,next) =>{
 });
 
 
-
+function getFileExt(fileName){
+    return fileName.split('.').pop();
+}
 
 // router.get('/findnames',checkAuth ,(req,res,next) =>{
 

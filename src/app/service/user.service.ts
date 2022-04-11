@@ -5,11 +5,10 @@ import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { AuthData } from '../models/auth_data';
 import { LoginData } from '../models/login_data';
 import { User } from '../models/user';
-import { map, retry } from 'rxjs/operators';
-import { JsonPipe } from '@angular/common';
+import { map } from 'rxjs/operators';
 import {serializeError} from 'serialize-error';
 import { AdminServiceService } from './admin-service.service';
-import { DataRowOutlet } from '@angular/cdk/table';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,9 +49,51 @@ export class UserService {
 
   }
   //CREATE USER BY ADMIN  
-  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, pfp:File, student_no: string) : any{
+  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, pfp:File, student_no: string){
     
-    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password, e_sig:e_sig.name, pfp:pfp.name, student_no:student_no};
+    let _student_no : string = " ";
+    
+    let pfp_filename : string;
+    let e_sig_filename : string;
+
+    if(student_no){
+      
+      _student_no = student_no;
+
+    }
+
+    if(!pfp){
+
+      pfp_filename = "";
+    }
+    else{
+
+      pfp_filename = pfp.name;
+
+    }
+
+    if(!e_sig){
+
+      e_sig_filename = "";
+    }
+    else{
+
+      e_sig_filename = e_sig.name;
+
+    }
+
+    const authData = new FormData();
+    authData.append("f_name", f_name);
+    authData.append("l_name", l_name);
+    authData.append("role", role);
+    authData.append("email", email);
+    authData.append("password", password);
+    authData.append("student_no", student_no);
+    authData.append("e_sig", e_sig, e_sig_filename);
+    authData.append("pfp", pfp, pfp_filename);
+
+ 
+  
     
     return this.http.post("http://localhost:3000/api/users/signup", authData)
     .pipe(

@@ -2,6 +2,21 @@
 .example-container {
     position: relative;
   }
+
+  
+  .pfp-div{
+    width: 100%;
+
+    display:block;
+    margin: 30px auto;
+
+  }
+
+.file-preview img{
+border-radius: 50%;
+height: 100px;
+width:100px;
+ }
   
   .example-table-container {
     
