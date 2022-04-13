@@ -9,9 +9,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-requests: Request[] = []
-  private requestSub: Subscription = new Subscription;
 
+
+requests: Request[] = []
+ 
   constructor(public requestService : RequestService) { }
  
 

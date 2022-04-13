@@ -3,6 +3,7 @@ mat-card{
 
     width: 80%;
     margin: auto;
+    overflow: hidden;
 }
 .example-form {
     min-width: 150px;
@@ -14,3 +15,21 @@ mat-card{
     width: 100%;
   }
 
+  .pfp-div{
+    width: 100%;
+
+    display:block;
+    margin: 30px auto;
+
+  }
+
+.file-preview img{
+border-radius: 50%;
+height: 100px;
+width:100px;
+ }
+
+ .sig-preview img{
+  height: 100px;
+  width:200px;
+   }

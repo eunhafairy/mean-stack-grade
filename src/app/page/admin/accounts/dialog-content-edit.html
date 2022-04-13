@@ -2,53 +2,81 @@
 <div mat-dialog-content>
 
     <main>
-        <form (submit) ="onEdit(editForm)" #editForm = "ngForm" >
+        <form (submit) ="onEdit()" [formGroup] = "form"  enctype="multipart/form-data" >
 
-                
+
             <!--FIRST NAME-->
             <mat-form-field  class="full-width">
-            <mat-label>First Name</mat-label>
-            <input  name="firstName" matInput type="text" [(ngModel)]="data.f_name" ngModel #firstName="ngModel" required>
-            <mat-error *ngIf = "firstName.invalid">Please enter your first name.</mat-error>
+                <mat-label>First Name</mat-label>
+                <input  matInput
+                type="text"
+                formControlName="__first_name"  
+                required>
+                <mat-error *ngIf = "form.get('__first_name').invalid">Please enter your first name.</mat-error>
             </mat-form-field>
 
         
             <!--LAST NAME-->
             <mat-form-field  class="full-width">
-            <mat-label>Surname</mat-label>
-            <input  name="lastName" matInput type="text"  [(ngModel)]="data.l_name" ngModel #lastName="ngModel" required>
-            <mat-error *ngIf = "lastName.invalid">Please enter your last name.</mat-error>
-        </mat-form-field>
+                <mat-label>Surname</mat-label>
+                <input  
+                matInput 
+                formControlName="__last_name"  
+                type="text" 
+                required>
+                <mat-error *ngIf = "form.get('__last_name').invalid">Please enter your last name.</mat-error>
+           </mat-form-field>
 
-        <!--EMAIL-->
-        <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
-            <input matInput  name = "email" type="email" [(ngModel)]="data.email"  ngModel  #emailInput = "ngModel" required email >
-            <mat-error *ngIf = "emailInput.invalid">Please enter a valid email</mat-error>
-        </mat-form-field>
+            <!--EMAIL-->
+            <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input matInput  
+                type="email"
+                formControlName="__email"
+                required email >
+                <mat-error *ngIf = "form.get('__email').invalid">Please enter a valid email</mat-error>
+            </mat-form-field>
 
-        <!--ROLE-->
-        <mat-form-field class="full-width">
-            <mat-label>Role</mat-label>
-            <mat-select 
-        
-            [(ngModel)] = "data.role"
-            name = "role"
-            ngModel
-            #roleInput = "ngModel"
-            required
-            >
-                <mat-option *ngFor="let role of roles" [value] = "role.value">
-                    {{role.value}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf = "roleInput.invalid">Please choose a role.</mat-error>
-        </mat-form-field>
+             <!-- ESIG -->
+            <div style="margin-bottom: 2rem">
+                <button mat-button type="button" (click)="filePickerESig.click()">Upload your signature</button>
+                <input type="file" #filePickerESig (change) = "onFilePickedESig($event)">
+                <div class= "sig-preview">
+                    <img [src]= "imagePreviewESig" [alt] ="data.f_name" >
+                </div>
+            </div>
+
+            <!--ROLE-->
+            <mat-form-field class="full-width">
+                <mat-label>Role</mat-label>
+                    <mat-select 
+                    [(value)]="selectedRole"
+                    name = "role"
+                    formControlName= "__role"
+                    required
+                    >
+                        <mat-option *ngFor="let role of roles" [value] = "role.value">
+                            {{role.value}}
+                        </mat-option>
+                    </mat-select>
+                <mat-error *ngIf = "selectedRole === '' || form.get('__role').invalid">Please choose a role.</mat-error>
+
+            </mat-form-field>
+
+             <!--STUDENT NO-->
+            <mat-form-field *ngIf="selectedRole === 'Student'"  class="full-width">
+                <mat-label>Student No.</mat-label>
+                <input  matInput 
+                type="text" 
+                formControlName="__student_no"
+                required>
+                <mat-error *ngIf = "form.get('__student_no').invalid">Please make sure you enter your unique student number.</mat-error>
+            </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Save</button>
         <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </form>
         <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
 
-        </form>
     </main>
 </div>

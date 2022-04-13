@@ -62,17 +62,8 @@
       <mat-error *ngIf = "form.get('status').invalid">Please choose a status.</mat-error>
   </mat-form-field>
 
-
-  <div style="margin-bottom: 1rem">
-    <button mat-button type="button" (click)="filePicker.click()">Choose file</button>
-    <input type="file" #filePicker (change) = "onFilePicked($event)">
-    <div class= "file-preview" >
-     <p>{{fileTitle}}</p>
-    </div>
-
-  </div>
-
-  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Sign Up</button>
+  
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Add Request</button>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
 

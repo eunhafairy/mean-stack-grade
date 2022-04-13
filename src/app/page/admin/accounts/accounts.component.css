@@ -17,16 +17,16 @@ border-radius: 50%;
 height: 100px;
 width:100px;
  }
-  
-  .example-table-container {
-    
-    position: relative;
-    min-height: 200px;
-    max-height: 400px;
-    overflow: auto;
-  }
 
- 
+.example-table-container {
+  
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+
   
   table {
     width: 100%;
@@ -68,3 +68,9 @@ mat-form-field{
   .mat-column-created {
     max-width: 124px;
   }
+
+  .sig-preview img{
+    height: 100px;
+
+     }
+  

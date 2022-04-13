@@ -5,23 +5,11 @@
 <form (submit) ="onSignUp()" [formGroup] = "form"  enctype="multipart/form-data">
 
 
-      <!-- PFP -->
-      <div class="pfp-div" style="margin-bottom: 1rem">
-      
-        <div class= "file-preview" *ngIf = "imagePreviewPFP !== '' && imagePreviewPFP">
-            <img [src] = "imagePreviewPFP">
-        </div>
-        <button mat-button type="button" (click)="filePickerPFP.click()">Choose Profile Picture</button>
-        <input type="file" #filePickerPFP (change) = "onFilePickedPFP($event)">
-        
-    </div>
-
-        
     <!--FIRST NAME-->
     <mat-form-field  class="full-width">
       <mat-label>First Name</mat-label>
       <input matInput 
-      formControlName="__first_name"  
+      formControlName="__first_name"
       type="text" 
       required>
       <mat-error *ngIf = "form.get('__first_name').invalid">Please enter your first name.</mat-error>
@@ -75,7 +63,7 @@
       <mat-select 
       [(value)]="selectedRole"
       name = "role"
-        formControlName= "__role"
+      formControlName= "__role"
       required
       >
       <mat-option *ngFor="let role of roles" [value] = "role.value">
@@ -97,11 +85,11 @@
 </mat-form-field>
 
    <!-- ESIG -->
-    <div style="margin-bottom: 1rem">
-        <button mat-button type="button" (click)="filePickerESig.click()">Choose file</button>
+    <div style="margin-bottom: 2rem">
+        <button mat-button type="button" (click)="filePickerESig.click()">Upload your signature</button>
         <input type="file" #filePickerESig (change) = "onFilePickedESig($event)">
-        <div class= "file-preview" *ngIf = "imagePreviewESig !== '' && imagePreviewESig">
-            <img [src] = "imagePreviewESig" [alt] = "form.value.title" >
+        <div class= "sig-preview" *ngIf = "imagePreviewESig !== '' && imagePreviewESig">
+            <img [src] = "imagePreviewESig" >
         </div>
     </div>
     

@@ -1,36 +1,22 @@
 const express = require('express');
 const Request = require('../models/request');
 const router = express.Router();
-const multer = require('multer');
+
 const checkAuth = require('../middleware/check-auth');
 
-const storage = multer.diskStorage({
 
-    destination: (req, file, cb) => {
-        cb(null, "backend/files");
-    },
-    filename: (req, file, cb) =>{
-       console.log('file name is: ' +file.originalname);
-        cb(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
-    }
-
-});
-
-router.post("", checkAuth, multer({storage: storage}).single('file'), (req,res,next) =>{
+router.post("", checkAuth, (req,res,next) =>{
    
-    const url = req.protocol + '://'+req.get('host');
+  
     const request = new Request({
         title:  req.body.title,
         user_id:  req.body.user_id,
         faculty_id:  req.body.faculty_id,
         status:  req.body.status,
-        filePath: url+'/files/'+req.file.filename,
         creator : req.userData.u_id
         
     });
 
-    console.log(req.userData.u_id);
-       
     request.save().then(result => {
         res.status(201).json({
             message: 'Request added successfully',
@@ -136,15 +122,9 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 
 
-router.put("/:id", checkAuth,multer({storage: storage}).single('file'), (req,res, next) =>{
+router.put("/:id", (req,res, next) =>{
 
-    
-    let filePath = req.body.filePath;
-    if(req.file){
-        const  url = req.protocol + "://"+req.get("host");
-        filePath = url+"/files/"+req.file.filename;
-
-    }
+   
 
     const request = new Request({
 
@@ -152,21 +132,25 @@ router.put("/:id", checkAuth,multer({storage: storage}).single('file'), (req,res
         title: req.body.title,
         user_id: req.body.user_id,
         faculty_id: req.body.faculty_id,
-        status: req.body.status,
-        filePath :filePath
+        status: req.body.status
 
     });
-    console.log();
+ 
     Request.updateOne({_id: req.params.id}, request )
     .then(result =>{
         res.status(200).json({message:'update successful'});
     })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            error: err,
+            message: "Something went wrong!"
+        })
+
+    })
 
 })
 
-//======================GET FILE EXT=============================
-function getFileExt(fileName){
-    return fileName.split('.').pop();
-}
 
 module.exports = router;

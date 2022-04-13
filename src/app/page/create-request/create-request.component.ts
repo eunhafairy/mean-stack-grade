@@ -45,8 +45,7 @@ export class CreateRequestComponent implements OnInit {
       '__title': new FormControl(null, {validators: [Validators.required]}),
       '__user_id' : new FormControl(null, {validators: [Validators.required]}),
       '__faculty_id' : new FormControl(null, {validators: [Validators.required]}),
-      '__status' : new FormControl('Requested', {validators: [Validators.required]}),
-      '__file' : new FormControl(null)
+      '__status' : new FormControl('Requested', {validators: [Validators.required]})
   });
   
 
@@ -110,13 +109,13 @@ export class CreateRequestComponent implements OnInit {
 
     //===============CREATE=================
     if (this.mode === "create"){
-      this.requestService.addRequest( this.form.value.__title, this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status, this.form.value.__file);
+      this.requestService.addRequest( this.form.value.__title, this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status);
       window.alert('Request added!');
     }
 
     //===============UPDATE=================
     else{
-      this.requestService.updateRequest(this.requestId,  this.form.value.__title,  this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status, this.userService.getUserId() ,this.form.value.__file);
+      this.requestService.updateRequest(this.requestId,  this.form.value.__title,  this.form.value.__user_id , this.form.value.__faculty_id,  this.form.value.__status, this.userService.getUserId());
       window.alert('Request updated!');
     }
 
@@ -125,20 +124,7 @@ export class CreateRequestComponent implements OnInit {
   }
 
 
-  //===============SAVE FILE=================
-  onFilePicked(event: Event){
 
-      const file = (event.target as HTMLInputElement).files[0];
-      this.fileTitle = file.name;
-      this.form.patchValue({__file : file});
-      this.form.get('__file').updateValueAndValidity();
-      const reader = new FileReader();
-      reader.onload = () =>{
-          this.imagePreview = reader.result as string;
-      }
-      reader.readAsDataURL(file);
-
-  }
 
 
 }

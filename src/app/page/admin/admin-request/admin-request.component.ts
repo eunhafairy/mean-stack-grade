@@ -50,7 +50,7 @@ export class AdminRequestComponent implements OnInit {
    
       this.requests = requestsData.requests;
       this.isLoading = false;
-      //this.transformRequests(requestsData.requests);
+      this.transformRequests(requestsData.requests);
 
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
@@ -78,39 +78,39 @@ export class AdminRequestComponent implements OnInit {
 
   }
 
-  // transformRequests(request:Request[]){
+  transformRequests(request:Request[]){
 
    
 
-  //   this.requests = request;
+    this.requests = request;
 
-  //   for(let i = 0; i < request.length; i++){
+    for(let i = 0; i < request.length; i++){
 
-  //     //console.log("request no. "+i+": " + JSON.stringify(request[i]));
-  //     this.userService.getUser(request[i].user_id)
-  //     .subscribe(responseData =>{
+      //console.log("request no. "+i+": " + JSON.stringify(request[i]));
+      this.userService.getUser(request[i].user_id)
+      .subscribe(responseData =>{
 
-  //       this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+        this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
 
-  //       this.isLoading=false;
+        this.isLoading=false;
 
 
-  //     });
+      });
 
-  //     this.userService.getUser(request[i].faculty_id)
-  //     .subscribe(responseData =>{
+      this.userService.getUser(request[i].faculty_id)
+      .subscribe(responseData =>{
 
-  //       this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
-  //       this.isLoading=false;
+        this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
+        this.isLoading=false;
 
-  //     });
+      });
      
      
 
-  //   }
+    }
     
 
-  // }
+  }
 
 
 
@@ -154,7 +154,7 @@ export class AdminRequestComponent implements OnInit {
     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
       this.isLoading = false;
       this.requests = requestsData.requests;
-    //  this.transformRequests(requestsData.requests);
+    this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       });
@@ -183,7 +183,7 @@ export class AdminRequestComponent implements OnInit {
     .subscribe((requestsData: {requests: Request[], requestCount : number}) => {
       this.isLoading = false;
       this.requests = requestsData.requests;
-     // this.transformRequests(requestsData.requests);
+    this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       this.dataSource.sort = this.sort;
@@ -216,7 +216,7 @@ export class AdminRequestComponent implements OnInit {
           .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
             this.isLoading = false;
             this.requests = requestsData.requests;
-         //   this.transformRequests(requestsData.requests);
+           this.transformRequests(requestsData.requests);
             this.totalRequests = requestsData.requestCount;
             this.dataSource = new MatTableDataSource(this.requests);
       });
@@ -249,7 +249,6 @@ export class AddRequestDialog implements OnInit{
 
   isLoading = false;
   form: FormGroup;
-  fileTitle: string;
   selectedStatus = '';
   public stats: any = [
     {value : "Requested"}, 
@@ -280,8 +279,7 @@ export class AddRequestDialog implements OnInit{
       'title': new FormControl(null, {validators: [Validators.required]}),
       'student' : new FormControl(null, {validators: [Validators.required]}),
       'faculty' : new FormControl(null, {validators: [Validators.required]}),
-      'status' : new FormControl('Requested', {validators: [Validators.required]}),
-      '__file' : new FormControl(null)
+      'status' : new FormControl('Requested', {validators: [Validators.required]})
   });
     
   }
@@ -335,7 +333,7 @@ export class AddRequestDialog implements OnInit{
     else{
 
       console.log('went here');
-      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.__file)
+      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status)
       .subscribe(
         res=>{
           
@@ -360,20 +358,7 @@ export class AddRequestDialog implements OnInit{
   }
 
 
-   //===============SAVE FILE=================
-   onFilePicked(event: Event){
 
-    const file = (event.target as HTMLInputElement).files[0];
-    this.fileTitle = file.name;
-    this.form.patchValue({__file : file});
-    this.form.get('__file').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () =>{
-      
-    }
-    reader.readAsDataURL(file);
-
-  }
 
 
 

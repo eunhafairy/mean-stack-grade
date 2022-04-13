@@ -27,60 +27,72 @@ export class UserService {
   constructor(public http: HttpClient, public router: Router, private adminService: AdminServiceService) { }
 
 
-  // ----------CREATE USER-------------
-  createUser(f_name: string, l_name: string, role:string, email:string, password:string, e_sig: File, pfp:File, student_no: string){
+  // // ----------CREATE USER-------------
+  // createUser(f_name: string, l_name: string, role:string, email:string, password:string, e_sig: File, pfp:File, student_no: string){
 
-    const authData : AuthData = {f_name: f_name, l_name: l_name,  role:role,email:email, password:password, e_sig: e_sig.name, pfp:pfp.name, student_no: student_no};
-      this.http.post("http://localhost:3000/api/users/signup", authData)
-      .pipe(
-        catchError(this.handleError)
-        )
-      .subscribe(result =>{
-        window.alert("Success!");
+  //   let _student_no : string = " ";
     
-      })
-     
-    ;
+  //   let pfp_filename : string;
+  //   let e_sig_filename : string;
 
-  }
+  //   if(student_no){
+      
+  //     _student_no = student_no;
+
+  //   }
+
+  //   if(!pfp){
+
+  //     pfp_filename = "";
+  //   }
+  //   else{
+
+  //     pfp_filename = pfp.name;
+
+  //   }
+
+  //   if(!e_sig){
+
+  //     e_sig_filename = "";
+  //   }
+  //   else{
+
+  //     e_sig_filename = e_sig.name;
+
+  //   }
+
+
+
+  //   const authData = new FormData();
+  //   authData.append("f_name", f_name);
+  //   authData.append("l_name", l_name);
+  //   authData.append("role", role);
+  //   authData.append("email", email);
+  //   authData.append("password", password);
+  //   authData.append("student_no", student_no);
+  //   authData.append("e_sig", e_sig, e_sig_filename);
+  //   authData.append("pfp", pfp, pfp_filename);
+    
+  //     this.http.post("http://localhost:3000/api/users/signup", authData)
+  //     .pipe(
+  //       catchError(this.handleError)
+  //       )
+  //     .subscribe(result =>{
+  //       window.alert("Success!");
+    
+  //     })  ;
+
+  // }
 
   getAllUsers(){
 
 
   }
   //CREATE USER BY ADMIN  
-  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, pfp:File, student_no: string){
+  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, student_no: string){
     
-    let _student_no : string = " ";
+  
     
-    let pfp_filename : string;
-    let e_sig_filename : string;
-
-    if(student_no){
-      
-      _student_no = student_no;
-
-    }
-
-    if(!pfp){
-
-      pfp_filename = "";
-    }
-    else{
-
-      pfp_filename = pfp.name;
-
-    }
-
-    if(!e_sig){
-
-      e_sig_filename = "";
-    }
-    else{
-
-      e_sig_filename = e_sig.name;
-
-    }
 
     const authData = new FormData();
     authData.append("f_name", f_name);
@@ -88,13 +100,11 @@ export class UserService {
     authData.append("role", role);
     authData.append("email", email);
     authData.append("password", password);
+    authData.append("e_sig", e_sig, e_sig.name);
     authData.append("student_no", student_no);
-    authData.append("e_sig", e_sig, e_sig_filename);
-    authData.append("pfp", pfp, pfp_filename);
-
- 
-  
     
+
+
     return this.http.post("http://localhost:3000/api/users/signup", authData)
     .pipe(
       catchError(this.handleError)
@@ -141,25 +151,49 @@ export class UserService {
   }
 
   
-  updateUser(_id:string, firstName:string, lastName:string, email:string, role: string, e_sig:string, pfp:string, student_no:string){
-  
-    let userData : User | FormData;
-    userData = {
-        u_id: _id,
-        f_name:   firstName,
-        l_name: lastName,
-        role: role,
-        email: email,
-        student_no:student_no,
-        e_sig:e_sig,
-        pfp:pfp
+  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string){
 
-      }
+    let userData : User | FormData;
+    if(typeof(e_sig)=='object'){
+
+
+      userData = new FormData();
+
+      userData.append("u_id", id);
+      userData.append("f_name", firstName);
+      userData.append("l_name", lastName);
+      userData.append("role", role);
+      userData.append("email", email);
+      userData.append("e_sig", e_sig, (e_sig as File).name);
+      userData.append("student_no", student_no);
+      
   
+
+
+    }
+    else{
     
+    
+        userData = {
+          u_id: id,
+          f_name:   firstName,
+          l_name: lastName,
+          role: role,
+          email: email,
+          student_no:student_no,
+          e_sig:e_sig as string,
+  
+  
+        }
+
+  
+
+    }
+  
+        
   
     return this.http
-    .put("http://localhost:3000/api/users/" + _id, userData)
+    .put("http://localhost:3000/api/users/" + id, userData)
     .pipe(catchError(this.handleError));
   
   }
@@ -193,6 +227,7 @@ export class UserService {
         this.authStatusListener.next(true);
     
 
+        console.log("Success!");
          if(this.role === 'Admin'){
           this.router.navigate(['/admin-dashboard']);
         }
@@ -266,25 +301,6 @@ export class UserService {
     localStorage.removeItem("u_id");
     localStorage.removeItem("role");
   }
-
-  // storeUsers(){
-
-  //   console.log("here in user");
-  //   this.adminService.getUsers();
-  //   this.adminService.geUsersUpdateListener()
-  //   .subscribe((userData: {users: User[], userCount : number}) => {
-  
-  //     console.log("here in user service: "+userData.users);
-  //     this.users = userData.users;
-    
-  //   },
-  //   error =>{
-
-  //     console.log("here in error: "+ error);
-  //   });
-
-  // }
-
 
   autoAuthUser(){
 
@@ -362,8 +378,4 @@ export class UserService {
   }
 
   
-  
-
-
-
 }

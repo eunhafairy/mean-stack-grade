@@ -23,21 +23,17 @@ isLoading = false;
     }
     this.isLoading=true;
     this.userService.loginUser(form.value.email, form.value.password)
-    .subscribe(
-        response=> {
-          console.log(response);
-          window.alert("Login successful!");
-          this.isLoading = false;
-        },
-        error =>{
+    .subscribe(response =>{
 
-          console.log(error);
-          window.alert(error.error['message']);
-          this.isLoading = false;
+      console.log(response);
 
-        }
+    },
+    error =>{
 
-    );
+
+      window.alert(error.error['message']);
+
+    });
   
     
   }

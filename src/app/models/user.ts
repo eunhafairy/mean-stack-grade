@@ -6,7 +6,6 @@ export interface User{
     email: string;
     role: string;
     e_sig: string;
-    pfp: string;
     student_no:string;
 
 }

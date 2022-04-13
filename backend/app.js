@@ -5,6 +5,7 @@ const path = require('path');
 const requestsRoutes = require('./routes/requests');
 const userRoutes = require('./routes/user');
 const subjectRoutes = require('./routes/subjects');
+
 const app = express();
 
 
@@ -30,6 +31,7 @@ app.use((req, res, next) =>{
 
 app.use("/api/requests",requestsRoutes);
 app.use("/api/users", userRoutes);
+
 app.use("/api/subjects", subjectRoutes);
 
 module.exports = app;

@@ -7,11 +7,12 @@ const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
 const multer = require('multer');
 
+
 const storage = multer.diskStorage({
 
     destination: (req, file, cb) => {
 
-        cb(null, "backend/pfp");
+        cb(null, "backend/files");
 
     },
     filename: (req,file,cb) => {
@@ -21,26 +22,51 @@ const storage = multer.diskStorage({
     }
 
 });
-const upload = multer({storage: storage});
 
-router.post("/signup", upload.fields([{name : 'pfp'}, {name: 'e_sig'}]), (req,res, next) =>{
 
-    const url = req.protocol + '://'+req.get('host');
+router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, next) =>{
+
+    const url = req.protocol + '://'+ req.get('host');
 
     bcrypt.hash(req.body.password, 10)
     .then(hash =>{
-        const user = new User({
 
-            f_name: req.body.f_name,
-            l_name: req.body.l_name,
-            email:req.body.email,
-            password: hash,
-            role: req.body.role,
-            student_no : req.body.student_no,
-            pfp: url+'/pfp/'+req.files['pfp'][0].filename,
-            e_sig: url+'/pfp/'+req.files['e_sig'][0].filename
+        let user;
+        if(req.body.role === 'Faculty' || req.body.role === 'Admin'){
 
-        });
+            console.log('no student no');
+            user = new User({
+
+                f_name: req.body.f_name,
+                l_name: req.body.l_name,
+                email:req.body.email,
+                password: hash,
+                role: req.body.role,
+                e_sig: url+ '/files/' + req.file.filename
+    
+            });
+
+
+        }
+
+        else{
+            console.log('yes student no');
+            user = new User({
+
+                f_name: req.body.f_name,
+                l_name: req.body.l_name,
+                email:req.body.email,
+                password: hash,
+                role: req.body.role,
+                student_no : req.body.student_no,
+                e_sig: url+ '/files/' + req.file.filename
+    
+            });
+
+        }
+     
+        console.log(user);
+
         user.save()
         .then(result => {
 
@@ -51,6 +77,7 @@ router.post("/signup", upload.fields([{name : 'pfp'}, {name: 'e_sig'}]), (req,re
 
         })
         .catch(err => {
+            console.log("error is : " + err);
             res.status(500).json({
                 error:err,
                 message: "Error occurred."
@@ -157,22 +184,31 @@ router.post("/login", (req,res,next) => {
 
 
 
-router.put("/:id", checkAuth, (req,res, next) =>{
+router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,res, next) =>{
 
-    
+
+    let e_sig = req.body.e_sig;
+    if(req.file){
+        const  url = req.protocol + "://"+req.get("host");
+        e_sig = url+"/files/"+req.file.filename;
+
+    }
+
+
 
     const user = new User({
 
-        _id: req.body.u_id,
-        f_name: req.body.f_name,
-        l_name: req.body.l_name,
-        role: req.body.role,
-        email: req.body.email,
-    
+    _id: req.body.u_id,
+    f_name: req.body.f_name,
+    l_name: req.body.l_name,
+    role: req.body.role,
+    email: req.body.email,
+    student_no: req.body.student_no,
+    e_sig: e_sig
+
 
     });
- 
-
+     
     User.updateOne({_id: req.params.id}, user )
     .then(result =>{
         res.status(200).json({

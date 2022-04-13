@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormsModule,  FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Router } from 'express';
+import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
 
 
@@ -11,34 +11,98 @@ import { UserService } from 'src/app/service/user.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+
+
+  form : FormGroup;
+  fileTitleESig:string;
+  imagePreviewESig: string;
   isLoading = false;
   selectedRole: string;
-  imagePreviewPFP:string;
-  fileTitlePFP: string;
-  imagePreviewESig: string;
-  fileTitleESig:string;
   public roles: any = [
     {value : "Student"}, 
     {value: "Faculty"}, 
     {value: "Admin"}];
 
-@ViewChild('signUpForm', {read:NgForm}) form : any;
 
-  constructor(private userService: UserService) { }
 
+  constructor(private userService: UserService, private router: Router) { }
+
+  
   ngOnInit(): void {
+
+    this.form = new FormGroup({
+      '__first_name': new FormControl(null, {validators: [Validators.required]}),
+      '__last_name' : new FormControl(null, {validators: [Validators.required]}),
+      '__role' : new FormControl(null, {validators: [Validators.required]}),
+      '__email' : new FormControl(null, {validators: [Validators.required]}),
+      '__password' : new FormControl(null, {validators: [Validators.required]}),
+      '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
+      '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
+      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+
+
+  });
+
+
+
   }
 
-  onSignUp(form: NgForm){
+  onSignUp(){
 
-    if(form.value.confirmPassword !== form.value.password){
+   if(this.form.value.__confirm_password !== this.form.value.__password){
         window.alert("Make sure the password and confirm password are the same.");
         return;
     }
-
-    this.isLoading = true;
-    this.userService.createUser(form.value.firstName,form.value.lastName, this.selectedRole, form.value.email,  form.value.password, this.form.value.filePickerESig, this.form.value.filePickerPFP, this.form.value.student_no );
   
+  if(this.form.value.__role === 'Student' && (this.form.value.__student_no === null || this.form.value.__student_no === '' )){
+
+      return;
+
+    }
+  if(this.form.value.__role != 'Student'){
+
+      this.form.value.__student_no = null;
+
+    }
+
+  if(!this.form.value.__fileESig ){
+
+    window.alert('Please upload a signatures');
+    return;
+  }
+
+    console.log(this.form.value.__student_no);
+    this.isLoading = true;
+    this.userService.createUserFromAdmin(this.form.value.__first_name,
+      this.form.value.__last_name, 
+      this.selectedRole, 
+      this.form.value.__email,  
+      this.form.value.__password, 
+      this.form.value.__fileESig, 
+      this.form.value.__student_no)
+    .subscribe(
+      
+      (response)=>{
+
+        //success
+        console.log(response);
+        window.alert("Success!");
+        this.isLoading = false;
+        this.router.navigate(['/sign-in']);
+       
+      },
+      
+      (error) =>{
+
+        //error
+      window.alert(error);
+      this.isLoading = false;
+      this.form.reset();
+      this.fileTitleESig = '';
+      this.imagePreviewESig = '';
+
+
+    });
 
   }
 
@@ -47,8 +111,8 @@ export class SignupComponent implements OnInit {
 
     const file = (event.target as HTMLInputElement).files[0];
     this.fileTitleESig = file.name;
-    this.form.value.filePickerESig = file;
-    this.form.get('filePickerESig').updateValueAndValidity();
+    this.form.patchValue({__fileESig: file});
+    this.form.get('__fileESig').updateValueAndValidity();
     const reader = new FileReader();
     reader.onload = () =>{
         this.imagePreviewESig = reader.result as string;
@@ -58,21 +122,22 @@ export class SignupComponent implements OnInit {
 
   }
 
-  onFilePickedPFP(event: Event){
+  
 
-    const file = (event.target as HTMLInputElement).files[0];
-    this.fileTitlePFP = file.name;
-    this.form.patchValue({filePickerPFP : file});
-    this.form.get('filePickerPFP').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () =>{
-        this.imagePreviewPFP = reader.result as string;
+
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.form.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
     }
-    reader.readAsDataURL(file);
-
-
+    return invalid;
   }
 
+
+  
 
 
 }

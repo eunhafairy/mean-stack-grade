@@ -29,7 +29,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   isLoading = false;
   resultsLength = 0;
   dataSource: any;
-  displayedColumns: string[] = [ 'f_name', 'l_name', 'email', 'role', 'action'];
+  displayedColumns: string[] = [ 'f_name', 'l_name', 'email',  'student_no', 'role', 'action'];
  
   pageSizeOptions : number[];
   // sort
@@ -125,8 +125,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       role: user.role,
       email: user.email,
       student_no: user.student_no,
-      e_sig: user.e_sig,
-      pfp:user.pfp
+      e_sig: user.e_sig
     
     });
     const dialogRef = this.dialog.open(DialogContentEdit, {
@@ -207,7 +206,7 @@ export class DialogContent implements OnInit {
  form : FormGroup;
   fileTitlePFP:string;
   imagePreviewPFP: string = '../../../assets/images/default_cict.png';
-  fileTitleESig:string;
+  fileTitleESig : string;
   imagePreviewESig: string;
   isLoading = false;
   selectedRole: string;
@@ -237,6 +236,9 @@ export class DialogContent implements OnInit {
 
 
   });
+
+
+
   }
 
   onNoClick(): void {
@@ -251,7 +253,13 @@ export class DialogContent implements OnInit {
     }
 
     this.isLoading = true;
-    this.userService.createUserFromAdmin(this.form.value.__first_name,this.form.value.__last_name, this.selectedRole, this.form.value.__email,  this.form.value.__password, this.form.value.__fileESig, this.form.value.__filePFP, this.form.value.__student_no)
+    this.userService.createUserFromAdmin(this.form.value.__first_name,
+      this.form.value.__last_name,
+      this.selectedRole,
+      this.form.value.__email,  
+      this.form.value.__password, 
+      this.form.value.__fileESig,
+      this.form.value.__student_no)
     .subscribe(
       
       (response)=>{
@@ -322,8 +330,9 @@ export class DialogContent implements OnInit {
     templateUrl: 'dialog-content-edit.html',
      styleUrls: ['./accounts.component.css']
   })
-  export class DialogContentEdit {
+  export class DialogContentEdit implements OnInit {
   
+    form : FormGroup;
     isLoading = false;
     selectedRole: string = '';
     public roles: any = [
@@ -336,6 +345,9 @@ export class DialogContent implements OnInit {
     _email:string;
     _password:string;
     _confirmPassword: string;
+    _role: string;
+    imagePreviewESig : string;
+    fileTitleESig: string;
   
   
     constructor(
@@ -349,21 +361,54 @@ export class DialogContent implements OnInit {
       
 
     }
+    ngOnInit(): void {
+     
+    this.form = new FormGroup({
+      '__first_name': new FormControl(null, {validators: [Validators.required]}),
+      '__last_name' : new FormControl(null, {validators: [Validators.required]}),
+      '__role' : new FormControl(null, {validators: [Validators.required]}),
+      '__email' : new FormControl(null, {validators: [Validators.required]}),
+      '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
+      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+
+
+      });
+
+      //set values
+      this.form.patchValue({__first_name : this.data.f_name});
+      this.form.patchValue({__last_name : this.data.l_name});
+      this.form.patchValue({__role : this.data.role});
+      this.form.patchValue({__email : this.data.email});
+      this.form.patchValue({__fileESig : this.data.e_sig});
+      this.form.patchValue({__student_no : this.data.student_no});
+      this.imagePreviewESig = this.data.e_sig;
+ 
+    }
   
     onNoClick(): void {
       this.dialogRef.close();
     }
 
 
-    onEdit(form : NgForm){
+    onEdit(){
 
+  
 
-      if(form.invalid){
+      if(this.form.invalid){
+        console.log(this.findInvalidControls());
         return;
-      }
+      }   
+      
+      console.log('went here');
 
       this.isLoading = true;
-      this.userService.updateUser(this.data.u_id, form.value.firstName, form.value.lastName,form.value.email, form.value.role, form.value.filePickerESig, form.value.filePickerPFP, form.value.student_no)
+      this.userService.updateUser(this.data.u_id,
+        this.form.value.__first_name,
+        this.form.value.__last_name,
+        this.form.value.__email,
+        this.form.value.__role,
+        this.form.value.__fileESig,
+        this.form.value.__student_no)
       .subscribe(
         response =>{
 
@@ -379,8 +424,35 @@ export class DialogContent implements OnInit {
       );
 
     }
+
+    onFilePickedESig(event: Event){
+
+      const file = (event.target as HTMLInputElement).files[0];
+      this.fileTitleESig = file.name;
+      this.form.patchValue({__fileESig: file});
+      this.form.get('__fileESig').updateValueAndValidity();
+      const reader = new FileReader();
+      reader.onload = () =>{
+          this.imagePreviewESig = reader.result as string;
+      }
+      reader.readAsDataURL(file);
   
-    
+  
+    }
+
+
+    public findInvalidControls() {
+      const invalid = [];
+      const controls = this.form.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+              invalid.push(name);
+          }
+      }
+      return invalid;
+    }
+  
+  
     
   
     }

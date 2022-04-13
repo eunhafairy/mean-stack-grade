@@ -5,10 +5,11 @@ const userSchema = mongoose.Schema({
     f_name: { type: String, required: true },
     l_name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    role: { type: String, required: true },
     e_sig: {type: String, required: true},
-    pfp: {type:String, required: false},
-    student_no: {type:String, required:false, unique:true},
+    role: {type:String, required: true},
+    student_no: {type:String, required: false, default: null},
+    course: {type: String, enum: ['BSIT', 'BLIS'], required: false},
+    year: {type: Number, enum: [1,2,3,4], required: false},
     password: {type: String, required: true}
 });
 
