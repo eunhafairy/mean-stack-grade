@@ -18,6 +18,8 @@ export class MyrequestComponent implements OnInit {
   constructor(private dialog : MatDialog, private router: Router) { }
 
   ngOnInit(): void {
+
+
   }
 
   //open create request dialog
@@ -28,15 +30,17 @@ export class MyrequestComponent implements OnInit {
       width: '80%'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      //after closing dialog, refresh the table
-      this.router.navigate(['/myrequest']);
-      console.log(result);
+    dialogRef.afterClosed().subscribe(() => {
+    
+      window.location.reload();
+     
     });
 
 
 
   }
+
+
 
 }
 
