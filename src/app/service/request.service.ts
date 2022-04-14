@@ -22,21 +22,17 @@ private facultyName: string;
 
 
 
-  getRequests(requestsPerPage: number, currentPage : number){
+  getRequests(){
 
-    
-    const queryParams = `?pagesize=${requestsPerPage}&page=${currentPage}`;
-
-  
     this.http
-    .get<{message: string, requests: any, maxRequests: number}>("http://localhost:3000/api/requests" + queryParams)
+    .get<{message: string, requests: any, maxRequests: number}>("http://localhost:3000/api/requests")
     .pipe(map((requestData)=>{
         return { requests: requestData.requests.map((request: any) => {
            
           return{
 
             request_id: request._id,
-            title: request.title,
+            subject: request.subject,
             user_id: request.user_id,
             faculty_id: request.faculty_id,
             status: request.status,
@@ -58,14 +54,15 @@ private facultyName: string;
           this.userService.getUser(this.requests[i].user_id)
           .subscribe(responseData =>{
 
-             this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+           
+             this.requests[i].user_id = responseData['l_name']+ ", "+ responseData['f_name'];
 
           });
 
           this.userService.getUser(this.requests[i].faculty_id)
           .subscribe(responseData =>{
 
-             this.requests[i].faculty_id = responseData.l_name + ", "+ responseData.f_name;
+             this.requests[i].faculty_id = responseData['l_name']+ ", "+ responseData['f_name'];
 
           });
      
@@ -86,23 +83,38 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(title: string, user_id: string, faculty_id: string, status: string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string){
 
 
-    const reqData = new FormData();
-    reqData.append("title" , title);
-    reqData.append("user_id" , user_id);
-    reqData.append("faculty_id" , faculty_id);
-    reqData.append("status" , status);
+    let reqData : Request = { 
 
+      request_id: null,
+      subject:  subject,
+      user_id:  user_id,
+      faculty_id:  faculty_id,
+      status:  status,
+      desc:  desc,
+      creator:  creator
+      
+  
+
+    }
     
-    return this.http.post<{ message:string, _request_: Request }>("http://localhost:3000/api/requests", reqData)
+    console.log(reqData);
+    
+    return this.http.post("http://localhost:3000/api/requests", reqData)
     .pipe(catchError(this.handleError));
 
   }
 
   getRequest(id : string){
     return this.http.get<{_id: string, title: string, user_id: string, faculty_id: string, status: string, filePath: string}>("http://localhost:3000/api/requests/" + id);
+
+  }
+
+  getRequestByStatus(status : string){
+    return this.http.get("http://localhost:3000/api/requests/" + status)
+    .pipe(catchError(this.handleError));
 
   }
 
@@ -132,22 +144,22 @@ private facultyName: string;
 
 
 
-updateRequest(_id:string, title:string, faculty_id:string, user_id:string, status: string, creator:string){
+updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, status: string, creator:string, desc: string){
 
     let requestData : Request = {
         request_id: _id,
-        title: title,
+        subject: subject,
         faculty_id: faculty_id,
         user_id: user_id,
         status: status,
+        desc: desc,
         creator: creator
       }
 
   
-    this.http
-    .put("http://localhost:3000/api/requests/" + _id, requestData)
-    .subscribe(response =>{
-      });
+    
+    return this.http.put("http://localhost:3000/api/requests/" + _id, requestData);
+    
 
   }
 

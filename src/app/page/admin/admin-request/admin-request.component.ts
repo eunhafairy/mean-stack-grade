@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
 import { Request } from 'src/app/models/request';
-import { PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
@@ -23,74 +23,87 @@ export class AdminRequestComponent implements OnInit {
   public requests : Request[] = [];
 
 
-  displayedColumns: string[] = [ 'title', 'user_id','faculty_id', 'status', 'action'];
+  displayedColumns: string[] = [ 'subject', 'user_id','faculty_id', 'status', 'action'];
 
   //pagination
   totalRequests = 0;
-  requestsPerPage = 2;
-  currentPage = 1;
-  pageSizeOptions = [1, 2, 5, 10];
-
-  resultsLength = 0;
+  pageSizeOptions : number[]= []
   dataSource: any;
 
   //filter
   _filter = "";
 
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(private requestService: RequestService, private dialog : MatDialog, private userService:UserService) { }
 
   ngOnInit(): void {
 
-    this.isLoading = true;
-    
-    this.requestService.getRequests(this.requestsPerPage, this.currentPage);
-    this.requestService.getRequestUpdateListener()
-     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
-   
-      this.requests = requestsData.requests;
-      this.isLoading = false;
-      this.transformRequests(requestsData.requests);
-
-      this.totalRequests = requestsData.requestCount;
-      this.dataSource = new MatTableDataSource(this.requests);
-      this.dataSource.sort = this.sort;
-    
-    });
+    this.refreshTable();
+ 
   }
+
+  
 
   showAll(){
 
     this._filter = "";
-    this.isLoading = true;
-    this.currentPage = 1;
-    this.requestsPerPage = this.totalRequests;
-    this.requestService.getRequests(this.requestsPerPage, this.currentPage);
-    this.requestService.getRequestUpdateListener()
-    .subscribe((requestData: {requests: Request[], requestCount : number}) => {
-      this.isLoading = false;
-      this.requests = requestData.requests;
-      this.totalRequests = requestData.requestCount;
-      this.dataSource = new MatTableDataSource(this.requests);
-      this.dataSource.sort = this.sort;
-    });
+    this.refreshTable();
+    this.paginator.pageSize = this.dataSource.data.length;
+
 
 
   }
 
-  transformRequests(request:Request[]){
+  
 
-   
+  refreshTable(){
+
+    this.isLoading = true;
+  
+    this.requestService.getRequests();
+    this.requestService.getRequestUpdateListener()
+     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
+      
+      this.isLoading=false;
+      this.transformRequests(requestsData.requests);
+      this.setPageSizeOption();
+      
+      this.totalRequests = this.dataSource.data.length;
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+     },
+        error=>{
+
+
+          console.log('error '+ error);
+        });
+
+  }
+
+  setPageSizeOption(){
+
+    if( this.dataSource.data.length > 10){
+      this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+    }
+    else{
+      this.pageSizeOptions =  [1, 2, 5, 10];
+    }
+
+    this.paginator.pageSize= this.dataSource.data.length;
+  }
+
+  transformRequests(request:Request[]){
 
     this.requests = request;
 
     for(let i = 0; i < request.length; i++){
 
-      //console.log("request no. "+i+": " + JSON.stringify(request[i]));
+    
       this.userService.getUser(request[i].user_id)
       .subscribe(responseData =>{
 
-        this.requests[i].user_id = responseData.l_name + ", "+ responseData.f_name;
+        this.requests[i].user_id = responseData['l_name'] + ", "+ responseData['f_name'];
 
         this.isLoading=false;
 
@@ -100,7 +113,7 @@ export class AdminRequestComponent implements OnInit {
       this.userService.getUser(request[i].faculty_id)
       .subscribe(responseData =>{
 
-        this.requests[i].faculty_id =responseData.l_name + ", "+ responseData.f_name;
+        this.requests[i].faculty_id = responseData['l_name'] + ", "+ responseData['f_name'];
         this.isLoading=false;
 
       });
@@ -108,36 +121,16 @@ export class AdminRequestComponent implements OnInit {
      
 
     }
-    
+
+    this.dataSource = new MatTableDataSource(this.requests);
+
+  
+  
 
   }
 
 
 
-  // getUserName(id:string): string{
-
-  //   let name : string;
-
-  //   this.userService.getUser(id)
-  //   .subscribe(
-
-  //     res =>{
-
-  //       console.log(res);
-  //       name = res['l_name']+", "+ res['f_name'];
-
-
-  //     },
-  //     err =>{
-
-  //       console.log("Error " + err);
-  //     }
-
-  //   );
-
-  //     return name;
-  
-  // }
 
   openDialog(){
 
@@ -149,12 +142,12 @@ export class AdminRequestComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
       this.isLoading = true;
-    this.requestService.getRequests(this.requestsPerPage, this.currentPage);
+    this.requestService.getRequests();
     this.requestService.getRequestUpdateListener()
     .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
       this.isLoading = false;
       this.requests = requestsData.requests;
-    this.transformRequests(requestsData.requests);
+      this.transformRequests(requestsData.requests);
       this.totalRequests = requestsData.requestCount;
       this.dataSource = new MatTableDataSource(this.requests);
       });
@@ -172,25 +165,7 @@ export class AdminRequestComponent implements OnInit {
 
   
 
-  onChangedPage(pageData: PageEvent){
-
-
-    this.isLoading = true;
-    this.currentPage = pageData.pageIndex+1;
-    this.requestsPerPage = pageData.pageSize;
-    this.requestService.getRequests(this.requestsPerPage, this.currentPage);
-    this.requestService.getRequestUpdateListener()
-    .subscribe((requestsData: {requests: Request[], requestCount : number}) => {
-      this.isLoading = false;
-      this.requests = requestsData.requests;
-    this.transformRequests(requestsData.requests);
-      this.totalRequests = requestsData.requestCount;
-      this.dataSource = new MatTableDataSource(this.requests);
-      this.dataSource.sort = this.sort;
-    });
  
-
-  }
 
   editRequest(request: Request){
 
@@ -211,15 +186,7 @@ export class AdminRequestComponent implements OnInit {
           console.log(response);
           window.alert("Successfully deleted request!");
           this.isLoading = true;
-          this.requestService.getRequests(this.requestsPerPage, this.currentPage);
-          this.requestService.getRequestUpdateListener()
-          .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
-            this.isLoading = false;
-            this.requests = requestsData.requests;
-           this.transformRequests(requestsData.requests);
-            this.totalRequests = requestsData.requestCount;
-            this.dataSource = new MatTableDataSource(this.requests);
-      });
+          this.refreshTable();
       },
       (error) =>{
         window.alert("Error deleting" + error);
@@ -279,7 +246,9 @@ export class AddRequestDialog implements OnInit{
       'title': new FormControl(null, {validators: [Validators.required]}),
       'student' : new FormControl(null, {validators: [Validators.required]}),
       'faculty' : new FormControl(null, {validators: [Validators.required]}),
-      'status' : new FormControl('Requested', {validators: [Validators.required]})
+      'status' : new FormControl('Requested', {validators: [Validators.required]}),
+      'desc' : new FormControl(null)
+
   });
     
   }
@@ -333,7 +302,7 @@ export class AddRequestDialog implements OnInit{
     else{
 
       console.log('went here');
-      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status)
+      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.desc, this.userService.getUserId())
       .subscribe(
         res=>{
           

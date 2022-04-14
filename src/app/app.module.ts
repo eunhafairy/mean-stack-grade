@@ -29,16 +29,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RequestComponent } from './elements/request/request.component';
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { HeaderDashboardUserComponent } from './elements/header-dashboard-user/header-dashboard-user.component';
-import { CreateRequestComponent } from './page/create-request/create-request.component';
 import { SignupComponent } from './page/signup/signup.component';
-import { ProfileComponent } from './page/profile/profile.component';
+import { ProfileComponent } from './user/profile/profile.component';
 import { AuthInterceptor } from './service/auth-interceptor';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
 import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admin/accounts/accounts.component';
 import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
-import { MyrequestComponent } from './user/myrequest/myrequest.component';
+import { MyrequestComponent, CreateRequestDialog } from './user/myrequest/myrequest.component';
 import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
 
 
@@ -53,7 +52,6 @@ import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/su
     RequestComponent,
     DashboardComponent,
     HeaderDashboardUserComponent,
-    CreateRequestComponent,
     SignupComponent,
     ProfileComponent,
     AdminDashboardComponent,
@@ -65,7 +63,8 @@ import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/su
     AddRequestDialog,
     MyrequestComponent,
     SubjectsComponent,
-    CreateSubjectDialog
+    CreateSubjectDialog,
+    CreateRequestDialog
   ],
   imports: [
     BrowserModule,

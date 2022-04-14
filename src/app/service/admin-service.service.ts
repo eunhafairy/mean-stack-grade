@@ -50,16 +50,9 @@ export class AdminServiceService {
 
   getSubjects(){
 
-    this.http
-    .get<{message: string, subjects: Subjects[]}>("http://localhost:3000/api/subjects")
-    .subscribe((subjectData) => {
-
-    
-        this.subjects = subjectData.subjects;
-        this.subjectsUpdated.next({
-          subjects : [...this.subjects]
-        });
-    });
+    return this.http
+    .get("http://localhost:3000/api/subjects")
+    .pipe(catchError(this.handleError));
 
   }
 

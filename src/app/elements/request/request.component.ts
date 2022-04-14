@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, ViewChild } from '@angular/core';
 import { RequestService } from 'src/app/service/request.service';
 import {Request} from '../../models/request'
 import {Subject, Subscription} from 'rxjs'
-import {PageEvent} from '@angular/material/paginator'
+import { UserService } from 'src/app/service/user.service';
+
 @Component({
   selector: 'app-request',
   templateUrl: './request.component.html',
@@ -11,51 +12,92 @@ import {PageEvent} from '@angular/material/paginator'
 export class RequestComponent implements OnInit, OnDestroy{
 
 @Input() status:string;
-requests : Request[] = [];
-totalRequests = 0;
-requestPerPage = 2;
-currentPage = 1;
-pageSizeOptions = [1, 2, 5, 10];
-
+requests : any[] = [];
+totalRequests: number;
+dataSource: any;
 isLoading = false;
-  private requestSub: Subscription = new Subscription;
-  constructor(public requestService: RequestService) { }
+pageSizeOptions : number[];
+private requestSub: Subscription = new Subscription;
+
+
+  constructor(private requestService: RequestService, private userService: UserService) {  }
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.requestService.getRequests(this.requestPerPage, this.currentPage);
-    this.requestService.getRequestUpdateListener()
-    .subscribe((requestsData: {requests: Request[], requestCount : number}) => {
-      this.isLoading = false;
-      this.requests = requestsData.requests;
-      this.totalRequests = requestsData.requestCount;
-
-    });
+    this.refreshTable();
   }
+
+  
 
   deleteRequest(requestId: string){
 
     this.isLoading= true;
     if(window.confirm("Are you sure you want to delete?")){
+      console.log("requestId is :"+ requestId);
       this.requestService.deleteRequest(requestId)
       .subscribe( () =>{
-        this.requestService.getRequests(this.requestPerPage, this.currentPage);
+        this.isLoading=false;
+        this.refreshTable();
+      },
+      error =>{
+        
+        console.log(error);
+
       });
     }
+
     else{
+
       return;
+
     }
     
       
   }
 
-  onChangedPage(pageData: PageEvent){
+  refreshTable(){
 
     this.isLoading = true;
-    this.currentPage = pageData.pageIndex+1;
-    this.requestPerPage = pageData.pageSize;
-    this.requestService.getRequests(this.requestPerPage, this.currentPage);
+    console.log(this.status);
+    this.requestService.getRequestByStatus(this.status)
+    .subscribe(response =>{
+       this.isLoading=false;
+      this.transformRequests(response['requests']);
+    });
   }
+
+
+  transformRequests(request:Request[]){
+
+    this.requests = request;
+
+    for(let i = 0; i < request.length; i++){
+
+    
+      this.userService.getUser(request[i].user_id)
+      .subscribe(responseData =>{
+
+        this.requests[i].user_id = responseData['l_name'] + ", "+ responseData['f_name'];
+
+        this.isLoading=false;
+
+
+      });
+
+      this.userService.getUser(request[i].faculty_id)
+      .subscribe(responseData =>{
+
+        this.requests[i].faculty_id = responseData['l_name'] + ", "+ responseData['f_name'];
+        this.isLoading=false;
+
+      });
+     
+     
+
+    }
+
+  }
+
+  
 
   ngOnDestroy() {
     this.requestSub.unsubscribe();

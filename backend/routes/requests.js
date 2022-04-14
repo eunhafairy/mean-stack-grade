@@ -8,12 +8,14 @@ const checkAuth = require('../middleware/check-auth');
 router.post("", checkAuth, (req,res,next) =>{
    
   
+    console.log(req.body.subject);
     const request = new Request({
-        title:  req.body.title,
+        subject:  req.body.subject,
         user_id:  req.body.user_id,
         faculty_id:  req.body.faculty_id,
         status:  req.body.status,
-        creator : req.userData.u_id
+        creator : req.userData.u_id,
+        desc: req.body.desc
         
     });
 
@@ -27,6 +29,15 @@ router.post("", checkAuth, (req,res,next) =>{
 
            }
         });
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            message: "Something went wrong",
+            error: err
+
+        });
     });
   
     
@@ -35,31 +46,16 @@ router.post("", checkAuth, (req,res,next) =>{
 
 router.get('',checkAuth ,(req,res,next) =>{
 
-    const pageSize = +req.query.pagesize;
-    const currentPage = +req.query.page;
-    const postQuery = Request.find();
-    let fetchedRequests;
 
-    if(pageSize && currentPage){
-        postQuery
-        .skip(pageSize * (currentPage - 1))
-        .limit(pageSize);
-    }
-
-    postQuery
+    Request.find()
     .then((documents) =>{
-        fetchedRequests = documents;
-      return Request.count();  
-    })
-    .then(count => {
+
         res.status(200).json({
             message: 'Request fetched successfully',
-            requests: fetchedRequests,
-            maxRequests: count
-        });
-    });
-
-
+            requests: documents
+        }); 
+    })
+   
 
 
 });
@@ -68,18 +64,24 @@ router.get('',checkAuth ,(req,res,next) =>{
 
 router.get('/:status',checkAuth ,(req,res,next) =>{
 
-    Request.find(req.params.id).then( post =>{
-        if(post){
-            res.status(200).json(post);
-        }
-        else{
+    Request.find({status: req.params.status})
+    .then( post =>{
+       
+            res.status(200).json( {
 
-            res.status(404).json({
+                message:"Success!",
+                requests: post
 
-                message: "not found"
+      }); 
+     })
+    .catch(err=>{
 
-            });
-        }
+        res.status(500).json({
+
+            message: "An error occured",
+            error: err
+
+        });
 
     });
 
@@ -116,6 +118,16 @@ router.delete("/:id",checkAuth, (req,res,next) => {
             message: "Request deleted!"
         });
 
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            message: 'An error occurred while deleting. check logs',
+            error:err
+
+        });
+
     });
     
 });
@@ -129,7 +141,7 @@ router.put("/:id", (req,res, next) =>{
     const request = new Request({
 
         _id: req.body.request_id,
-        title: req.body.title,
+        subject: req.body.subject,
         user_id: req.body.user_id,
         faculty_id: req.body.faculty_id,
         status: req.body.status

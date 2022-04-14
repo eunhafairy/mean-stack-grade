@@ -7,5 +7,9 @@ export interface User{
     role: string;
     e_sig: string;
     student_no:string;
+    status: boolean; 
+    course: string; 
+    year: string; 
+    section: string;
 
 }

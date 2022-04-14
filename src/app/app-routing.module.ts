@@ -5,9 +5,8 @@ import { AuthGuard } from './service/auth-guard';
 // COMPONENTS
 import { DashboardComponent } from './page/dashboard/dashboard.component';
 import { SignInComponent } from './page/sign-in/sign-in.component';
-import { CreateRequestComponent } from './page/create-request/create-request.component';
 import { SignupComponent } from './page/signup/signup.component';
-import { ProfileComponent } from './page/profile/profile.component';
+import { ProfileComponent } from './user/profile/profile.component';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { AdminGuard } from './service/admin-guard';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
@@ -23,8 +22,6 @@ const routes: Routes = [
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
   {path : 'sign-in', component: SignInComponent},
-  {path : 'create-request', component: CreateRequestComponent,  canActivate: [AuthGuard]},
-  {path : 'edit/:requestId', component: CreateRequestComponent,  canActivate: [AuthGuard]},
   {path : 'sign-up', component: SignupComponent},
   {path : 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
   {path : 'myrequest', component: MyrequestComponent ,  canActivate: [AuthGuard, StudentGuard]},

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, OnDestroy, Optional } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Subscription, throwError } from 'rxjs';
 import { User } from 'src/app/models/user';
@@ -24,10 +24,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   public users : User[] = [];
   private userSub: Subscription = new Subscription;
   totalRequests = 0;
-  usersPerPage = 2;
-  currentPage = 1;
   isLoading = false;
-  resultsLength = 0;
   dataSource: any;
   displayedColumns: string[] = [ 'f_name', 'l_name', 'email',  'student_no', 'role', 'action'];
  
@@ -125,7 +122,11 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       role: user.role,
       email: user.email,
       student_no: user.student_no,
-      e_sig: user.e_sig
+      e_sig: user.e_sig,
+      status: user.status,
+      course: user.course,
+      year: user.year,
+      section: user.section
     
     });
     const dialogRef = this.dialog.open(DialogContentEdit, {
@@ -156,8 +157,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   refreshTable(){
 
-    console.log('enter resfresh tabkle');
     this.isLoading = true;
+
     this.adminService.getUsers();
     this.adminService.geUsersUpdateListener()
     .subscribe((userData) => {
@@ -215,6 +216,47 @@ export class DialogContent implements OnInit {
     {value: "Faculty"}, 
     {value: "Admin"}];
 
+    public years: any = [
+      {value : 1},
+      {value : 2},
+      {value : 3},
+      {value : 4}
+    ];
+
+    public courses: any = [
+      {value : 'BSIT'},
+      {value : 'BLIS'}
+    ];
+
+    public sections: any = [
+      {value : 'A'},
+      {value : 'B'},
+      {value : 'C'},
+      {value : 'D'},
+      {value : 'E'},
+      {value : 'F'},
+      {value : 'G'},
+      {value : 'H'},
+      {value : 'I'},
+      {value : 'J'},
+      {value : 'K'},
+      {value : 'L'},
+      {value : 'M'},
+      {value : 'N'},
+      {value : 'O'},
+      {value : 'P'},
+      {value : 'Q'},
+      {value : 'R'},
+      {value : 'S'},
+      {value : 'T'},
+      {value : 'U'},
+      {value : 'V'},
+      {value : 'W'},
+      {value : 'X'},
+      {value : 'Y'},
+      {value : 'Z'}
+    ];
+
 
   constructor(
     public dialogRef: MatDialogRef<DialogContent>,
@@ -230,9 +272,11 @@ export class DialogContent implements OnInit {
       '__email' : new FormControl(null, {validators: [Validators.required]}),
       '__password' : new FormControl(null, {validators: [Validators.required]}),
       '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
-      '__filePFP' : new FormControl(null),
       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
-      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+      '__student_no' : new FormControl(null, {validators: [Validators.nullValidator]}),
+      '__course' : new FormControl(null),
+      '__section' : new FormControl(null),
+      '__year' : new FormControl(null)
 
 
   });
@@ -247,11 +291,33 @@ export class DialogContent implements OnInit {
 
   onSignUp(){
 
-    if(this.form.value.__confirm_password !== this.form.value.__password){
-        window.alert("Make sure the password and confirm password are the same.");
-        return;
+
+    console.log('ERROR '+ this.findInvalidControls());
+    //CHECK IF FORM IS INVALID --
+    if(this.form.invalid){
+
+     
+      window.alert("Please complete all fields!");
+      return;
     }
 
+    //NOT MATCHING PASSWORD
+    if(this.form.value.__confirm_password !== this.form.value.__password){
+      window.alert("Make sure the password and confirm password are the same.");
+      return;
+    }
+
+    //SPECIAL CASES FOR STUDENT
+    if(this.form.value.__role === "Student"){
+
+        if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
+          window.alert('Please complete all fields!');
+          return;
+        }
+    }
+
+
+  //FORM IS VALID -- CONTINUE
     this.isLoading = true;
     this.userService.createUserFromAdmin(this.form.value.__first_name,
       this.form.value.__last_name,
@@ -259,7 +325,10 @@ export class DialogContent implements OnInit {
       this.form.value.__email,  
       this.form.value.__password, 
       this.form.value.__fileESig,
-      this.form.value.__student_no)
+      this.form.value.__student_no,
+      this.form.value.__course,
+      this.form.value.__year,
+      this.form.value.__section)
     .subscribe(
       
       (response)=>{
@@ -300,20 +369,22 @@ export class DialogContent implements OnInit {
 
   }
 
-  onFilePickedPFP(event: Event){
-
-    const file = (event.target as HTMLInputElement).files[0];
-    this.fileTitlePFP = file.name;
-    this.form.patchValue({__filePFP: file});
-  this.form.get('__filePFP').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () =>{
-        this.imagePreviewPFP = reader.result as string;
+  
+  public findInvalidControls() {
+    const invalid = [];
+    const controls = this.form.controls;
+    for (const name in controls) {
+        if (controls[name].invalid) {
+            invalid.push(name);
+        }
     }
-    reader.readAsDataURL(file);
-
-
+    return invalid;
   }
+
+
+  
+
+  
 
 
 
@@ -335,10 +406,58 @@ export class DialogContent implements OnInit {
     form : FormGroup;
     isLoading = false;
     selectedRole: string = '';
+    selectedStatus: boolean; 
     public roles: any = [
       {value : "Student"}, 
       {value: "Faculty"}, 
       {value: "Admin"}];
+    
+    public status: any = [
+      {value : 'false'},
+      {value : 'true'}
+
+    ];
+    public years: any = [
+      {value : 1},
+      {value : 2},
+      {value : 3},
+      {value : 4}
+    ];
+
+    public courses: any = [
+      {value : 'BSIT'},
+      {value : 'BLIS'}
+    ];
+
+    public sections: any = [
+      {value : 'A'},
+      {value : 'B'},
+      {value : 'C'},
+      {value : 'D'},
+      {value : 'E'},
+      {value : 'F'},
+      {value : 'G'},
+      {value : 'H'},
+      {value : 'I'},
+      {value : 'J'},
+      {value : 'K'},
+      {value : 'L'},
+      {value : 'M'},
+      {value : 'N'},
+      {value : 'O'},
+      {value : 'P'},
+      {value : 'Q'},
+      {value : 'R'},
+      {value : 'S'},
+      {value : 'T'},
+      {value : 'U'},
+      {value : 'V'},
+      {value : 'W'},
+      {value : 'X'},
+      {value : 'Y'},
+      {value : 'Z'}
+    ];
+
 
     _firstName : string;
     _lastName: string;
@@ -357,7 +476,7 @@ export class DialogContent implements OnInit {
     ) {
 
       this.selectedRole= data.role as string;
-      console.log(this.selectedRole);
+      this.selectedStatus = data.status;
       
 
     }
@@ -369,7 +488,14 @@ export class DialogContent implements OnInit {
       '__role' : new FormControl(null, {validators: [Validators.required]}),
       '__email' : new FormControl(null, {validators: [Validators.required]}),
       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
-      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+
+      '__student_no' : new FormControl(null),
+        '__status' : new FormControl(false),
+      '__course' : new FormControl(null),
+      '__section' : new FormControl(null),
+      '__year' : new FormControl(null)
+
+
 
 
       });
@@ -380,7 +506,23 @@ export class DialogContent implements OnInit {
       this.form.patchValue({__role : this.data.role});
       this.form.patchValue({__email : this.data.email});
       this.form.patchValue({__fileESig : this.data.e_sig});
-      this.form.patchValue({__student_no : this.data.student_no});
+      
+      if(this.data.role === 'Student'){
+
+        this.form.patchValue({__student_no : this.data.student_no});
+        this.form.patchValue({__course : this.data.course});
+        this.form.patchValue({__year : this.data.year});
+        this.form.patchValue({__section : this.data.section});
+
+
+      }
+      if(this.data.role === 'Faculty'){
+
+        console.log(this.data.status);
+        this.form.patchValue({__status : this.data.status});
+
+      }
+
       this.imagePreviewESig = this.data.e_sig;
  
     }
@@ -393,14 +535,39 @@ export class DialogContent implements OnInit {
     onEdit(){
 
   
-
+      //CHECK IF FORM IS INVALID --
       if(this.form.invalid){
-        console.log(this.findInvalidControls());
+        window.alert("Please complete all fields!");
         return;
-      }   
-      
-      console.log('went here');
+      }
 
+      //NOT MATCHING PASSWORD
+      if(this.form.value.__confirm_password !== this.form.value.__password){
+        window.alert("Make sure the password and confirm password are the same.");
+        return;
+      }
+
+      //SPECIAL CASES FOR STUDENT
+      if(this.form.value.__role === "Student"){
+
+          if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
+            window.alert('Please complete all fields!');
+            return;
+          }
+      }
+
+      //SPECIAL CASES FOR FACULTY
+      else if(this.form.value.__role === "Faculty"){
+
+          if(!this.form.value.__status){
+              window.alert('Please complete all fields!');
+              return;
+          }
+
+      }
+
+      //FORM IS VALID
+  
       this.isLoading = true;
       this.userService.updateUser(this.data.u_id,
         this.form.value.__first_name,
@@ -408,7 +575,11 @@ export class DialogContent implements OnInit {
         this.form.value.__email,
         this.form.value.__role,
         this.form.value.__fileESig,
-        this.form.value.__student_no)
+        this.form.value.__student_no,
+        this.form.value.__status,
+        this.form.value.__course,
+        this.form.value.__year,
+        this.form.value.__section)
       .subscribe(
         response =>{
 

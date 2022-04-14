@@ -89,7 +89,17 @@ export class UserService {
 
   }
   //CREATE USER BY ADMIN  
-  createUserFromAdmin(f_name: string, l_name: string, role:string, email:string, password:string, e_sig:File, student_no: string){
+  createUserFromAdmin(f_name: string,
+    l_name: string,
+    role:string, 
+    email:string, 
+    password:string, 
+    e_sig:File, 
+    student_no: string,
+    course: string,
+    year: string,
+    section:string
+    ){
     
   
     
@@ -101,7 +111,18 @@ export class UserService {
     authData.append("email", email);
     authData.append("password", password);
     authData.append("e_sig", e_sig, e_sig.name);
-    authData.append("student_no", student_no);
+    
+    console.log("It is a "+role);
+    if(role === 'Student'){
+      authData.append("student_no", student_no);
+      authData.append("course", course);
+      authData.append("year", year);
+      authData.append("section", section);
+    }
+
+    if(role === 'Faculty'){
+      authData.append("status", "False");
+    }
     
 
 
@@ -151,13 +172,13 @@ export class UserService {
   }
 
   
-  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string){
+  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string, status: boolean, course:string, year:string, section:string){
 
     let userData : User | FormData;
+    
     if(typeof(e_sig)=='object'){
 
-
-      userData = new FormData();
+      userData= new FormData();
 
       userData.append("u_id", id);
       userData.append("f_name", firstName);
@@ -166,8 +187,10 @@ export class UserService {
       userData.append("email", email);
       userData.append("e_sig", e_sig, (e_sig as File).name);
       userData.append("student_no", student_no);
-      
-  
+      userData.append("section", section);
+      userData.append("course", course);
+      userData.append("year", year);
+      userData.append("status", String(status));
 
 
     }
@@ -182,6 +205,11 @@ export class UserService {
           email: email,
           student_no:student_no,
           e_sig:e_sig as string,
+          status: status,
+          course: course,
+          section: section,
+          year:year
+
   
   
         }
@@ -274,7 +302,7 @@ export class UserService {
       this.token = null;
       this.isAuthenticated = false;
       this.authStatusListener.next(false);
-    this.router.navigate(['/sign-in']);
+      this.router.navigate(['/sign-in']);
       this.clearAuthData();
       clearTimeout(this.tokenTimer);
       this.role = null;
@@ -372,7 +400,7 @@ export class UserService {
   getUser(id:string){
 
  
-    return this.http.get<{_id: string, f_name:string, l_name:string, email:string, role:string}>("http://localhost:3000/api/users/find/" + id)
+    return this.http.get("http://localhost:3000/api/users/find/" + id)
     .pipe(catchError(this.handleError));
 
   }

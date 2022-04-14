@@ -31,7 +31,17 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
     bcrypt.hash(req.body.password, 10)
     .then(hash =>{
 
+        
+        console.log(req.body.status);
         let user;
+        let myBool = true;
+
+        //convert status(string) to boolean
+        if(req.body.status === 'False' || req.body.status === '0'){
+        myBool = false;
+        }
+
+        //if faculty or admin
         if(req.body.role === 'Faculty' || req.body.role === 'Admin'){
 
             console.log('no student no');
@@ -42,15 +52,15 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
                 email:req.body.email,
                 password: hash,
                 role: req.body.role,
-                e_sig: url+ '/files/' + req.file.filename
-    
+                e_sig: url+ '/files/' + req.file.filename,
+                status: myBool
+               
             });
 
-
         }
-
+        //if student
         else{
-            console.log('yes student no');
+            
             user = new User({
 
                 f_name: req.body.f_name,
@@ -58,15 +68,17 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
                 email:req.body.email,
                 password: hash,
                 role: req.body.role,
-                student_no : req.body.student_no,
-                e_sig: url+ '/files/' + req.file.filename
+                e_sig: url+ '/files/' + req.file.filename,
+                status: myBool,
+                course: req.body.course,
+                year: req.body.year,
+                section: req.body.section
     
             });
 
         }
-     
-        console.log(user);
 
+        //save user
         user.save()
         .then(result => {
 
@@ -116,6 +128,7 @@ router.post("/login", (req,res,next) => {
 
     let fetchedUser ;
     let haveAccount;
+
     //does email exist?
     User.findOne({ email: req.body.email})
     .then(user =>{
@@ -138,18 +151,18 @@ router.post("/login", (req,res,next) => {
     .then(result =>{
    
             if(!result){
-                console.log("WRONG PASSWORD!");
                 return res
                 .status(401)
                 .json({       
                     message: 'Wrong password'
                 });
             }
+
+
         //create json web token for authentication 
       
         if(haveAccount){
 
-            console.log("ADDING TOKEN!");
             const token = jwt.sign(
                 {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role},
                 'secret_this_should_be_longer', { expiresIn: "1h" }
@@ -204,7 +217,10 @@ router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,r
     role: req.body.role,
     email: req.body.email,
     student_no: req.body.student_no,
-    e_sig: e_sig
+    e_sig: e_sig,
+    course: req.body.course,
+    year: req.body.year,
+    section: req.body.section
 
 
     });
@@ -248,7 +264,7 @@ router.get('/:role', checkAuth, (req, res, next) =>{
 
     res.status(500).json({
 
-        message:"error occured",
+        message:"error occurred",
         error:err
 
     });
@@ -275,11 +291,19 @@ router.get('/find/:id', checkAuth ,(req, res, next) =>{
 
             res.status(404).json({
 
-                message: "not found"
+                message: "not found",
+                
 
             });
         }
 
+    })
+    .catch(err =>{
+
+        res.status(500).json({
+            message: "Something went wrong",
+            error: err
+            });
     });
  
  

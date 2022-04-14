@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>Create Request Manually</h1>
+<div mat-dialog-content>
+
+<main>
+<form [formGroup] = "form" (submit) ="onAddRequest()" >
+
+        
+    <!--SUBJECT-->
+    <mat-form-field  class="full-width">
+      <mat-label>Subject</mat-label>
+      <mat-select 
+    formControlName="subject"
+    required
+    >
+    <mat-option *ngFor="let subject of subjects" [value] = "subject['subject_name']">
+        {{subject.subject_name }}
+    </mat-option>
+    </mat-select>
+      <mat-error *ngIf = "form.get('subject').invalid">Please enter a title.</mat-error>
+    </mat-form-field>
+
+
+    <!-- FACULTY -->
+   <mat-form-field class="full-width">
+    <mat-label>Choose a professor.</mat-label>
+    <mat-select 
+    formControlName="faculty"
+    required
+    >
+    <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
+        {{professor.l_name + ", "+professor.f_name }}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
+    </mat-form-field>
+
+    <!-- ADDITIONAL DESCRIPTION -->
+
+    <mat-form-field class="full-width">
+      <mat-label>Additional Notes</mat-label>
+      <textarea matInput
+       type="input"
+       formControlName="desc"
+      ></textarea>
+    </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Create Request</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+ 
+
+</form>
+<button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+</main>
+</div>

@@ -2,31 +2,30 @@
 
 <main>
 
-<button mat-raised-button color="primary" routerLink="/create-request">Create Request</button>
+<button mat-raised-button color="primary" (click)="openCreateRequestDialog()">Create Request</button>
 
 <mat-tab-group animationDuration="1000ms">
 
     <!-- TAB 1 REQUESTSED -->
   <mat-tab label="Requested">
-    <app-request></app-request>
-
+    <app-request status = "Requested"></app-request>
   </mat-tab>
 
   <!-- TAB 2 ACCEPTED -->
   <mat-tab label="Accepted">
 
-    <app-request></app-request>
+    <app-request status = "Accepted"></app-request>
   </mat-tab>
 
 <!-- TAB 3 REVISION -->
-  <mat-tab label="Revision">
-    <app-request></app-request>
+  <mat-tab label="Processing">
+    <app-request status = "Processing"></app-request>
   </mat-tab>
 
 
 <!-- TAB 4 PROCESSING -->
-  <mat-tab label="Processing">
-    <app-request></app-request>
+  <mat-tab label="Completed">
+    <app-request status = "Completed"></app-request>
     </mat-tab>
 </mat-tab-group>
 

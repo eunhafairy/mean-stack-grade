@@ -26,13 +26,12 @@ isLoading = false;
     .subscribe(response =>{
 
       console.log(response);
-
+      this.isLoading=false;
     },
     error =>{
 
-
       window.alert(error.error['message']);
-
+      this.isLoading=false;
     });
   
     

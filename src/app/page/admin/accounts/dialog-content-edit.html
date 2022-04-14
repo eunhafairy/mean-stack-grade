@@ -69,9 +69,88 @@
                 <input  matInput 
                 type="text" 
                 formControlName="__student_no"
-                required>
+                >
                 <mat-error *ngIf = "form.get('__student_no').invalid">Please make sure you enter your unique student number.</mat-error>
             </mat-form-field>
+
+            
+            <!--COURSE-->
+            <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+                <mat-label>Course</mat-label>
+                    <mat-select 
+                    [(value)]="data.course"
+                    name = "course"
+                    formControlName= "__course"
+                    
+                    >
+                        <mat-option *ngFor="let course of courses" [value]=course.value>
+                            {{course.value}}
+                        </mat-option>
+                    
+                    </mat-select>
+                <mat-error *ngIf = "form.get('__course').invalid">Please choose a course.</mat-error>
+    
+            </mat-form-field>
+
+               <!--YEAR-->
+               <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+                <mat-label>Year</mat-label>
+                    <mat-select 
+                    [(value)]="data.year"
+                    name = "year"
+                    formControlName= "__year"
+                    
+                    >
+                        <mat-option *ngFor="let year of years" [value]=year.value>
+                            {{year.value}}
+                        </mat-option>
+                    
+                    </mat-select>
+                <mat-error *ngIf = "form.get('__year').invalid">Please choose a year.</mat-error>
+    
+            </mat-form-field>
+
+            
+               <!--SECTION-->
+               <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+                <mat-label>Section</mat-label>
+                    <mat-select 
+                    [(value)]="data.section"
+                    name = "section"
+                    formControlName= "__section"
+                    
+                    >
+                        <mat-option *ngFor="let section of sections" [value]=section.value>
+                            {{section.value}}
+                        </mat-option>
+                    
+                    </mat-select>
+                <mat-error *ngIf = "form.get('__section').invalid">Please choose a section.</mat-error>
+    
+            </mat-form-field>
+
+
+            <!--Status-->
+            <mat-form-field *ngIf="selectedRole === 'Faculty'" class="full-width">
+            <mat-label>Account Validated?</mat-label>
+                <mat-select 
+                [(value)]="data.status"
+                name = "status"
+                formControlName= "__status"
+                
+                >
+                    <mat-option *ngFor="let stat of status" [value]=stat.value>
+                        {{stat.value}}
+                    </mat-option>
+                
+                </mat-select>
+            <mat-error *ngIf = "form.get('__status').invalid">Please choose a role.</mat-error>
+
+        </mat-form-field>
+    
+
+             
+            
 
         <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Save</button>
         <mat-spinner *ngIf="isLoading"></mat-spinner>

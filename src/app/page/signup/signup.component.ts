@@ -23,6 +23,48 @@ export class SignupComponent implements OnInit {
     {value: "Faculty"}, 
     {value: "Admin"}];
 
+    public years: any = [
+      {value : 1},
+      {value : 2},
+      {value : 3},
+      {value : 4}
+    ];
+
+    public courses: any = [
+      {value : 'BSIT'},
+      {value : 'BLIS'}
+    ];
+
+    public sections: any = [
+      {value : 'A'},
+      {value : 'B'},
+      {value : 'C'},
+      {value : 'D'},
+      {value : 'E'},
+      {value : 'F'},
+      {value : 'G'},
+      {value : 'H'},
+      {value : 'I'},
+      {value : 'J'},
+      {value : 'K'},
+      {value : 'L'},
+      {value : 'M'},
+      {value : 'N'},
+      {value : 'O'},
+      {value : 'P'},
+      {value : 'Q'},
+      {value : 'R'},
+      {value : 'S'},
+      {value : 'T'},
+      {value : 'U'},
+      {value : 'V'},
+      {value : 'W'},
+      {value : 'X'},
+      {value : 'Y'},
+      {value : 'Z'}
+    ];
+
+
 
 
   constructor(private userService: UserService, private router: Router) { }
@@ -38,7 +80,10 @@ export class SignupComponent implements OnInit {
       '__password' : new FormControl(null, {validators: [Validators.required]}),
       '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
-      '__student_no' : new FormControl(null, {validators: [Validators.required]})
+      '__student_no' : new FormControl(null, {validators: [Validators.required]}),
+      '__course' : new FormControl(null, {validators: [Validators.required]}),
+      '__section' : new FormControl(null, {validators: [Validators.required]}),
+      '__year' : new FormControl(null, {validators: [Validators.required]})
 
 
   });
@@ -79,7 +124,10 @@ export class SignupComponent implements OnInit {
       this.form.value.__email,  
       this.form.value.__password, 
       this.form.value.__fileESig, 
-      this.form.value.__student_no)
+      this.form.value.__student_no,
+      this.form.value.__course,
+      this.form.value.__year,
+      this.form.value.__section)
     .subscribe(
       
       (response)=>{
