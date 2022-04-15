@@ -1,0 +1,19 @@
+<app-header-dashboard-user></app-header-dashboard-user>
+
+<main>
+
+    <mat-card class="example-card">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{fullname}}</mat-card-title>
+        </mat-card-header>
+        <mat-label>Signature</mat-label>
+        <img mat-card-image [src]="e_sig_path">
+       
+        <mat-card-actions>
+          <button mat-button (click)="editMyAccount()">Edit</button>
+          <button mat-button color="warn" (click)="deleteMyAccount()">Delete Account</button>
+        </mat-card-actions>
+      </mat-card>
+
+</main>

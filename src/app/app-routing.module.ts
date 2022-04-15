@@ -17,22 +17,34 @@ import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settin
 import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
 import { MyrequestComponent } from './user/myrequest/myrequest.component';
 import { SubjectsComponent } from './page/admin/subjects/subjects.component';
+import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component'
+import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component'
 
 const routes: Routes = [
+
+
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
   {path : 'sign-in', component: SignInComponent},
   {path : 'sign-up', component: SignupComponent},
+  
+  
+  //STUDENT GUARDS
+  {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
   {path : 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
   {path : 'myrequest', component: MyrequestComponent ,  canActivate: [AuthGuard, StudentGuard]},
-  {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
-
+  
   //ADMIN GUARDS
   {path : 'admin-dashboard', component: AdminDashboardComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'accounts', component: AccountsComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'admin-request', component: AdminRequestComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'admin-settings', component: AdminSettingsComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'subject', component: SubjectsComponent ,  canActivate: [AuthGuard, AdminGuard]},
+  
+  //FACULTY GUARDS
+  {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
+  {path : 'faculty-profile', component: FacultyProfileComponent,  canActivate: [AuthGuard, FacultyGuard] },
+  {path : 'faculty-request', component: FacultyRequestComponent,  canActivate: [AuthGuard, FacultyGuard] },
+
 ];
 
 @NgModule({

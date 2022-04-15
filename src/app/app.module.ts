@@ -39,6 +39,9 @@ import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-requ
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 import { MyrequestComponent, CreateRequestDialog } from './user/myrequest/myrequest.component';
 import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
+import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component';
+import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component';
+import { FacultyRequestElementComponent } from './elements/faculty-request-element/faculty-request-element.component';
 
 
 @NgModule({
@@ -64,7 +67,10 @@ import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/su
     MyrequestComponent,
     SubjectsComponent,
     CreateSubjectDialog,
-    CreateRequestDialog
+    CreateRequestDialog,
+    FacultyRequestComponent,
+    FacultyProfileComponent,
+    FacultyRequestElementComponent
   ],
   imports: [
     BrowserModule,

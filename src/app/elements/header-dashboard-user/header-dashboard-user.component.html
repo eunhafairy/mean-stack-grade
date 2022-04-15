@@ -50,7 +50,7 @@
             <mat-icon>event_note</mat-icon>
         </button>
 
-        <!-- REQUESTS LIST-->
+        <!-- SUBJECT LIST-->
         <button matTooltip="Subjects" *ngIf="userIsAuthenticated  && role ==='Admin'"   routerLink="/subject" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
           <mat-icon>collections_bookmark</mat-icon>
       </button>
@@ -58,6 +58,23 @@
          <!-- SETTINGS -->
         <button matTooltip="Settings" *ngIf="userIsAuthenticated  && role ==='Admin'"   routerLink="/admin-settings" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
           <mat-icon>settings</mat-icon>
+        </button>
+
+      <!-- SHOW IF FACULTY -->
+
+         <!-- HOME BUTTON -->
+         <button matTooltip="Faculty Dashboard" *ngIf="userIsAuthenticated && role ==='Faculty'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/faculty-dashboard">
+          <mat-icon>home</mat-icon>
+        </button>
+
+        <!-- PROFILE -->
+        <button matTooltip="Profile" *ngIf="userIsAuthenticated  && role ==='Faculty'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/faculty-profile">
+            <mat-icon>person</mat-icon>
+        </button>
+
+        <!-- REQUESTS LIST-->
+        <button matTooltip="Requests" *ngIf="userIsAuthenticated  && role ==='Faculty'"   routerLink="/faculty-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
+            <mat-icon>event_note</mat-icon>
         </button>
 
 

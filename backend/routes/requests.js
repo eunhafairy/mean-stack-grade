@@ -144,7 +144,44 @@ router.put("/:id", (req,res, next) =>{
         subject: req.body.subject,
         user_id: req.body.user_id,
         faculty_id: req.body.faculty_id,
-        status: req.body.status
+        status: req.body.status,
+        creator: req.body.creator,
+        desc: req.body.desc
+
+    });
+ 
+    Request.updateOne({_id: req.params.id}, request )
+    .then(result =>{
+        res.status(200).json({message:'update successful'});
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            error: err,
+            message: "Something went wrong!"
+        })
+
+    })
+
+})
+
+
+
+
+router.put("update-status/:id", (req,res, next) =>{
+
+   
+
+    const request = new Request({
+
+        _id: req.body.request_id,
+        subject: req.body.subject,
+        user_id: req.body.user_id,
+        faculty_id: req.body.faculty_id,
+        status: req.body.status,
+        creator: req.body.creator,
+        desc: req.body.desc
 
     });
  

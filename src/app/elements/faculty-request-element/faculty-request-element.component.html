@@ -1,0 +1,29 @@
+<!--SHOW THIS IF LOADING-->
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<!--ELSE SHOW THIS-->
+<mat-accordion multi=true *ngIf="requests.length > 0 && !isLoading" >
+    <mat-expansion-panel  *ngFor = "let request of requests" >
+        
+        <!-- TITLE -->
+        <mat-expansion-panel-header>
+            <b style= "color: #673AB7;"><b>Subject: </b>{{request.subject}}</b>
+        </mat-expansion-panel-header>
+           
+        <!-- INFORMATION -->
+        <li><b>Student: </b>{{request.user_id}}</li>
+        <li><b>Professor: </b>{{request.faculty_id}}</li>
+        <li><b>Status: </b>{{request.status}}</li>
+ 
+        <!-- ACTION ROW -->
+        <mat-action-row>
+            <button mat-button color="primary" (click)= "acceptRequest(request._id)">Accept</button>
+            <button mat-button color="warn" (click) = "rejectRequest(request._id)">Reject</button>
+        </mat-action-row>
+    
+    </mat-expansion-panel>
+    
+</mat-accordion>
+<br><br>
+<p *ngIf="requests.length <= 0 && !isLoading"><b>*Hoot hoot* *Hoot hoot*</b> <bR>Nothing here..</p>
+  
