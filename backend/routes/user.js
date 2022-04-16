@@ -164,7 +164,7 @@ router.post("/login", (req,res,next) => {
         if(haveAccount){
 
             const token = jwt.sign(
-                {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role},
+                {email: fetchedUser.email, u_id: fetchedUser._id, role: fetchedUser.role },
                 'secret_this_should_be_longer', { expiresIn: "1h" }
             );
     
@@ -174,7 +174,10 @@ router.post("/login", (req,res,next) => {
                 token:token,
                 expiresIn: 3600,
                 u_id: fetchedUser._id,
-                role: fetchedUser.role
+                role: fetchedUser.role,
+                course: fetchedUser.course,
+                year: fetchedUser.year, 
+                section: fetchedUser.section
     
             });
         

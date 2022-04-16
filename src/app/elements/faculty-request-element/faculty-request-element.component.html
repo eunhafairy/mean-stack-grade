@@ -12,9 +12,13 @@
            
         <!-- INFORMATION -->
         <li><b>Student: </b>{{request.user_id}}</li>
+        <li><b>Section: </b>{{request.cys}}</li>
         <li><b>Professor: </b>{{request.faculty_id}}</li>
-        <li><b>Status: </b>{{request.status}}</li>
         <li><b>Reason: </b>{{request.desc}}</li>
+        <li><b>Semester: </b>{{request.semester}}</li>
+        <li><b>Academic Year: </b>{{request.year}}</li>
+        <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
+        <li><b>Status: </b>{{request.status}}</li>
  
  
         <!-- ACTION ROW -->

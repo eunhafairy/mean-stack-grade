@@ -19,7 +19,8 @@
     </mat-select>
     <mat-error *ngIf = "form.get('student').invalid">Please choose a student.</mat-error>
     </mat-form-field><br>
-        
+    
+
     <!--SUBJECT-->
     <mat-form-field  class="full-width">
       <mat-label>Subject</mat-label>
@@ -39,12 +40,15 @@
    <mat-form-field class="full-width">
     <mat-label>Choose a professor.</mat-label>
     <mat-select 
+ 
+    [(value)]="selectedProfessor"
     formControlName="faculty"
     required
+  
     >
-    <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
-        {{professor.l_name + ", "+professor.f_name }}
-    </mat-option>
+        <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
+            {{professor.l_name + ", "+professor.f_name }}
+        </mat-option>
     </mat-select>
     <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
     </mat-form-field><br>
@@ -72,6 +76,19 @@
         <mat-error *ngIf = "form.get('year').invalid">Please enter the academic year.</mat-error>
       </mat-form-field><br>
 
+
+          
+    <!-- CYS -->
+    <mat-form-field  class="full-width">
+        <mat-label>Course/Year/Section</mat-label>
+        <input matInput 
+        formControlName="cys"
+        type="text"
+        placeholder="e.g. 'BSIT 4O'"
+        required>
+        <mat-error *ngIf = "form.get('cys').invalid">Please enter the semester which you took the subject.</mat-error>
+        </mat-form-field><br>
+
     <!-- ADDITIONAL DESCRIPTION -->
 
     <mat-form-field class="full-width">
@@ -82,7 +99,7 @@
       ></textarea>
     </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Create Request</button>
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Save Request</button>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
  
 

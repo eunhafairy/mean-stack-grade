@@ -89,7 +89,7 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string, cys: string){
 
     let now = new Date();
     let reqData : Request = { 
@@ -105,7 +105,8 @@ private facultyName: string;
       dateAccepted: null,
       semester: semester,
       year: year, 
-      note: null
+      note: null,
+      cys: cys
       
   
 
@@ -119,7 +120,8 @@ private facultyName: string;
   }
 
   getRequest(id : string){
-    return this.http.get<{request: Request}>("http://localhost:3000/api/requests/" + id);
+    return this.http.get("http://localhost:3000/api/requests/find/" + id)
+    .pipe(catchError(this.handleError));
 
   }
 
@@ -155,7 +157,20 @@ private facultyName: string;
 
 
 
-updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, status: string, creator:string, desc: string, dateRequested: Date, dateAccepted:Date, semester:string, year: string, note:string){
+updateRequest(_id:string, 
+  subject:string, 
+  faculty_id:string, 
+  user_id:string, 
+  status: string, 
+  creator:string, 
+  desc: string, 
+  dateRequested: Date, 
+  dateAccepted:Date, 
+  semester:string, 
+  year: string, 
+  note:string, 
+  cys:string){
+
 
     let requestData : Request = {
         request_id: _id,
@@ -169,7 +184,8 @@ updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, sta
         dateAccepted: dateAccepted,
         semester: semester,
         year: year,
-        note: note
+        note: note,
+        cys: cys
 
       }
 

@@ -477,8 +477,6 @@ export class DialogContent implements OnInit {
 
       this.selectedRole= data.role as string;
       this.selectedStatus = data.status;
-      
-
     }
     ngOnInit(): void {
      
@@ -494,10 +492,6 @@ export class DialogContent implements OnInit {
       '__course' : new FormControl(null),
       '__section' : new FormControl(null),
       '__year' : new FormControl(null)
-
-
-
-
       });
 
       //set values

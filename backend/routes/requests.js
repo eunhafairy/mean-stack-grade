@@ -3,6 +3,7 @@ const Request = require('../models/request');
 const router = express.Router();
 
 const checkAuth = require('../middleware/check-auth');
+const { json } = require('body-parser');
 
 
 router.post("", checkAuth, (req,res,next) =>{
@@ -18,7 +19,8 @@ router.post("", checkAuth, (req,res,next) =>{
         desc: req.body.desc,
         dateRequested: req.body.dateRequested,
         semester: req.body.semester,
-        year: req.body.year
+        year: req.body.year,
+        cys: req.body.cys
         
     });
 
@@ -94,7 +96,7 @@ router.get('/:status',checkAuth ,(req,res,next) =>{
 
 
 
-router.get("/:id",checkAuth, (req, res, next) =>{
+router.get("/find/:id",checkAuth, (req, res, next) =>{
 
     Request.findById(req.params.id).then( post =>{
         if(post){
@@ -108,6 +110,16 @@ router.get("/:id",checkAuth, (req, res, next) =>{
 
             });
         }
+
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            message:"An error occured",
+            error: err
+
+        })
 
     });
 })
@@ -152,7 +164,8 @@ router.put("/:id", (req,res, next) =>{
         desc: req.body.desc,
         semester: req.body.semester,
         year: req.body.year,
-        note: req.body.note
+        note: req.body.note,
+        cys: req.body.cys
 
     });
  

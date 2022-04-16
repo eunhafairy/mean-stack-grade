@@ -3,6 +3,8 @@ import { RequestService } from 'src/app/service/request.service';
 import {Request} from '../../models/request'
 import {Subject, Subscription} from 'rxjs'
 import { UserService } from 'src/app/service/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddRequestComponent } from '../dialog-add-request/dialog-add-request.component';
 
 @Component({
   selector: 'app-request',
@@ -20,7 +22,7 @@ pageSizeOptions : number[];
 private requestSub: Subscription = new Subscription;
 
 
-  constructor(private requestService: RequestService, private userService: UserService) {  }
+  constructor(private requestService: RequestService, private userService: UserService, private dialog : MatDialog) {  }
 
   ngOnInit(): void {
     this.refreshTable();
@@ -28,7 +30,7 @@ private requestSub: Subscription = new Subscription;
 
   
 
-  deleteRequest(requestId: string){
+deleteRequest(requestId: string){
 
     this.isLoading= true;
     if(window.confirm("Are you sure you want to delete?")){
@@ -39,7 +41,7 @@ private requestSub: Subscription = new Subscription;
         this.refreshTable();
       },
       error =>{
-        
+        this.isLoading = false;
         console.log(error);
 
       });
@@ -54,13 +56,42 @@ private requestSub: Subscription = new Subscription;
       
   }
 
+  readableDate(date : Date){
+
+
+    return new Date(date).toLocaleDateString();;
+
+  }
+
+  openEditRequestDialog(id: string){
+
+     
+    const dialogRef = this.dialog.open(DialogAddRequestComponent, {
+      width: '80%',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+    
+      if(res === "Success"){
+
+        window.location.reload();
+
+      }
+     
+    });
+
+
+
+  }
+
   refreshTable(){
 
     this.isLoading = true;
     console.log(this.status);
     this.requestService.getRequestByStatus(this.status)
     .subscribe(response =>{
-       this.isLoading=false;
+      this.isLoading=false;
       this.transformRequests(response['requests']);
     });
   }
@@ -68,9 +99,10 @@ private requestSub: Subscription = new Subscription;
 
   transformRequests(request:Request[]){
 
+    this.requests = [];
     for(let i = 0; i < request.length; i++){
 
-      console.log(request[i].user_id + " and " + this.userService.getUserId() );
+  
       if(request[i].user_id === this.userService.getUserId()){
 
         this.requests.push(request[i]);

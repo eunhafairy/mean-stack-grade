@@ -11,6 +11,7 @@ export interface Request{
     dateAccepted: Date, 
     semester : string,
     year: string, 
-    note: string
+    note: string,
+    cys: string
 
 }

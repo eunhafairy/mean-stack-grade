@@ -69,7 +69,6 @@ export class AdminRequestComponent implements OnInit {
       this.isLoading=false;
       this.transformRequests(requestsData.requests);
       this.setPageSizeOption();
-      
       this.totalRequests = this.dataSource.data.length;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -137,25 +136,20 @@ export class AdminRequestComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
-      width: '80%'
+      width: '80%',
+      data: null
     });
 
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
-      this.isLoading = true;
-    this.requestService.getRequests();
-    this.requestService.getRequestUpdateListener()
-    .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
-      this.isLoading = false;
-      this.requests = requestsData.requests;
-      this.transformRequests(requestsData.requests);
-      this.totalRequests = requestsData.requestCount;
-      this.dataSource = new MatTableDataSource(this.requests);
+      this.refreshTable();
+
       });
-    });
 
 
   }
+
+
 
   applyFilter(event: Event){
 
@@ -168,7 +162,19 @@ export class AdminRequestComponent implements OnInit {
 
  
 
-  editRequest(request: Request){
+  editRequest(id: string){
+
+    console.log(id);
+    const dialogRef = this.dialog.open(DialogAddRequestComponent, {
+      width: '80%',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //after closing dialog, refresh the table
+      this.refreshTable();
+
+      });
 
 
   }

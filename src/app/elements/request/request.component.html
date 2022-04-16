@@ -12,12 +12,18 @@
            
         <!-- INFORMATION -->
         <li><b>Student: </b>{{request.user_id}}</li>
+        <li><b>Section: </b>{{request.cys}}</li>
+
         <li><b>Professor: </b>{{request.faculty_id}}</li>
+        <li><b>Reason: </b>{{request.desc}}</li>
+        <li><b>Semester: </b>{{request.semester}}</li>
+        <li><b>Academic Year: </b>{{request.year}}</li>
         <li><b>Status: </b>{{request.status}}</li>
- 
+
+        <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
         <!-- ACTION ROW -->
         <mat-action-row>
-            <button mat-button color="primary">EDIT</button>
+            <button mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>
             <button mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
         </mat-action-row>
     

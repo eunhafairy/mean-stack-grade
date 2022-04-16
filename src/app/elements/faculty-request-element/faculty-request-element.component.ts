@@ -40,10 +40,27 @@ export class FacultyRequestElementComponent implements OnInit {
     });
   }
 
+  
+  readableDate(date : Date){
+
+    return new Date(date).toLocaleDateString();
+
+  }
+
+  getUserSection(id : string){
+
+    this.userService.getUser(id).subscribe(res=>{
+
+
+
+    })
+
+  }
+
   transformRequests(request:Request[]){
 
     
-
+    this.requests = [];
     for(let i = 0; i < request.length; i++){
 
       console.log(request[i].faculty_id + " and " + this.userService.getUserId() );

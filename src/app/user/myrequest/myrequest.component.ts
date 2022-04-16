@@ -1,13 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogAddRequestComponent } from 'src/app/elements/dialog-add-request/dialog-add-request.component';
-import { Subjects } from 'src/app/models/subjects';
-import { User } from 'src/app/models/user';
-import { AdminServiceService } from 'src/app/service/admin-service.service';
-import { RequestService } from 'src/app/service/request.service';
-import { UserService } from 'src/app/service/user.service';
+
 
 @Component({
   selector: 'app-myrequest',
@@ -26,19 +21,28 @@ export class MyrequestComponent implements OnInit {
   //open create request dialog
   openCreateRequestDialog(){
 
+    
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
-      width: '80%'
+      width: '80%',
+      data: null
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().subscribe((res) => {
     
-      window.location.reload();
+      
+      if(res === "Success"){
+
+        window.location.reload();
+
+      }
      
     });
 
 
 
   }
+
+  
 
 
 

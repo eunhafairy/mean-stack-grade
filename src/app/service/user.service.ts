@@ -14,6 +14,7 @@ import { AdminServiceService } from './admin-service.service';
 })
 export class UserService {
 
+  private cys: string;
   private isAuthenticated = false;
   private token:string;
   private authStatusListener = new Subject<boolean>();
@@ -87,6 +88,11 @@ export class UserService {
   getAllUsers(){
 
 
+  }
+
+  getCYS(){
+
+    return this.cys;
   }
   //CREATE USER BY ADMIN  
   createUserFromAdmin(f_name: string,
@@ -236,7 +242,7 @@ export class UserService {
 
     };
 
-    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string}>("http://localhost:3000/api/users/login", loginData)
+    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string, course: string, year: number, section: string}>("http://localhost:3000/api/users/login", loginData)
     .pipe( map(response =>{
 
       const token = response.token;
@@ -246,6 +252,7 @@ export class UserService {
       
         this.u_id = response.u_id;
         this.role = response.role;
+        this.cys = response.course+" "+response.year+response.section;
         const expiresInDuration  = response.expiresIn;
         this.setAuthTimer(expiresInDuration);
         const now = new Date();

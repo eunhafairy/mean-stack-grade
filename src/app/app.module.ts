@@ -45,6 +45,7 @@ import { FacultyRequestElementComponent, FacultyVerdictElement } from './element
 import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-add-request.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

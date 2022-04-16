@@ -67,7 +67,7 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let row">
                 <button mat-raised-button color="warn" (click) ="deleteRequest(row)">Delete</button>
-                <button mat-raised-button color="accent" (click) ="editRequest(row)">Edit</button>
+                <button mat-raised-button color="accent" (click) ="editRequest(row.request_id)">Edit</button>
               </td>
         
             </ng-container>
