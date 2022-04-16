@@ -14,11 +14,13 @@
         <li><b>Student: </b>{{request.user_id}}</li>
         <li><b>Professor: </b>{{request.faculty_id}}</li>
         <li><b>Status: </b>{{request.status}}</li>
+        <li><b>Reason: </b>{{request.desc}}</li>
+ 
  
         <!-- ACTION ROW -->
         <mat-action-row>
-            <button mat-button color="primary" (click)= "acceptRequest(request._id)">Accept</button>
-            <button mat-button color="warn" (click) = "rejectRequest(request._id)">Reject</button>
+            <button mat-button color="primary" (click)= "acceptRequest(request)">Accept</button>
+            <button mat-button color="warn" (click) = "rejectRequest(request)">Reject</button>
         </mat-action-row>
     
     </mat-expansion-panel>

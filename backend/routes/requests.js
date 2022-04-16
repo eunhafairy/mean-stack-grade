@@ -15,7 +15,10 @@ router.post("", checkAuth, (req,res,next) =>{
         faculty_id:  req.body.faculty_id,
         status:  req.body.status,
         creator : req.userData.u_id,
-        desc: req.body.desc
+        desc: req.body.desc,
+        dateRequested: req.body.dateRequested,
+        semester: req.body.semester,
+        year: req.body.year
         
     });
 
@@ -146,7 +149,10 @@ router.put("/:id", (req,res, next) =>{
         faculty_id: req.body.faculty_id,
         status: req.body.status,
         creator: req.body.creator,
-        desc: req.body.desc
+        desc: req.body.desc,
+        semester: req.body.semester,
+        year: req.body.year,
+        note: req.body.note
 
     });
  
@@ -181,7 +187,10 @@ router.put("update-status/:id", (req,res, next) =>{
         faculty_id: req.body.faculty_id,
         status: req.body.status,
         creator: req.body.creator,
-        desc: req.body.desc
+        desc: req.body.desc,
+        semester: req.body.semester,
+        year: req.body.year,
+        note: req.body.note
 
     });
  

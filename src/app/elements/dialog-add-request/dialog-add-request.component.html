@@ -4,6 +4,21 @@
 <main>
 <form [formGroup] = "form" (submit) ="onAddRequest()" >
 
+
+     <!--STUDENT-->
+  <mat-form-field class="full-width" *ngIf="myRole === 'Admin'">
+    <mat-label>Choose a student</mat-label>
+    <mat-select 
+    name = "student"
+    formControlName="student"
+    required
+    >
+    <mat-option *ngFor="let student of students" [value] = "student['_id']">
+        {{ student.l_name + ", " + student.f_name}}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "form.get('student').invalid">Please choose a student.</mat-error>
+    </mat-form-field><br>
         
     <!--SUBJECT-->
     <mat-form-field  class="full-width">
@@ -17,7 +32,7 @@
     </mat-option>
     </mat-select>
       <mat-error *ngIf = "form.get('subject').invalid">Please enter a title.</mat-error>
-    </mat-form-field>
+    </mat-form-field><br>
 
 
     <!-- FACULTY -->
@@ -32,12 +47,35 @@
     </mat-option>
     </mat-select>
     <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
-    </mat-form-field>
+    </mat-form-field><br>
+
+
+     <!-- SEMESTER -->
+     <mat-form-field  class="full-width">
+      <mat-label>Semester/Tri-semester/Summer</mat-label>
+      <input matInput 
+      formControlName="semester"
+      type="text" 
+      placeholder="e.g. '1st/2nd'"
+      required>
+      <mat-error *ngIf = "form.get('semester').invalid">Please enter the semester which you took the subject.</mat-error>
+    </mat-form-field><br>
+
+      <!-- YEAR -->
+      <mat-form-field  class="full-width">
+        <mat-label>Academic Year</mat-label>
+        <input matInput 
+        formControlName="year"
+        placeholder="e.g. 2021-2022"
+        type="text" 
+        required>
+        <mat-error *ngIf = "form.get('year').invalid">Please enter the academic year.</mat-error>
+      </mat-form-field><br>
 
     <!-- ADDITIONAL DESCRIPTION -->
 
     <mat-form-field class="full-width">
-      <mat-label>Additional Notes</mat-label>
+      <mat-label>Reason for completion request</mat-label>
       <textarea matInput
        type="input"
        formControlName="desc"

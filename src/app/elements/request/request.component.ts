@@ -68,12 +68,23 @@ private requestSub: Subscription = new Subscription;
 
   transformRequests(request:Request[]){
 
-    this.requests = request;
-
     for(let i = 0; i < request.length; i++){
 
+      console.log(request[i].user_id + " and " + this.userService.getUserId() );
+      if(request[i].user_id === this.userService.getUserId()){
+
+        this.requests.push(request[i]);
+
+      }
     
-      this.userService.getUser(request[i].user_id)
+     
+
+    }
+
+    for(let i = 0; i < this.requests.length; i++){
+
+    
+      this.userService.getUser(this.requests[i].user_id)
       .subscribe(responseData =>{
 
         this.requests[i].user_id = responseData['l_name'] + ", "+ responseData['f_name'];
@@ -83,7 +94,7 @@ private requestSub: Subscription = new Subscription;
 
       });
 
-      this.userService.getUser(request[i].faculty_id)
+      this.userService.getUser(this.requests[i].faculty_id)
       .subscribe(responseData =>{
 
         this.requests[i].faculty_id = responseData['l_name'] + ", "+ responseData['f_name'];

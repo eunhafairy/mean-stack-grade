@@ -35,13 +35,14 @@ import { AuthInterceptor } from './service/auth-interceptor';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
 import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admin/accounts/accounts.component';
-import { AdminRequestComponent, AddRequestDialog } from './page/admin/admin-request/admin-request.component';
+import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
-import { MyrequestComponent, CreateRequestDialog } from './user/myrequest/myrequest.component';
+import { MyrequestComponent } from './user/myrequest/myrequest.component';
 import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
 import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component';
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component';
-import { FacultyRequestElementComponent } from './elements/faculty-request-element/faculty-request-element.component';
+import { FacultyRequestElementComponent, FacultyVerdictElement } from './elements/faculty-request-element/faculty-request-element.component';
+import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-add-request.component';
 
 
 @NgModule({
@@ -63,14 +64,14 @@ import { FacultyRequestElementComponent } from './elements/faculty-request-eleme
     AdminRequestComponent,
     AdminSettingsComponent,
     DialogContentEdit,
-    AddRequestDialog,
     MyrequestComponent,
     SubjectsComponent,
     CreateSubjectDialog,
-    CreateRequestDialog,
     FacultyRequestComponent,
     FacultyProfileComponent,
-    FacultyRequestElementComponent
+    FacultyRequestElementComponent,
+    FacultyVerdictElement,
+    DialogAddRequestComponent
   ],
   imports: [
     BrowserModule,

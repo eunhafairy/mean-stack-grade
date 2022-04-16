@@ -6,6 +6,11 @@ export interface Request{
     faculty_id: string;
     status: string;
     creator: string;
-    desc: string
+    desc: string,
+    dateRequested: Date,
+    dateAccepted: Date, 
+    semester : string,
+    year: string, 
+    note: string
 
 }

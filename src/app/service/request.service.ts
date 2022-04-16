@@ -37,7 +37,13 @@ private facultyName: string;
             faculty_id: request.faculty_id,
             status: request.status,
             filePath: request.filePath,
-            creator: request.creator
+            creator: request.creator,
+            dateRequested: request.dateRequested,
+            dateAccepted: request.dateAccepted,
+            semester: request.semester,
+            year: request.year,
+            note: request.note
+
           };
 
        
@@ -83,9 +89,9 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string){
 
-
+    let now = new Date();
     let reqData : Request = { 
 
       request_id: null,
@@ -94,7 +100,12 @@ private facultyName: string;
       faculty_id:  faculty_id,
       status:  status,
       desc:  desc,
-      creator:  creator
+      creator:  creator,
+      dateRequested: now,
+      dateAccepted: null,
+      semester: semester,
+      year: year, 
+      note: null
       
   
 
@@ -108,7 +119,7 @@ private facultyName: string;
   }
 
   getRequest(id : string){
-    return this.http.get<{_id: string, title: string, user_id: string, faculty_id: string, status: string, filePath: string}>("http://localhost:3000/api/requests/" + id);
+    return this.http.get<{request: Request}>("http://localhost:3000/api/requests/" + id);
 
   }
 
@@ -144,7 +155,7 @@ private facultyName: string;
 
 
 
-updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, status: string, creator:string, desc: string){
+updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, status: string, creator:string, desc: string, dateRequested: Date, dateAccepted:Date, semester:string, year: string, note:string){
 
     let requestData : Request = {
         request_id: _id,
@@ -153,7 +164,13 @@ updateRequest(_id:string, subject:string, faculty_id:string, user_id:string, sta
         user_id: user_id,
         status: status,
         desc: desc,
-        creator: creator
+        creator: creator,
+        dateRequested: dateRequested,
+        dateAccepted: dateAccepted,
+        semester: semester,
+        year: year,
+        note: note
+
       }
 
   

@@ -1,0 +1,48 @@
+<h1 mat-dialog-title>Create Account</h1>
+<div mat-dialog-content>
+
+<main>
+<form (submit) ="onSubmit()" [formGroup] = "form"  enctype="multipart/form-data">
+
+    <!--action // pass or failed?-->
+  <mat-form-field class="full-width">
+    <mat-label>Action</mat-label>
+    <mat-select 
+    [(value)]="selectedAction"
+    name = "action"
+    formControlName ="action"
+    required
+    >
+    <mat-option *ngFor="let action of actions" [value] = "action.value">
+        {{action.value}}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "form.get('action').invalid">Please choose a status.</mat-error>
+</mat-form-field>
+<br>
+  <!--grade-->
+  <mat-form-field class="full-width" *ngIf="selectedAction === 'Passed'">
+    <mat-label>Grade</mat-label>
+    <mat-select 
+    [(value)]="selectedVerdict"
+    name = "verdict"
+    formControlName ="verdict"
+    required
+    >
+    <mat-option *ngFor="let verdict of verdicts" [value] = "verdict.value">
+        {{verdict.value}}
+    </mat-option>
+    </mat-select>
+    <mat-error *ngIf = "form.get('verdict').invalid">Please choose a status.</mat-error>
+</mat-form-field>
+  
+
+
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Submit</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+
+</form>
+<button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+</main>
+</div>

@@ -12,6 +12,7 @@ import { UserService } from 'src/app/service/user.service';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { map } from 'rxjs';
+import { DialogAddRequestComponent } from 'src/app/elements/dialog-add-request/dialog-add-request.component';
 @Component({
   selector: 'app-admin-request',
   templateUrl: './admin-request.component.html',
@@ -135,7 +136,7 @@ export class AdminRequestComponent implements OnInit {
   openDialog(){
 
 
-    const dialogRef = this.dialog.open(AddRequestDialog, {
+    const dialogRef = this.dialog.open(DialogAddRequestComponent, {
       width: '80%'
     });
 
@@ -207,124 +208,124 @@ export class AdminRequestComponent implements OnInit {
 
 
 
-@Component({
-  selector: 'add-request-dialog',
-  templateUrl: 'add-request-dialog.html',
-   styleUrls: ['./admin-request.component.css']
-})
-export class AddRequestDialog implements OnInit{
+// @Component({
+//   selector: 'add-request-dialog',
+//   templateUrl: 'add-request-dialog.html',
+//    styleUrls: ['./admin-request.component.css']
+// })
+// export class AddRequestDialog implements OnInit{
 
-  isLoading = false;
-  form: FormGroup;
-  selectedStatus = '';
-  public stats: any = [
-    {value : "Requested"}, 
-    {value: "Accepted"}, 
-    {value: "Revised"}];
-
-
-  public students: User[];
-  public professors: User[];
+//   isLoading = false;
+//   form: FormGroup;
+//   selectedStatus = '';
+//   public stats: any = [
+//     {value : "Requested"}, 
+//     {value: "Accepted"}, 
+//     {value: "Revised"}];
 
 
+//   public students: User[];
+//   public professors: User[];
 
 
-  constructor(
-    public dialogRef: MatDialogRef<AddRequestDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Request,
-    private requestService: RequestService,
-    private userService: UserService
-  ) {}
 
 
-  ngOnInit(): void {
+//   constructor(
+//     public dialogRef: MatDialogRef<AddRequestDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: Request,
+//     private requestService: RequestService,
+//     private userService: UserService
+//   ) {}
+
+
+//   ngOnInit(): void {
     
     
-    this.getStudents();
+//     this.getStudents();
 
-    this.form = new FormGroup({
-      'title': new FormControl(null, {validators: [Validators.required]}),
-      'student' : new FormControl(null, {validators: [Validators.required]}),
-      'faculty' : new FormControl(null, {validators: [Validators.required]}),
-      'status' : new FormControl('Requested', {validators: [Validators.required]}),
-      'desc' : new FormControl(null)
+//     this.form = new FormGroup({
+//       'title': new FormControl(null, {validators: [Validators.required]}),
+//       'student' : new FormControl(null, {validators: [Validators.required]}),
+//       'faculty' : new FormControl(null, {validators: [Validators.required]}),
+//       'status' : new FormControl('Requested', {validators: [Validators.required]}),
+//       'desc' : new FormControl(null)
 
-  });
+//   });
     
-  }
+//   }
 
-  getStudents(){
-
-
-    this.userService.getUserByRole("Student")
-    .subscribe(
-      response =>{
-
-       this.students = response['users'];
-       this.students.sort((a,b)=>a.l_name.localeCompare(b.l_name));
+//   getStudents(){
 
 
-      },
-      err =>{
+//     this.userService.getUserByRole("Student")
+//     .subscribe(
+//       response =>{
 
-        console.log(err);
+//        this.students = response['users'];
+//        this.students.sort((a,b)=>a.l_name.localeCompare(b.l_name));
 
-      }
-    );
 
-    this.userService.getUserByRole("Faculty")
-    .subscribe(
-      res =>{
+//       },
+//       err =>{
+
+//         console.log(err);
+
+//       }
+//     );
+
+//     this.userService.getUserByRole("Faculty")
+//     .subscribe(
+//       res =>{
         
-       this.professors = res['users'];
-       this.professors.sort((a,b)=>a.l_name.localeCompare(b.l_name))
+//        this.professors = res['users'];
+//        this.professors.sort((a,b)=>a.l_name.localeCompare(b.l_name))
 
-      },
-      error =>{
+//       },
+//       error =>{
 
-        console.log(error);
-      }
-    );
+//         console.log(error);
+//       }
+//     );
 
-  }
+//   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+//   onNoClick(): void {
+//     this.dialogRef.close();
+//   }
 
-  onAddRequest(){
+//   onAddRequest(){
 
 
-    if(this.form.invalid){
+//     if(this.form.invalid){
         
-        return;
-    }
-    else{
+//         return;
+//     }
+//     else{
 
-      console.log('went here');
-      this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.desc, this.userService.getUserId())
-      .subscribe(
-        res=>{
+//       console.log('went here');
+//       this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.desc, this.userService.getUserId())
+//       .subscribe(
+//         res=>{
           
-          //success
-          console.log("Success!", res);
-          window.alert("Success!");
-          this.dialogRef.close();
+//           //success
+//           console.log("Success!", res);
+//           window.alert("Success!");
+//           this.dialogRef.close();
 
-        },
+//         },
         
-        err => {
-            //error
-            window.alert("Something went wrong. " + err);
-            this.form.reset();
+//         err => {
+//             //error
+//             window.alert("Something went wrong. " + err);
+//             this.form.reset();
 
-        }
-      );
+//         }
+//       );
 
-    }
+//     }
 
     
-  }
+//   }
 
 
 
@@ -332,4 +333,4 @@ export class AddRequestDialog implements OnInit{
 
 
 
-}
+// }

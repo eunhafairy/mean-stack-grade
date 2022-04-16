@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { Request } from 'src/app/models/request';
+import { User } from 'src/app/models/user';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -19,7 +22,7 @@ export class FacultyRequestElementComponent implements OnInit {
   pageSizeOptions : number[];
   private requestSub: Subscription = new Subscription;
 
-  constructor(private requestService: RequestService, private userService: UserService) { }
+  constructor(private requestService: RequestService, private userService: UserService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.refreshTable();
@@ -85,34 +88,107 @@ export class FacultyRequestElementComponent implements OnInit {
    
 
   }
-    acceptRequest(requestId: string){
 
+  acceptRequest(requestData: Request) : void{
+    const dialogRef = this.dialog.open(FacultyVerdictElement, {
+      width: '80%',
+      data: requestData
+    });
 
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      //after closing dialog, refresh the table
+      this.refreshTable();
+    });
+  }
   rejectRequest(requestId: string){
 
-    this.isLoading= true;
-    if(window.confirm("Are you sure you want to delete?")){
-      console.log("requestId is :"+ requestId);
-      this.requestService.deleteRequest(requestId)
-      .subscribe( () =>{
-        this.isLoading=false;
-        this.refreshTable();
-      },
-      error =>{
-        
-        console.log(error);
-
-      });
-    }
-
-    else{
-
-      return;
-
-    }
+    //automatic 5.00
     
       
   }
 
 }
+
+
+
+  //EDIT MODAL
+
+  
+
+  @Component({
+    selector: 'faculty-verdict-element',
+    templateUrl: 'faculty-verdict-element.html',
+     styleUrls: ['./faculty-request-element.component.css']
+  })
+  export class FacultyVerdictElement implements OnInit {
+  
+    form : FormGroup;
+   isLoading = false;
+   selectedVerdict: string;
+   selectedAction :string;
+   verdicts : any = [
+      {value: '1.00'},
+      {value: '1.25'},
+      {value: '1.50'},
+      {value: '1.75'},
+      {value: '2.00'},
+      {value: '2.25'},
+      {value: '2.50'},
+      {value: '2.75'},
+      {value: '3.00'}
+   ];
+   actions: any = [
+    {value: 'Passed'},
+    {value: 'Failed'},   
+    
+   ]
+  
+    constructor(
+      public dialogRef: MatDialogRef<FacultyVerdictElement>,
+      @Inject(MAT_DIALOG_DATA) public data: Request,
+      private requestService : RequestService
+    ) {
+
+     
+
+    }
+    ngOnInit(): void {
+     
+    this.form = new FormGroup({
+      'action': new FormControl(null, {validators: [Validators.required]}),
+      'verdict': new FormControl(null, {validators: [Validators.required]})
+     
+      });
+
+      this.form.patchValue({action : 'Passed'});
+      this.selectedAction = 'Passed'
+   
+    }
+  
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+
+    onSubmit(){
+
+      console.log(this.data.subject);
+      console.log(this.selectedVerdict);
+    }
+
+
+    public findInvalidControls() {
+      const invalid = [];
+      const controls = this.form.controls;
+      for (const name in controls) {
+          if (controls[name].invalid) {
+              invalid.push(name);
+          }
+      }
+      return invalid;
+    }
+  
+  
+    
+  
+    }
+  
