@@ -1,0 +1,38 @@
+#pdfForm{
+    background-image: url("form.png");
+    width: 816px;
+    height: 1056px;
+    background-position: center;
+    background-size: cover;
+}
+
+
+p{
+    display: flex;
+z-index: 100;
+position:relative;
+color:red;
+}
+#student_name{
+
+top:240px;
+left:250px;
+
+}
+
+#faculty_name{
+    top:175px;
+    left:175px;
+
+}
+
+#date_requested{
+
+top:80px;
+left:590px;
+}
+
+#subject{
+    top:185px;
+    left:250px;
+}

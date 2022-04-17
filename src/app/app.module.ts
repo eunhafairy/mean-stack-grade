@@ -45,9 +45,8 @@ import { FacultyRequestElementComponent } from './elements/faculty-request-eleme
 import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-add-request.component';
 import { DialogRejectRequestComponent } from './elements/dialog-reject-request/dialog-reject-request.component';
 import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict/dialog-request-verdict.component';
-
-
-
+import { RequestFormComponent } from './elements/request-form/request-form.component';
+import { WebViewerComponent } from './webviewer/webviewer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +74,9 @@ import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict
     FacultyRequestElementComponent,
     DialogAddRequestComponent,
     DialogRejectRequestComponent,
-    DialogRequestVerdictComponent
+    DialogRequestVerdictComponent,
+    RequestFormComponent,
+    WebViewerComponent
   ],
   imports: [
     BrowserModule,

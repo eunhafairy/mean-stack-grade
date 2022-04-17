@@ -19,7 +19,6 @@ import { MyrequestComponent } from './user/myrequest/myrequest.component';
 import { SubjectsComponent } from './page/admin/subjects/subjects.component';
 import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component'
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component'
-
 const routes: Routes = [
 
 
