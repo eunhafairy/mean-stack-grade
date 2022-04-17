@@ -218,7 +218,9 @@ export class DialogAddRequestComponent implements AfterViewInit{
             this.userService.getUserId(),
             this.form.value.semester,
             this.form.value.year,
-            this.form.value.cys
+            this.form.value.cys,
+            null,
+            null
             )
           .subscribe(
             res=>{
@@ -250,7 +252,9 @@ export class DialogAddRequestComponent implements AfterViewInit{
             this.form.value.semester,
             this.form.value.year,
             this.request.note,
-            this.form.value.cys).subscribe(
+            this.form.value.cys,
+            null,
+            null).subscribe(
               res=>{
 
                 window.alert('Success');

@@ -6,6 +6,8 @@ import { Request } from 'src/app/models/request';
 import { User } from 'src/app/models/user';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
+import { DialogRejectRequestComponent } from '../dialog-reject-request/dialog-reject-request.component';
+import { DialogRequestVerdictComponent } from '../dialog-request-verdict/dialog-request-verdict.component';
 
 @Component({
   selector: 'app-faculty-request-element',
@@ -106,21 +108,36 @@ export class FacultyRequestElementComponent implements OnInit {
 
   }
 
-  acceptRequest(requestData: Request) : void{
-    const dialogRef = this.dialog.open(FacultyVerdictElement, {
+  acceptRequest(id: string) : void{
+    const dialogRef = this.dialog.open(DialogRequestVerdictComponent, {
       width: '80%',
-      data: requestData
+      data: id
     });
 
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
-      this.refreshTable();
+      if(result){
+        
+        window.location.reload();
+        this.refreshTable();
+
+      }
     });
   }
-  rejectRequest(requestId: string){
+  rejectRequest(id: string){
 
-    //automatic 5.00
-    
+    const dialogRef = this.dialog.open(DialogRejectRequestComponent, {
+      width: '80%',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+  
+      if(res === "Success"){
+        window.location.reload();
+      }
+     
+    });
       
   }
 
@@ -128,84 +145,82 @@ export class FacultyRequestElementComponent implements OnInit {
 
 
 
-  //EDIT MODAL
-
   
 
-  @Component({
-    selector: 'faculty-verdict-element',
-    templateUrl: 'faculty-verdict-element.html',
-     styleUrls: ['./faculty-request-element.component.css']
-  })
-  export class FacultyVerdictElement implements OnInit {
+  // @Component({
+  //   selector: 'faculty-verdict-element',
+  //   templateUrl: 'faculty-verdict-element.html',
+  //    styleUrls: ['./faculty-request-element.component.css']
+  // })
+  // export class FacultyVerdictElement implements OnInit {
   
-    form : FormGroup;
-   isLoading = false;
-   selectedVerdict: string;
-   selectedAction :string;
-   verdicts : any = [
-      {value: '1.00'},
-      {value: '1.25'},
-      {value: '1.50'},
-      {value: '1.75'},
-      {value: '2.00'},
-      {value: '2.25'},
-      {value: '2.50'},
-      {value: '2.75'},
-      {value: '3.00'}
-   ];
-   actions: any = [
-    {value: 'Passed'},
-    {value: 'Failed'},   
+  //   form : FormGroup;
+  //  isLoading = false;
+  //  selectedVerdict: string;
+  //  selectedAction :string;
+  //  verdicts : any = [
+  //     {value: '1.00'},
+  //     {value: '1.25'},
+  //     {value: '1.50'},
+  //     {value: '1.75'},
+  //     {value: '2.00'},
+  //     {value: '2.25'},
+  //     {value: '2.50'},
+  //     {value: '2.75'},
+  //     {value: '3.00'}
+  //  ];
+  //  actions: any = [
+  //   {value: 'Passed'},
+  //   {value: 'Failed'},   
     
-   ]
+  //  ]
   
-    constructor(
-      public dialogRef: MatDialogRef<FacultyVerdictElement>,
-      @Inject(MAT_DIALOG_DATA) public data: Request,
-      private requestService : RequestService
-    ) {
+  //   constructor(
+  //     public dialogRef: MatDialogRef<FacultyVerdictElement>,
+  //     @Inject(MAT_DIALOG_DATA) public data: Request,
+  //     private requestService : RequestService
+  //   ) {
 
      
 
-    }
-    ngOnInit(): void {
+  //   }
+  //   ngOnInit(): void {
      
-    this.form = new FormGroup({
-      'action': new FormControl(null, {validators: [Validators.required]}),
-      'verdict': new FormControl(null, {validators: [Validators.required]})
+  //   this.form = new FormGroup({
+  //     'action': new FormControl(null, {validators: [Validators.required]}),
+  //     'verdict': new FormControl(null, {validators: [Validators.required]})
      
-      });
+  //     });
 
-      this.form.patchValue({action : 'Passed'});
-      this.selectedAction = 'Passed'
+  //     this.form.patchValue({action : 'Passed'});
+  //     this.selectedAction = 'Passed'
    
-    }
+  //   }
   
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+  //   onNoClick(): void {
+  //     this.dialogRef.close();
+  //   }
 
-    onSubmit(){
+  //   onSubmit(){
 
-      console.log(this.data.subject);
-      console.log(this.selectedVerdict);
-    }
+  //     console.log(this.data.subject);
+  //     console.log(this.selectedVerdict);
+  //   }
 
 
-    public findInvalidControls() {
-      const invalid = [];
-      const controls = this.form.controls;
-      for (const name in controls) {
-          if (controls[name].invalid) {
-              invalid.push(name);
-          }
-      }
-      return invalid;
-    }
+  //   public findInvalidControls() {
+  //     const invalid = [];
+  //     const controls = this.form.controls;
+  //     for (const name in controls) {
+  //         if (controls[name].invalid) {
+  //             invalid.push(name);
+  //         }
+  //     }
+  //     return invalid;
+  //   }
   
   
     
   
-    }
+  //   }
   

@@ -89,7 +89,7 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string, cys: string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string, cys: string, verdict:string, request_form: string){
 
     let now = new Date();
     let reqData : Request = { 
@@ -106,7 +106,9 @@ private facultyName: string;
       semester: semester,
       year: year, 
       note: null,
-      cys: cys
+      cys: cys,
+      verdict: null,
+      request_form: null
       
   
 
@@ -169,7 +171,9 @@ updateRequest(_id:string,
   semester:string, 
   year: string, 
   note:string, 
-  cys:string){
+  cys:string,
+  verdict:string,
+  request_form: string){
 
 
     let requestData : Request = {
@@ -185,7 +189,9 @@ updateRequest(_id:string,
         semester: semester,
         year: year,
         note: note,
-        cys: cys
+        cys: cys,
+        verdict: verdict,
+        request_form: request_form
 
       }
 

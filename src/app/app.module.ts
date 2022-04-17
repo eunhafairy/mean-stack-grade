@@ -41,8 +41,10 @@ import { MyrequestComponent } from './user/myrequest/myrequest.component';
 import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
 import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component';
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component';
-import { FacultyRequestElementComponent, FacultyVerdictElement } from './elements/faculty-request-element/faculty-request-element.component';
+import { FacultyRequestElementComponent } from './elements/faculty-request-element/faculty-request-element.component';
 import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-add-request.component';
+import { DialogRejectRequestComponent } from './elements/dialog-reject-request/dialog-reject-request.component';
+import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict/dialog-request-verdict.component';
 
 
 
@@ -71,8 +73,9 @@ import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-
     FacultyRequestComponent,
     FacultyProfileComponent,
     FacultyRequestElementComponent,
-    FacultyVerdictElement,
-    DialogAddRequestComponent
+    DialogAddRequestComponent,
+    DialogRejectRequestComponent,
+    DialogRequestVerdictComponent
   ],
   imports: [
     BrowserModule,

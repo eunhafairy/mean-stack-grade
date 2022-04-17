@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Request Rejection</h1>
+<div mat-dialog-content>
+
+<main>
+
+<form [formGroup] = "form" (submit) ="onReject()" >
+
+
+    <!-- ADDITIONAL DESCRIPTION -->
+
+    <mat-form-field class="full-width">
+      <mat-label>Reason for request rejection</mat-label>
+      <textarea matInput
+       type="input"
+       formControlName="note"
+      ></textarea>
+    </mat-form-field><br>
+
+  <button mat-raised-button color="warn" type="submit" *ngIf="!isLoading">Reject Request</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+ 
+
+</form>
+<button mat-raised-button  (click)="onNoClick()" >Cancel</button>
+</main>
+</div>

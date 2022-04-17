@@ -19,12 +19,14 @@
         <li><b>Academic Year: </b>{{request.year}}</li>
         <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
         <li><b>Status: </b>{{request.status}}</li>
+        <li *ngIf="request.status === 'Rejected'"><b>Note: </b>{{request.note}}</li>
+
  
  
         <!-- ACTION ROW -->
-        <mat-action-row>
-            <button mat-button color="primary" (click)= "acceptRequest(request)">Accept</button>
-            <button mat-button color="warn" (click) = "rejectRequest(request)">Reject</button>
+        <mat-action-row *ngIf = "request.status === 'Requested'">
+            <button mat-button color="primary" (click)= "acceptRequest(request._id)">Accept</button>
+            <button mat-button color="warn" (click) = "rejectRequest(request._id)">Reject</button>
         </mat-action-row>
     
     </mat-expansion-panel>

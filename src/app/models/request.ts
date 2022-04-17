@@ -12,6 +12,8 @@ export interface Request{
     semester : string,
     year: string, 
     note: string,
-    cys: string
+    cys: string,
+    verdict: string, 
+    request_form: string
 
 }

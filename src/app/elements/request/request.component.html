@@ -19,12 +19,13 @@
         <li><b>Semester: </b>{{request.semester}}</li>
         <li><b>Academic Year: </b>{{request.year}}</li>
         <li><b>Status: </b>{{request.status}}</li>
-
+    
         <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
+        <li *ngIf="request.status === 'Rejected'"><b>Note: </b>{{request.note}}</li>
         <!-- ACTION ROW -->
-        <mat-action-row>
-            <button mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>
-            <button mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
+        <mat-action-row *ngIf = "request.status === 'Requested'">
+            <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>
+            <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
         </mat-action-row>
     
     </mat-expansion-panel>
