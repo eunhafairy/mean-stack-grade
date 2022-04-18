@@ -24,8 +24,7 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/wv-resources/lib"
+              "src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
@@ -33,7 +32,6 @@
             ],
             "scripts": [
               
-              "src/wv-resources/lib/webviewer.min.js"
 
             ]
           },

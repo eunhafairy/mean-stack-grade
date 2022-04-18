@@ -89,7 +89,7 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:string, cys: string, verdict:string, request_form: string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:number, cys: string, verdict:string, request_form: string){
 
     let now = new Date();
     let reqData : Request = { 
@@ -169,31 +169,62 @@ updateRequest(_id:string,
   dateRequested: Date, 
   dateAccepted:Date, 
   semester:string, 
-  year: string, 
+  year: number, 
   note:string, 
   cys:string,
   verdict:string,
-  request_form: string){
+  request_form: File){
+
+    let requestData: FormData | Request
+    //adding file
+    if(request_form){
+
+      requestData = new FormData();
+      requestData.append('request_id', _id);
+      requestData.append('subject', subject);
+      requestData.append('faculty_id', faculty_id);
+      requestData.append('user_id', user_id);
+      requestData.append('status', status);
+      requestData.append('desc', desc);
+      requestData.append('creator', creator);
+      requestData.append('dateRequested', dateRequested.toISOString());
+      requestData.append('dateAccepted', dateAccepted.toISOString());
+      requestData.append('semester', semester);
+      requestData.append('year', year.toString());
+      requestData.append('semester', semester);
+      requestData.append('note', note);
+      requestData.append('cys', cys);
+      requestData.append('verdict', verdict);
+      requestData.append('cys', cys);
+      requestData.append('request_form', request_form, request_form.name);
+
+      
+    }
+
+    else{
 
 
-    let requestData : Request = {
-        request_id: _id,
-        subject: subject,
-        faculty_id: faculty_id,
-        user_id: user_id,
-        status: status,
-        desc: desc,
-        creator: creator,
-        dateRequested: dateRequested,
-        dateAccepted: dateAccepted,
-        semester: semester,
-        year: year,
-        note: note,
-        cys: cys,
-        verdict: verdict,
-        request_form: request_form
+      let requestData  = {
+          request_id: _id,
+          subject: subject,
+          faculty_id: faculty_id,
+          user_id: user_id,
+          status: status,
+          desc: desc,
+          creator: creator,
+          dateRequested: dateRequested,
+          dateAccepted: dateAccepted,
+          semester: semester,
+          year: year,
+          note: note,
+          cys: cys,
+          verdict: verdict,
+          request_form: request_form.name,
+         
+  
+        }
 
-      }
+    }
 
   
     

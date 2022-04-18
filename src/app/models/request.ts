@@ -10,10 +10,10 @@ export interface Request{
     dateRequested: Date,
     dateAccepted: Date, 
     semester : string,
-    year: string, 
+    year: number, 
     note: string,
     cys: string,
     verdict: string, 
-    request_form: string
+    request_form: File
 
 }

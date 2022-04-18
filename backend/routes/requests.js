@@ -151,6 +151,13 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 router.put("/:id", (req,res, next) =>{
 
+   let request_form = req.body.request_form;
+    if(req.file){
+        
+        const  url = req.protocol + "://"+req.get("host");
+        request_form = url+"/files/"+req.file.filename;
+
+    }
    
 
     const request = new Request({
@@ -165,7 +172,8 @@ router.put("/:id", (req,res, next) =>{
         semester: req.body.semester,
         year: req.body.year,
         note: req.body.note,
-        cys: req.body.cys
+        cys: req.body.cys,
+        request_form: request_form
 
     });
  
@@ -188,40 +196,40 @@ router.put("/:id", (req,res, next) =>{
 
 
 
-router.put("update-status/:id", (req,res, next) =>{
+// router.put("update-status/:id", (req,res, next) =>{
 
    
 
-    const request = new Request({
+//     const request = new Request({
 
-        _id: req.body.request_id,
-        subject: req.body.subject,
-        user_id: req.body.user_id,
-        faculty_id: req.body.faculty_id,
-        status: req.body.status,
-        creator: req.body.creator,
-        desc: req.body.desc,
-        semester: req.body.semester,
-        year: req.body.year,
-        note: req.body.note
+//         _id: req.body.request_id,
+//         subject: req.body.subject,
+//         user_id: req.body.user_id,
+//         faculty_id: req.body.faculty_id,
+//         status: req.body.status,
+//         creator: req.body.creator,
+//         desc: req.body.desc,
+//         semester: req.body.semester,
+//         year: req.body.year,
+//         note: req.body.note
 
-    });
+//     });
  
-    Request.updateOne({_id: req.params.id}, request )
-    .then(result =>{
-        res.status(200).json({message:'update successful'});
-    })
-    .catch(err=>{
+//     Request.updateOne({_id: req.params.id}, request )
+//     .then(result =>{
+//         res.status(200).json({message:'update successful'});
+//     })
+//     .catch(err=>{
 
-        res.status(500).json({
+//         res.status(500).json({
 
-            error: err,
-            message: "Something went wrong!"
-        })
+//             error: err,
+//             message: "Something went wrong!"
+//         })
 
-    })
+//     })
 
-})
+// })
 
 
 module.exports = router;

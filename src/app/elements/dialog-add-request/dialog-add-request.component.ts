@@ -100,6 +100,7 @@ export class DialogAddRequestComponent implements AfterViewInit{
       this.mode = "create"
       if(this.myRole === "Student"){
 
+        console.log(this.userService.getCYS());
         this.form.patchValue({cys : this.userService.getCYS()});
         
 

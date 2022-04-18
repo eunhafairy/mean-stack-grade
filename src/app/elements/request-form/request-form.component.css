@@ -1,9 +1,15 @@
+
+#form-body{
+
+    zoom: 0.5;
+}
 #pdfForm{
     background-image: url("form.png");
-    width: 816px;
-    height: 1056px;
+    width: 1224px;
+    height: 1582px;
     background-position: center;
     background-size: cover;
+    overflow-x: hidden;
 }
 
 
@@ -12,27 +18,115 @@ p{
 z-index: 100;
 position:relative;
 color:red;
+font-size: 25px;
 }
 #student_name{
 
-top:240px;
-left:250px;
+    top:360px;
+    left:380px;
 
 }
 
 #faculty_name{
-    top:175px;
-    left:175px;
-
+ 
+    top:250px;
+    left:250px;
 }
 
 #date_requested{
 
-top:80px;
-left:590px;
+top:120px;
+left:850px;
 }
 
 #subject{
-    top:185px;
-    left:250px;
+   
+    top:260px;
+    left:380px;
+}
+#semester{
+   
+    top:260px;
+    left:380px;
+}
+
+#ay-1{
+   
+    top:270px;
+    left:180px;
+}
+#ay-2{
+   
+    top:220px;
+    left:280px;
+}
+#reason{
+
+    top:310px;
+    left:170px;
+}
+
+#action-passed{
+    top:540px;
+    left:370px;
+
+}
+
+#action-failed{
+    top:520px;
+    left:370px;
+    visibility: hidden;
+
+}
+
+#rating-passed{
+    top:440px;
+    left:520px;
+
+}
+
+#rating-failed{
+    top:420px;
+    left:520px;
+
+}
+#date_accepted{
+    top:420px;
+    left:220px;
+
+}
+
+#professor_name{
+    width: 200px;
+    border: 1px solid red;
+    height:100px;
+    top:350px;
+    left:780px;
+    z-index: 100;
+    position:relative;
+
+}
+
+#stud_signature{
+
+    width: 200px;
+    height:100px;
+    position:relative;
+    top:580px;
+    left:540px;
+    border: 1px solid red;
+    z-index: 100;
+
+}
+
+#stud_id{
+    top:615px;
+    left:825px;
+
+}
+
+#cys{
+
+    top:590px;
+    left:980px;
 }

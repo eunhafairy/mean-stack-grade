@@ -27,6 +27,7 @@
     "express": "^4.17.3",
     "file-saver": "^2.0.5",
     "html-to-pdfmake": "^2.3.10",
+    "html2canvas": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.5.1",
     "mat-table-exporter": "^10.2.4",

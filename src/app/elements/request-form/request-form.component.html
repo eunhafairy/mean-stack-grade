@@ -1,7 +1,26 @@
+<div id="form-body">
+  
 <div id ="pdfForm" #pdfForm>
-  <p id = "student_name">My Name</p>
-  <p id = "faculty_name">Faculty Name</p>
-  <p id = "date_requested">01/01/2022</p>
-  <p id = "subject">IT 304</p>
+  <p id = "student_name">{{student_name}}</p>
+  <p id = "faculty_name">{{prof_name}}</p>
+  <p id = "date_requested">{{readableDate(date_requested)}}</p>
+  <p id = "subject">{{data.get('subject')}}</p>
+  <p id = "semester">{{data.get('semester')}}</p>
+  <p id = "ay-1">{{data.get('year')}}</p>
+  <p id = "ay-2">{{acad_year2}}</p>
+  <p id = "reason">{{data.get('desc')}}</p>
+  <p id = "action-passed" [ngStyle] ="{'visibility': visibilityIfPass}">&#10004;</p>
+  <p id = "action-failed"  [ngStyle] ="{'visibility': visibilityIfFail}">&#10004;</p>
+  <p id = "rating-passed" [ngStyle] ="{'visibility': visibilityIfPass}">{{this.data.get('grade')}}</p>
+  <p id = "rating-failed"  [ngStyle] ="{'visibility': visibilityIfFail}">{{this.data.get('grade')}}</p>
+  <p id = "date_accepted">{{readableDate(date_requested)}}</p>
+  <img id = "professor_name" [src]="e_sig_path_prof">{{prof_name}}
+  <img id = "stud_signature" [src]="e_sig_path">
+  <p id = "stud_id">{{student_no}}</p>
+  <p id = "cys">{{data.get('cys')}}</p>
+
+
+
+</div>
 </div>
 <button mat-button (click)="downloadPDF()">Download This</button>

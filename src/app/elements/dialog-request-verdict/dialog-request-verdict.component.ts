@@ -85,38 +85,28 @@ export class DialogRequestVerdictComponent implements OnInit {
 
             let request: any = res;
             let now = new Date();
-            this.requestService.updateRequest(this.data, 
-              request.subject, 
-              request.faculty_id,
-              request.user_id,
-              "Processing",
-              request.creator,
-              request.desc,
-              request.dateRequested,
-              now, 
-              request.semester,
-              request.year,
-              request.note,
-              request.cys,
-              grade,
-              null
-              ).subscribe(
-
-                res=>{
-
-                  window.alert("Request is now in processing!");
-                  this.dialogRef.close("Success");
-                }
-
-              )
-
-          },
-          err=>{
-
-            window.alert("Error occcured " + err);
-            return;
-          }
-        );
+            let updatedRequest: FormData = new FormData();
+            updatedRequest.append('_id', this.data);  
+            updatedRequest.append('subject',  request.subject);  
+            updatedRequest.append('faculty_id',   request.faculty_id);  
+            updatedRequest.append('user_id',   request.user_id);  
+            updatedRequest.append('status',     "Processing");  
+            updatedRequest.append('creator', request.creator);  
+            updatedRequest.append('desc',  request.desc);  
+            updatedRequest.append('dateRequested',   request.dateRequested);  
+            updatedRequest.append('dateAccepted',  now.toISOString());  
+            updatedRequest.append('semester',  request.semester);  
+            updatedRequest.append('year', request.year);  
+            updatedRequest.append('reason', request.reason);  
+            updatedRequest.append('note', request.note,);  
+            updatedRequest.append('cys', request.cys);  
+            updatedRequest.append('grade',   grade);  
+            updatedRequest.append('request_form', null);  
+            window.alert("Generating PDF File");
+            console.log("here in verdict: " + updatedRequest);
+            this.dialogRef.close(updatedRequest);
+         
+          });
 
       }
 

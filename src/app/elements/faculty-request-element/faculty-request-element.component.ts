@@ -8,6 +8,7 @@ import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
 import { DialogRejectRequestComponent } from '../dialog-reject-request/dialog-reject-request.component';
 import { DialogRequestVerdictComponent } from '../dialog-request-verdict/dialog-request-verdict.component';
+import { RequestFormComponent } from '../request-form/request-form.component';
 
 @Component({
   selector: 'app-faculty-request-element',
@@ -117,10 +118,24 @@ export class FacultyRequestElementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
       if(result){
+        console.log("here in faculty element: " + result.get('subject'));
+        
+        const dialogRef = this.dialog.open(RequestFormComponent, {
+          height: '100%',
+          data: result
+        });
+        dialogRef.afterClosed().subscribe(result =>{
+          window.location.reload();
+          this.refreshTable();
+        })
+
+        
+      }
+      else{
         
         window.location.reload();
         this.refreshTable();
-
+        
       }
     });
   }

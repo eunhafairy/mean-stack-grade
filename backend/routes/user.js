@@ -205,6 +205,7 @@ router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,r
 
     let e_sig = req.body.e_sig;
     if(req.file){
+        
         const  url = req.protocol + "://"+req.get("host");
         e_sig = url+"/files/"+req.file.filename;
 

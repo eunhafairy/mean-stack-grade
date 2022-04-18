@@ -252,7 +252,12 @@ export class UserService {
       
         this.u_id = response.u_id;
         this.role = response.role;
-        this.cys = response.course+" "+response.year+response.section;
+        if(this.role === 'Student'){
+          
+          this.cys = response.course+" "+response.year+response.section;
+        }
+
+        console.log(this.cys);
         const expiresInDuration  = response.expiresIn;
         this.setAuthTimer(expiresInDuration);
         const now = new Date();
