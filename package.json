@@ -21,6 +21,8 @@
     "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
+    "@pdftron/pdfnet-node": "^9.2.0-1",
+    "@pdftron/webviewer": "^8.4.1",
     "@types/pdfjs-dist": "^2.10.378",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",

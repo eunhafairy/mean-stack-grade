@@ -1,11 +1,11 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -62,6 +62,7 @@ export class RequestFormComponent implements OnInit {
    .subscribe(res=>{
 
       this.e_sig_path = res['e_sig'];
+ 
       this.student_name = res['f_name'] + " " + res['l_name'];
       this.student_no = res['student_no'];
 
@@ -89,21 +90,10 @@ export class RequestFormComponent implements OnInit {
 
   }
 
-  downloadPDF(){
+ 
 
-    html2canvas(this.el.nativeElement , {
 
-      useCORS:true
-
-    }).then((canvas)=>{
-
-      var imgData = canvas.toDataURL('image/png');
-      var doc = new jspdf.jsPDF('p', 'pt');
-      doc.addImage(imgData, 0,0, 612, 791);
-      doc.save("image.pdf");
-
-    });
-  }
+  
 
   readableDate(date : Date){
 

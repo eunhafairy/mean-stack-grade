@@ -4,12 +4,12 @@ const router = express.Router();
 
 const checkAuth = require('../middleware/check-auth');
 const { json } = require('body-parser');
-
+const jsPDF = require('jspdf');
+const html2canvas = require('html2canvas');
 
 router.post("", checkAuth, (req,res,next) =>{
    
   
-    console.log(req.body.subject);
     const request = new Request({
         subject:  req.body.subject,
         user_id:  req.body.user_id,
@@ -50,6 +50,7 @@ router.post("", checkAuth, (req,res,next) =>{
 
 
 router.get('',checkAuth ,(req,res,next) =>{
+ 
 
 
     Request.find()
@@ -128,7 +129,6 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
     Request.deleteOne({_id: req.params.id})
     .then((result)=>{
-        console.log(result);
         res.status(200).json({
             message: "Request deleted!"
         });
@@ -192,6 +192,7 @@ router.put("/:id", (req,res, next) =>{
     })
 
 })
+
 
 
 

@@ -32,7 +32,6 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
     .then(hash =>{
 
         
-        console.log(req.body.status);
         let user;
         let myBool = true;
 
@@ -44,7 +43,6 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
         //if faculty or admin
         if(req.body.role === 'Faculty' || req.body.role === 'Admin'){
 
-            console.log('no student no');
             user = new User({
 
                 f_name: req.body.f_name,
@@ -89,7 +87,6 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
 
         })
         .catch(err => {
-            console.log("error is : " + err);
             res.status(500).json({
                 error:err,
                 message: "Error occurred."
@@ -106,7 +103,6 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
     User.deleteOne({_id: req.params.id})
     .then((result)=>{
-        console.log(result);
         res.status(200).json({
             message: "User deleted!"
         });
@@ -283,12 +279,10 @@ router.get('/:role', checkAuth, (req, res, next) =>{
 
 router.get('/find/:id', checkAuth ,(req, res, next) =>{
 
-    console.log('went here');
     User.findById(req.params.id)
     .then( user =>{
         if(user){
 
-            console.log("database"+user);
             res.status(200).json(user);
         }
         else{
@@ -325,7 +319,6 @@ router.get('',checkAuth ,(req,res,next) =>{
     .then((documents) =>{
     
 
-        console.log('success');
         res.status(200).json({
             message: "Success!",
             users: documents
@@ -334,7 +327,6 @@ router.get('',checkAuth ,(req,res,next) =>{
     })
     .catch(err=>{
 
-        console.log('err' + err);
         res.status(500).json({
 
 
