@@ -118,11 +118,9 @@ export class FacultyRequestElementComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       //after closing dialog, refresh the table
       if(result){
-        console.log("here in faculty element: " + result.get('subject'));
         
         const dialogRef = this.dialog.open(RequestFormComponent, {
-          height: '100%',
-          data: result
+           data: result
         });
         dialogRef.afterClosed().subscribe(result =>{
           window.location.reload();

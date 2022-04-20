@@ -89,31 +89,27 @@ private facultyName: string;
     return this.requestsUpdated.asObservable();
   }
 
-  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:number, cys: string, verdict:string, request_form: string){
+  addRequest(subject: string, user_id: string, faculty_id: string, status: string, desc: string, creator:string, semester: string, year:number, cys: string, verdict:string, request_form: File){
 
     let now = new Date();
-    let reqData : Request = { 
+    let reqData = new FormData();
 
-      request_id: null,
-      subject:  subject,
-      user_id:  user_id,
-      faculty_id:  faculty_id,
-      status:  status,
-      desc:  desc,
-      creator:  creator,
-      dateRequested: now,
-      dateAccepted: null,
-      semester: semester,
-      year: year, 
-      note: null,
-      cys: cys,
-      verdict: null,
-      request_form: null
-      
-  
+      reqData.append("request_id", null);
+      reqData.append("subject", subject);
+      reqData.append("user_id", user_id);
+      reqData.append("faculty_id", faculty_id);
+      reqData.append("status", status);
+      reqData.append("desc", desc);
+      reqData.append("creator", creator);
+      reqData.append("dateRequested", now.toISOString());
+      reqData.append("dateAccepted", null);
+      reqData.append("semester", semester);
+      reqData.append("year", year.toString());
+      reqData.append("note", null);
+      reqData.append("cys", cys);
+      reqData.append("verdict", verdict);
+      reqData.append("request_form", request_form);
 
-    }
-    
     console.log(reqData);
     
     return this.http.post("http://localhost:3000/api/requests", reqData)

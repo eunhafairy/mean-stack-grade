@@ -4,12 +4,32 @@ const router = express.Router();
 
 const checkAuth = require('../middleware/check-auth');
 const { json } = require('body-parser');
-const jsPDF = require('jspdf');
-const html2canvas = require('html2canvas');
+const multer = require('multer');
+const storage = multer.diskStorage({
 
-router.post("", checkAuth, (req,res,next) =>{
+    destination: (req, file, cb) => {
+
+        cb(null, "backend/files");
+
+    },
+    filename: (req,file,cb) => {
+
+        cb(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
+
+    }
+
+});
+
+
+router.post("", multer({storage: storage}).single('request_form'), checkAuth, (req,res,next) =>{
+
+    let request_form = req.body.request_form;
+    if(req.file){
+        const  url = req.protocol + "://"+req.get("host");
+        request_form = url+"/files/"+req.file.filename;
+
+    }
    
-  
     const request = new Request({
         subject:  req.body.subject,
         user_id:  req.body.user_id,
@@ -20,7 +40,8 @@ router.post("", checkAuth, (req,res,next) =>{
         dateRequested: req.body.dateRequested,
         semester: req.body.semester,
         year: req.body.year,
-        cys: req.body.cys
+        cys: req.body.cys,
+        request_form:  request_form
         
     });
 
@@ -195,6 +216,8 @@ router.put("/:id", (req,res, next) =>{
 
 
 
-
+function getFileExt(fileName){
+    return fileName.split('.').pop();
+}
 
 module.exports = router;

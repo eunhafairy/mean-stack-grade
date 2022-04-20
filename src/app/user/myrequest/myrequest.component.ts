@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogAddRequestComponent } from 'src/app/elements/dialog-add-request/dialog-add-request.component';
+import { RequestFormComponent } from 'src/app/elements/request-form/request-form.component';
 
 
 @Component({
@@ -29,10 +30,26 @@ export class MyrequestComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
     
-      
-      if(res === "Success"){
 
-        window.location.reload();
+      
+      if(res){
+
+        const dialogRef2 = this.dialog.open(RequestFormComponent, {
+          height: '100%',
+          width: '80%',
+          data: res
+        });
+
+        dialogRef2.afterClosed().subscribe(res =>{
+          
+          if(res){
+            window.location.reload();
+            
+          }
+          
+        })
+        
+
 
       }
      

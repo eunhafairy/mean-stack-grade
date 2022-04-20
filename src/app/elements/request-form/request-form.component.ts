@@ -1,14 +1,17 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
-import * as jspdf from 'jspdf';
-import html2canvas from 'html2canvas'
+import WebViewer from '@pdftron/webviewer'
+import { Request } from 'src/app/models/request';
+import { RequestService } from 'src/app/service/request.service';
+// import * as jspdf from 'jspdf';
+// import html2canvas from 'html2canvas'
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
   styleUrls: ['./request-form.component.css']
 })
-export class RequestFormComponent implements OnInit {
+export class RequestFormComponent implements AfterViewInit {
 
  
   e_sig_path: string;
@@ -21,55 +24,228 @@ export class RequestFormComponent implements OnInit {
   visibilityIfFail: string;
   student_no : string;
   acad_year2 : number;
-  @ViewChild('pdfForm') pdfRef : ElementRef;
+  //@ViewChild('pdfForm') pdfRef : ElementRef;
+  @ViewChild('viewer') viewerRef : ElementRef;
 
 
   constructor(  
     public dialogRef: MatDialogRef<RequestFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FormData,
+    @Inject(MAT_DIALOG_DATA) public data: Request,
+    private requestService: RequestService,
     private userService: UserService,) { }
+ 
+ 
+  ngAfterViewInit(): void {
 
-  ngOnInit(): void {
+    // WebViewer({
+
+    //   path:'assets/lib',
+    //   initialDoc:'assets/files/Completion_Form_Fields.pdf'
+
+    // }, this.viewerRef.nativeElement).then();
+
+    // ================== GET VALUES FROM DATA============================
+
+
+    this.userService.getUser(this.data.user_id as string)
+       .subscribe(res=>{
+
+          this.e_sig_path = res['e_sig'];
+
+          this.student_name = res['f_name'] + " " + res['l_name'];
+          this.student_no = res['student_no'];
+          
+        
+         });
+
+    this.userService.getUser(this.data.faculty_id)
+    .subscribe(res =>{
+
+    this.prof_name = res['f_name'] + " "+res['l_name'];
+    this.e_sig_path_prof = res['e_sig'];
+
+    })
+
+    this.acad_year2 = +this.data.year + 1;
+    
+    console.log("verdict is  "+ this.data.verdict);
+
+
+          WebViewer({
+            path:'assets/lib',
+            initialDoc: 'assets/files/Completion_Form_Fields.pdf'
+
+          },this.viewerRef.nativeElement)
+          .then(instance => {
+            const { documentViewer, annotationManager } = instance.Core;
+
+
+            //add custome button
+            instance.UI.setHeaderItems(header => {
+              header.push({
+                  type: 'actionButton',
+                  img: '...',
+                  onClick: async () => {
+                    const doc = documentViewer.getDocument();
+                    const xfdfString = await annotationManager.exportAnnotations();
+                    const data = await doc.getFileData({
+                      // saves the document with annotations in it
+                      xfdfString
+                    });
+                    const arr = new Uint8Array(data);
+                    const blob = new Blob([arr], { type: 'application/pdf' });
+              
+                    // add code for handling Blob here
+                    var file = new File([blob], "blob_name.pdf");
+                    this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
+                    subscribe(res =>{
+                    
+                      window.alert("Success!");
+                      window.location.reload();
+                    },
+                    err =>{
+
+                      console.log(err);
+                      window.alert("err!" + err);
+                    });
+                  }
+              });
+            });
+
+            documentViewer.addEventListener('documentLoaded', () => {
+              documentViewer.getAnnotationsLoadedPromise().then(() => {
+                
+                // iterate over fields
+                const fieldManager = annotationManager.getFieldManager();
+                fieldManager.forEachField(field =>{
+                
+
+
+                    if(field.name !== "student_sig"){
+  
+                      field.widgets.map(annot =>{
+  
+                        annot.fieldFlags.set('ReadOnly', true);
+  
+                      })
+  
+                    
+
+                  }
+                  
+                });
+                fieldManager.forEachField(field => {
+                  switch (field.name){
+
+                    case "professor_name":
+                      field.setValue(this.prof_name);
+                      //do something
+                      break;
+                    case "dateRequested":
+                      field.setValue(this.readableDate(new Date()));
+                      //do something
+                      break;
+                    case "student_name":
+                      field.setValue(this.student_name);
+                      //do something
+                      break;
+                    case "subject":
+                      field.setValue(this.data.subject);
+                      //do something
+                      break;
+                    case "semester":
+                      field.setValue(this.data.semester);
+                      //do something
+                      break;
+                    case "year1":
+                      field.setValue(this.data.year);
+                      //do something
+                      break;
+                    case "year2":
+                    
+                      field.setValue(this.acad_year2);
+                      //do something
+                      break;
+                    case "reason":
+                     field.setValue(this.data.desc);
+                      //do something
+                      break;
+                    case "action_passed":
+
+                      if(this.data.verdict){
+                        if(this.data.verdict !== "5.00"){
+                          field.setValue("l");
+                        }
+                      }
+                    
+                      //do something
+                      break;
+                    case "rating_passed":
+                      if(this.data.verdict !== "5.00"){
+
+                        field.setValue(this.data.verdict);
+
+                      }
+
+                      //do something
+                      break;
+                    case "action_failed":
+                      if(this.data.verdict === "5.00"){
+
+                        field.setValue("l");
+
+                      }
+                      //do something
+                      break;
+                    case "rating_failed":
+                      if(this.data.verdict === "5.00"){
+
+                        field.setValue(this.data.verdict);
+
+                      }
+                      //do something
+                      break;
+                    case "date_accepted":
+                      //do something
+                      break;
+                    case "professor_sig":
+                      //do something
+                      break;
+                    case "professor_name2":
+                      field.setValue(this.prof_name);
+                      //do something
+                      break;
+                    case "student_sig":
+                      //do something
+                      break;
+                    case "stud_id":
+                      field.setValue(this.student_no);
+                      //do something
+                      break;
+                    case "cys":
+                      field.setValue(this.data.cys);
+                      //do something
+                      break;
+                  }
+                });
+              });
+            });
+          });
+
+
+
+         
+           
+          
+              // Add header button that will get file data on click
+           
+         
 
   
-   this.userService.getUser(this.data.get('user_id') as string)
-   .subscribe(res=>{
-
-      this.e_sig_path = res['e_sig'];
- 
-      this.student_name = res['f_name'] + " " + res['l_name'];
-      this.student_no = res['student_no'];
-
-     
-     this.date_requested = Date.parse(this.data.get('dateRequested').toString());
-     this.date_accepted = Date.parse(this.data.get('dateAccepted').toString());
     
-
-     console.log(this.data.get('verdict'));
-     if(this.data.get('verdict') === '5.00'){
-        this.visibilityIfPass= 'invisible'
-        this.visibilityIfFail= 'visible'
-
-     }
-     else{    
-       
-      this.visibilityIfPass= 'visible'
-     this.visibilityIfFail= 'invisible'
-
-     }
-     });
-
-     this.userService.getUser(this.data.get('faculty_id') as string)
-     .subscribe(res =>{
-
-      this.prof_name = res['f_name'] + " "+res['l_name'];
-      this.e_sig_path_prof = res['e_sig'];
- 
-     })
-
-     this.acad_year2 = +this.data.get('year') + 1;
-
   }
+
+ 
 
   readableDate(date : Date){
 
@@ -77,21 +253,21 @@ export class RequestFormComponent implements OnInit {
 
   }
 
-  generatePDF(){
-    var file;
-    html2canvas(this.pdfRef.nativeElement,{
+  // generatePDF(){
+  //   var file;
+  //   html2canvas(this.pdfRef.nativeElement,{
 
-    useCORS: true
+  //   useCORS: true
 
-    }).then(canvas =>{
+  //   }).then(canvas =>{
 
-      var imgData = canvas.toDataURL('image/png');
-      var doc = new jspdf.jsPDF('p', 'pt');
-      doc.addImage(imgData, 0,0, 612, 791);
-      file = doc.save("image.pdf");
-    });
-   console.log(file);
-  }
+  //     var imgData = canvas.toDataURL('image/png');
+  //     var doc = new jspdf.jsPDF('p', 'pt');
+  //     doc.addImage(imgData, 0,0, 612, 791);
+  //     file = doc.save("image.pdf");
+  //   });
+  //  console.log(file);
+  // }
 
 
   // async afillForm() {

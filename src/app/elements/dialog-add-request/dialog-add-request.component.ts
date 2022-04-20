@@ -213,30 +213,52 @@ export class DialogAddRequestComponent implements AfterViewInit{
       switch(this.mode){
 
         case "create":
-          this.requestService.addRequest(this.form.value.subject,studentName,
-            this.form.value.faculty, "Requested",
-            this.form.value.desc,
-            this.userService.getUserId(),
-            this.form.value.semester,
-            this.form.value.year,
-            this.form.value.cys,
-            null,
-            null
-            )
-          .subscribe(
-            res=>{
-              //success
-              console.log("Success!", res);
-              window.alert("Success!");
-              this.dialogRef.close("Success");
-            },
-            err => {
-                //error
-                window.alert("Something went wrong. " + err);
-                this.form.reset();
-            }
-          );
 
+          let request : Request = {
+
+            request_id: null,
+            subject : this.form.value.subject,
+            user_id: studentName,
+            faculty_id: this.form.value.faculty,
+            status: "Requested",
+            creator: this.userService.getUserId(),
+            desc:   this.form.value.desc,
+            dateRequested: null,
+            dateAccepted: null,
+            semester: this.form.value.semester,
+            year: this.form.value.year,
+            note: null,
+            cys: this.form.value.cys,
+            verdict: null,
+            request_form:null
+          }
+
+          // this.requestService.addRequest(this.form.value.subject,studentName,
+          //   this.form.value.faculty, "Requested",
+          //   this.form.value.desc,
+          //   this.userService.getUserId(),
+          //   this.form.value.semester,
+          //   this.form.value.year,
+          //   this.form.value.cys,
+          //   null,
+          //   null
+          //   )
+          // .subscribe(
+          //   res=>{
+          //     //success
+          //     console.log("Success!", res);
+          //     window.alert("Success!");
+          //     this.dialogRef.close(res);
+          //   },
+          //   err => {
+          //       //error
+          //       window.alert("Something went wrong. " + err);
+          //       this.form.reset();
+          //   }
+          // );
+
+          // break;
+          this.dialogRef.close(request);
           break;
       
         case "edit":
