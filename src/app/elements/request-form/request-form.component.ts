@@ -1,7 +1,8 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
-
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas'
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -16,11 +17,11 @@ export class RequestFormComponent implements OnInit {
   student_name: string;
   date_requested: any;
   date_accepted: any;
-  visibilityIfPass: string = 'visible';
-  visibilityIfFail: string = 'hidden';
+  visibilityIfPass: string ;
+  visibilityIfFail: string;
   student_no : string;
   acad_year2 : number;
-  @ViewChild('viewer') viewerRef : ElementRef;
+  @ViewChild('pdfForm') pdfRef : ElementRef;
 
 
   constructor(  
@@ -39,14 +40,21 @@ export class RequestFormComponent implements OnInit {
       this.student_name = res['f_name'] + " " + res['l_name'];
       this.student_no = res['student_no'];
 
-      console.log(res);
      
      this.date_requested = Date.parse(this.data.get('dateRequested').toString());
      this.date_accepted = Date.parse(this.data.get('dateAccepted').toString());
     
+
+     console.log(this.data.get('verdict'));
      if(this.data.get('verdict') === '5.00'){
-        this.visibilityIfPass= 'hidden'
+        this.visibilityIfPass= 'invisible'
         this.visibilityIfFail= 'visible'
+
+     }
+     else{    
+       
+      this.visibilityIfPass= 'visible'
+     this.visibilityIfFail= 'invisible'
 
      }
      });
@@ -67,6 +75,22 @@ export class RequestFormComponent implements OnInit {
 
     return new Date(date).toLocaleDateString();
 
+  }
+
+  generatePDF(){
+    var file;
+    html2canvas(this.pdfRef.nativeElement,{
+
+    useCORS: true
+
+    }).then(canvas =>{
+
+      var imgData = canvas.toDataURL('image/png');
+      var doc = new jspdf.jsPDF('p', 'pt');
+      doc.addImage(imgData, 0,0, 612, 791);
+      file = doc.save("image.pdf");
+    });
+   console.log(file);
   }
 
 
