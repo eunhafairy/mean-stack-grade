@@ -1,11 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
-import { AdminServiceService } from 'src/app/service/admin-service.service';
-import { RequestService } from 'src/app/service/request.service';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -13,51 +9,28 @@ import html2canvas from 'html2canvas';
 })
 export class RequestFormComponent implements OnInit {
 
-  @ViewChild('pdfForm', {static:false}) el!: ElementRef;
-  // @ViewChild('student_name', {static:false}) student_name!: ElementRef;
-  // @ViewChild('faculty_name', {static:false}) faculty_name!: ElementRef;
-  // @ViewChild('date_requested', {static:false}) date_requested!: ElementRef;
-  // @ViewChild('subject', {static:false}) subject!: ElementRef;
-  // @ViewChild('semester', {static:false}) semester!: ElementRef;
-  // @ViewChild('ay-1', {static:false}) ay1!: ElementRef;
-  // @ViewChild('ay-2', {static:false}) ay2!: ElementRef;
-  // @ViewChild('reason', {static:false}) reason!: ElementRef;
-  // @ViewChild('action-passed', {static:false}) action_passed!: ElementRef;
-  // @ViewChild('action-failed', {static:false}) action_failed!: ElementRef;
-  // @ViewChild('rating-passed', {static:false}) rating_passed!: ElementRef;
-  // @ViewChild('rating-failed', {static:false}) rating_failed!: ElementRef;
-  // @ViewChild('date_accepted', {static:false}) date_accepted!: ElementRef;
-  // @ViewChild('stud_signature', {static:false}) stud_signature!: ElementRef;
-  // @ViewChild('professor_name', {static:false}) professor_name!: ElementRef;
-  // @ViewChild('stud_id', {static:false}) stud_id!: ElementRef;
-  // @ViewChild('cys', {static:false}) cys!: ElementRef;
-
+ 
   e_sig_path: string;
   e_sig_path_prof: string;
-
   prof_name: string;
   student_name: string;
   date_requested: any;
   date_accepted: any;
   visibilityIfPass: string = 'visible';
   visibilityIfFail: string = 'hidden';
-    student_no : string;
-
-    acad_year2 : number;
-
+  student_no : string;
+  acad_year2 : number;
+  @ViewChild('viewer') viewerRef : ElementRef;
 
 
   constructor(  
     public dialogRef: MatDialogRef<RequestFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FormData,
-    private requestService: RequestService,
-    private userService: UserService,
-    private adminService: AdminServiceService) { }
+    private userService: UserService,) { }
 
   ngOnInit(): void {
 
-
-   //this.e_sig_path = this.data.get() as string;
+  
    this.userService.getUser(this.data.get('user_id') as string)
    .subscribe(res=>{
 
@@ -90,15 +63,66 @@ export class RequestFormComponent implements OnInit {
 
   }
 
- 
-
-
-  
-
   readableDate(date : Date){
 
     return new Date(date).toLocaleDateString();
 
   }
+
+
+  // async afillForm() {
+  //   const formUrl = 'pdfhost.io/v/EJX6at~8d_Completion_Form_Fields'
+  //   const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
+  //   const pdfDoc = await PDFDocument.load(formPdfBytes)
+  
+  //   const form = pdfDoc.getForm();
+  
+  //   const dateRequestedField = form.getTextField('dateRequested')
+  //   const professor_nameField = form.getTextField('professor_name')
+  //   const student_nameField = form.getTextField('student_name')
+  //   const subjectField = form.getTextField('subject')
+  //   const semesterField = form.getTextField('semester')
+  //   const year1Field = form.getTextField('year1')
+  //   const year2Field = form.getTextField('year2')
+  //   const reasonField = form.getTextField('reason')
+  //   const action_passedField = form.getTextField('action_passed')
+  //   const rating_passedField = form.getTextField('rating_passed')
+  //   const action_failedField = form.getTextField('action_failed')
+  //   const rating_failedField = form.getTextField('rating_failed')
+  //   const date_acceptedField = form.getTextField('date_accepted')
+  //   //const professor_sigField = form.getSignature('professor_sig')
+  //   const professor_name2Field = form.getTextField('professor_name2')
+  //   //const student_sigField = form.getSignature('student_sig')
+
+  //   const stud_idField = form.getTextField('stud_id')
+  //   const cysField = form.getTextField('cys')
+
+
+  
+  //   dateRequestedField.setText('Mario')
+  //   professor_nameField.setText('24 years')
+  //   student_nameField.setText(`5' 1"`)
+  //   subjectField.setText('196 lbs')
+  //   semesterField.setText('blue')
+  //   year1Field.setText('white')
+  //   year2Field.setText('brown')
+  //   reasonField.setText('brown')
+  //   action_passedField.setText('brown')
+  //   rating_passedField.setText('brown')
+  //   action_failedField.setText('brown')
+  //   rating_failedField.setText('brown')
+  //   date_acceptedField.setText('brown')
+  //   professor_name2Field.setText('brown')
+
+
+  //   // student_sigField.setImage()
+  //   // professor_sigField.setImage(marioImage)
+  //   const pdfBytes = await pdfDoc.save()
+
+   
+  // }
+
+  
+
 
 }
