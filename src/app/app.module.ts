@@ -19,6 +19,7 @@ import {  MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './elements/header/header.component';
@@ -46,7 +47,6 @@ import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-
 import { DialogRejectRequestComponent } from './elements/dialog-reject-request/dialog-reject-request.component';
 import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict/dialog-request-verdict.component';
 import { RequestFormComponent } from './elements/request-form/request-form.component';
-import { RequestPdftronComponent } from './elements/request-pdftron/request-pdftron.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,8 +75,7 @@ import { RequestPdftronComponent } from './elements/request-pdftron/request-pdft
     DialogAddRequestComponent,
     DialogRejectRequestComponent,
     DialogRequestVerdictComponent,
-    RequestFormComponent,
-    RequestPdftronComponent
+    RequestFormComponent
   ],
   imports: [
     BrowserModule,

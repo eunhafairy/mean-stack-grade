@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:server": "nodemon server.js"
+    "start:server": "nodemon server.js",
+    "install": "npm-git install"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +29,7 @@
     "body-parser": "^1.19.2",
     "express": "^4.17.3",
     "file-saver": "^2.0.5",
+    "fs": "^0.0.1-security",
     "html-to-pdfmake": "^2.3.10",
     "html2canvas": "^1.4.1",
     "jsonwebtoken": "^8.5.1",
@@ -36,7 +38,10 @@
     "mongoose": "^6.2.10",
     "mongoose-unique-validator": "^3.0.0",
     "multer": "^1.4.4",
+    "npm-git-install": "^0.3.0",
+    "pdf-lib": "^1.17.1",
     "pdfmake": "^0.2.5",
+    "pspdfkit": "^2022.2.1",
     "rxjs": "~7.5.0",
     "serialize-error": "^9.1.1",
     "tslib": "^2.3.0",
@@ -47,7 +52,7 @@
     "@angular/cli": "~13.3.0",
     "@angular/compiler-cli": "~13.3.0",
     "@types/jasmine": "~3.10.0",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.20.48",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -56,5 +61,8 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "nodemon": "^2.0.15",
     "typescript": "~4.6.2"
+  },
+  "browser": {
+    "fs": false
   }
 }
