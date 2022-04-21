@@ -19,6 +19,7 @@ export class FacultyRequestElementComponent implements OnInit {
 
   @Input() status:string;
   requests : any[] = [];
+  acadYear : string;
   totalRequests: number;
   dataSource: any;
   isLoading = false;
@@ -28,6 +29,7 @@ export class FacultyRequestElementComponent implements OnInit {
   constructor(private requestService: RequestService, private userService: UserService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    
     this.refreshTable();
   }
 
@@ -58,6 +60,11 @@ export class FacultyRequestElementComponent implements OnInit {
 
     })
 
+  }
+
+  transformAcadYear(year: number){
+    
+    return "20"+year+"-"+"20"+(year+1); 
   }
 
   transformRequests(request:Request[]){
@@ -120,7 +127,9 @@ export class FacultyRequestElementComponent implements OnInit {
       if(result){
         
         const dialogRef = this.dialog.open(RequestFormComponent, {
-           data: result
+           data: result,
+             height: '90%',
+              width: '80%',
         });
         dialogRef.afterClosed().subscribe(result =>{
           window.location.reload();

@@ -5,7 +5,7 @@ const path = require('path');
 const requestsRoutes = require('./routes/requests');
 const userRoutes = require('./routes/user');
 const subjectRoutes = require('./routes/subjects');
-
+const cors = require('cors');
 const app = express();
 
 
@@ -19,20 +19,20 @@ console.log('Connected to database');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use("/files", express.static(path.join("backend/files")));
 
 app.use((req, res, next) =>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, *");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS, *");
     next();
-
+    
 });
 
 
+
+app.use("/files", express.static(path.join("backend/files")));
 app.use("/api/requests",requestsRoutes);
 app.use("/api/users", userRoutes);
-
 app.use("/api/subjects", subjectRoutes);
-
+app.use(cors());
 module.exports = app;

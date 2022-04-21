@@ -16,12 +16,13 @@
 
         <li><b>Professor: </b>{{request.faculty_id}}</li>
         <li><b>Reason: </b>{{request.desc}}</li>
-        <li><b>Semester: </b>{{request.semester}}</li>
-        <li><b>Academic Year: </b>{{request.year}}</li>
+        <li><b>Semester/Tri-semester/Summer: </b>{{request.semester}}</li>
+        <li><b>Academic Year: </b>{{transformAcadYear(request.year)}}</li>
         <li><b>Status: </b>{{request.status}}</li>
     
         <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
-        <li *ngIf="request.status === 'Rejected'"><b>Note: </b>{{request.note}}</li>
+        <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
+        <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
         <!-- ACTION ROW -->
         <mat-action-row *ngIf = "request.status === 'Requested'">
             <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>

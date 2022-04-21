@@ -155,7 +155,7 @@ private facultyName: string;
 
 
 
-updateRequest(_id:string, 
+updateRequest(id:string, 
   subject:string, 
   faculty_id:string, 
   user_id:string, 
@@ -169,14 +169,14 @@ updateRequest(_id:string,
   note:string, 
   cys:string,
   verdict:string,
-  request_form: File){
+  request_form: File | string){
 
     let requestData: FormData | Request
     //adding file
-    if(request_form){
+    if(typeof(request_form)==='object'){
 
       requestData = new FormData();
-      requestData.append('request_id', _id);
+      requestData.append('request_id', id);
       requestData.append('subject', subject);
       requestData.append('faculty_id', faculty_id);
       requestData.append('user_id', user_id);
@@ -192,7 +192,7 @@ updateRequest(_id:string,
       requestData.append('cys', cys);
       requestData.append('verdict', verdict);
       requestData.append('cys', cys);
-      requestData.append('request_form', request_form, request_form.name);
+      requestData.append('request_form', request_form, (request_form as File).name);
 
       
     }
@@ -200,8 +200,8 @@ updateRequest(_id:string,
     else{
 
 
-      let requestData  = {
-          request_id: _id,
+       requestData  = {
+          request_id: id,
           subject: subject,
           faculty_id: faculty_id,
           user_id: user_id,
@@ -215,7 +215,7 @@ updateRequest(_id:string,
           note: note,
           cys: cys,
           verdict: verdict,
-          request_form: request_form.name,
+          request_form: request_form as string,
          
   
         }
@@ -224,7 +224,7 @@ updateRequest(_id:string,
 
   
     
-    return this.http.put("http://localhost:3000/api/requests/" + _id, requestData);
+    return this.http.put("http://localhost:3000/api/requests/" + id, requestData);
     
 
   }

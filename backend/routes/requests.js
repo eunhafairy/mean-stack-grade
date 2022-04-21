@@ -72,6 +72,7 @@ router.post("", multer({storage: storage}).single('request_form'), checkAuth, (r
 
 router.get('',checkAuth ,(req,res,next) =>{
  
+    res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
 
 
     Request.find()
@@ -172,14 +173,14 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 router.put("/:id", (req,res, next) =>{
 
-   let request_form = req.body.request_form;
+   var request_form = req.body.request_form;
     if(req.file){
         
         const  url = req.protocol + "://"+req.get("host");
         request_form = url+"/files/"+req.file.filename;
 
     }
-   
+   console.log(req.body.request_form);
 
     const request = new Request({
 

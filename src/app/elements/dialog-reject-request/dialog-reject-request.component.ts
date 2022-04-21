@@ -39,7 +39,7 @@ export class DialogRejectRequestComponent implements OnInit {
     if(this.data){
 
 
-      console.log(this.data);
+      console.log("to reject: "+this.data);
       this.requestService.getRequest(this.data)
       .subscribe(
         res =>{
@@ -59,7 +59,7 @@ export class DialogRejectRequestComponent implements OnInit {
           this.form.value.note,
           request.cys,
           null, 
-          null).subscribe(res=>{
+          request.request_form).subscribe(res=>{
             
               window.alert("Request rejected!");
               this.dialogRef.close("Success");

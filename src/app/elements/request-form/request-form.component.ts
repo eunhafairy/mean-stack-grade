@@ -70,10 +70,16 @@ export class RequestFormComponent implements AfterViewInit {
     
     console.log("verdict is  "+ this.data.verdict);
 
+    let pdfPath = 'assets/files/Completion_Form_Fields.pdf';
+    if(this.userService.getRole() != 'Student'){
+      pdfPath = this.data.request_form;
+    }
+
 
           WebViewer({
             path:'assets/lib',
-            initialDoc: 'assets/files/Completion_Form_Fields.pdf'
+            initialDoc: pdfPath,
+            
 
           },this.viewerRef.nativeElement)
           .then(instance => {

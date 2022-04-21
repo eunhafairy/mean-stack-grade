@@ -57,8 +57,8 @@ export class DialogAddRequestComponent implements AfterViewInit{
       'status' : new FormControl('Requested', {validators: [Validators.required]}),
       'desc' : new FormControl(null),
       'semester' : new FormControl(null, {validators: [Validators.required]}),
-      'year' : new FormControl('2021-2022', {validators: [Validators.required]}),
-      'student' : new FormControl('2021-2022', {validators: [Validators.required]}) });
+      'year' : new FormControl('22', {validators: [Validators.required]}),
+      'student' : new FormControl('student', {validators: [Validators.required]}) });
 
     if(data){
       
@@ -203,8 +203,9 @@ export class DialogAddRequestComponent implements AfterViewInit{
   
 
     if(this.form.invalid){
-        
-        return;
+      console.log('form is invalid' +   this.findInvalidControls());
+    
+      return;
     }
 
     else{
@@ -304,6 +305,18 @@ export class DialogAddRequestComponent implements AfterViewInit{
 
     
   }
+
+
+   public findInvalidControls() {
+     const invalid = [];
+     const controls = this.form.controls;
+     for (const name in controls) {
+         if (controls[name].invalid) {
+             invalid.push(name);
+         }
+     }
+     return invalid;
+   }
 
 
 }

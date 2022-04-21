@@ -14,6 +14,6 @@ export interface Request{
     note: string,
     cys: string,
     verdict: string, 
-    request_form: File
+    request_form: string
 
 }

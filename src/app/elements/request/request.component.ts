@@ -62,6 +62,11 @@ deleteRequest(requestId: string){
     return new Date(date).toLocaleDateString();;
 
   }
+  transformAcadYear(year: number){
+    
+    return "20"+year+"-"+"20"+(year+1); 
+  }
+
 
   openEditRequestDialog(id: string){
 
