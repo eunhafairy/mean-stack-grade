@@ -12,7 +12,9 @@ const userSchema = mongoose.Schema({
     year: {type: Number, enum: [1,2,3,4], required: false, default:1},
     section : {type: String, enum : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I','J','K','L','M', 'N','O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W','X','Y','Z'], required: false, default:'A'},
     password: {type: String, required: true},
-    status: {type: Boolean, required: false, default:false}
+    status: {type: Boolean, required: false, default:false},
+   
+    
 });
 
 userSchema.plugin(uniqueValidator);

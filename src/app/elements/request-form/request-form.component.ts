@@ -1,11 +1,12 @@
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserService } from 'src/app/service/user.service';
-import WebViewer from '@pdftron/webviewer'
+//import WebViewer from '@pdftron/webviewer'
 import { Request } from 'src/app/models/request';
 import { RequestService } from 'src/app/service/request.service';
-// import * as jspdf from 'jspdf';
-// import html2canvas from 'html2canvas'
+import * as jspdf from 'jspdf';
+import html2canvas from 'html2canvas'
+import { PDFDocument } from 'pdf-lib'
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -14,6 +15,7 @@ import { RequestService } from 'src/app/service/request.service';
 export class RequestFormComponent implements AfterViewInit {
 
  
+  edit: boolean;
   e_sig_path: string;
   e_sig_path_prof: string;
   prof_name: string;
@@ -24,8 +26,8 @@ export class RequestFormComponent implements AfterViewInit {
   visibilityIfFail: string;
   student_no : string;
   acad_year2 : number;
-  //@ViewChild('pdfForm') pdfRef : ElementRef;
-  @ViewChild('viewer') viewerRef : ElementRef;
+  @ViewChild('pdfForm') pdfRef : ElementRef;
+  // @ViewChild('viewer') viewerRef : ElementRef;
 
 
   constructor(  
@@ -37,15 +39,21 @@ export class RequestFormComponent implements AfterViewInit {
  
   ngAfterViewInit(): void {
 
-    // WebViewer({
+    //==============CREATE OR EDIT=================
+    if(this.data.verdict){
 
-    //   path:'assets/lib',
-    //   initialDoc:'assets/files/Completion_Form_Fields.pdf'
+      this.edit = true;
 
-    // }, this.viewerRef.nativeElement).then();
+    }
+    else{
+
+      this.edit = false;
+
+    }
+
+    console.log("will edit?: " + this.edit + "linnk to pdf " + this.data.request_form);
 
     // ================== GET VALUES FROM DATA============================
-
 
     this.userService.getUser(this.data.user_id as string)
        .subscribe(res=>{
@@ -67,185 +75,186 @@ export class RequestFormComponent implements AfterViewInit {
     })
 
     this.acad_year2 = +this.data.year + 1;
-    
-    console.log("verdict is  "+ this.data.verdict);
 
-    let pdfPath = 'assets/files/Completion_Form_Fields.pdf';
-    if(this.userService.getRole() != 'Student'){
-      pdfPath = this.data.request_form;
-    }
+    this.date_requested = new Date();
+    this.date_accepted = new Date();
+   
+    // let pdfPath = 'assets/files/Completion_Form_Fields.pdf';
+    // if(this.userService.getRole() != 'Student'){
+    //   pdfPath = this.data.request_form;
+    // }
 
 
-          WebViewer({
-            path:'assets/lib',
-            initialDoc: pdfPath,
+          // WebViewer({
+          //   path:'assets/lib',
+          //   initialDoc: pdfPath,
             
 
-          },this.viewerRef.nativeElement)
-          .then(instance => {
-            const { documentViewer, annotationManager } = instance.Core;
+          // },this.viewerRef.nativeElement)
+          // .then(instance => {
+          //   const { documentViewer, annotationManager } = instance.Core;
 
 
-            //add custome button
-            instance.UI.setHeaderItems(header => {
-              header.push({
-                  type: 'actionButton',
-                  img: '...',
-                  onClick: async () => {
-                    const doc = documentViewer.getDocument();
-                    const xfdfString = await annotationManager.exportAnnotations();
-                    const data = await doc.getFileData({
-                      // saves the document with annotations in it
-                      xfdfString
-                    });
-                    const arr = new Uint8Array(data);
-                    const blob = new Blob([arr], { type: 'application/pdf' });
+          //   //add custome button
+          //   instance.UI.setHeaderItems(header => {
+          //     header.push({
+          //         type: 'actionButton',
+          //         img: '...',
+          //         onClick: async () => {
+          //           const doc = documentViewer.getDocument();
+          //           const xfdfString = await annotationManager.exportAnnotations();
+          //           const data = await doc.getFileData({
+          //             // saves the document with annotations in it
+          //             xfdfString
+          //           });
+          //           const arr = new Uint8Array(data);
+          //           const blob = new Blob([arr], { type: 'application/pdf' });
               
-                    // add code for handling Blob here
-                    var file = new File([blob], "blob_name.pdf");
-                    this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
-                    subscribe(res =>{
+          //           // add code for handling Blob here
+          //           var file = new File([blob], "blob_name.pdf");
+          //           this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
+          //           subscribe(res =>{
                     
-                      window.alert("Success!");
-                      window.location.reload();
-                    },
-                    err =>{
+          //             window.alert("Success!");
+          //             window.location.reload();
+          //           },
+          //           err =>{
 
-                      console.log(err);
-                      window.alert("err!" + err);
-                    });
-                  }
-              });
-            });
+          //             console.log(err);
+          //             window.alert("err!" + err);
+          //           });
+          //         }
+          //     });
+          //   });
 
-            documentViewer.addEventListener('documentLoaded', () => {
-              documentViewer.getAnnotationsLoadedPromise().then(() => {
+          //   documentViewer.addEventListener('documentLoaded', () => {
+          //     documentViewer.getAnnotationsLoadedPromise().then(() => {
                 
-                // iterate over fields
-                const fieldManager = annotationManager.getFieldManager();
-                fieldManager.forEachField(field =>{
+          //       // iterate over fields
+          //       const fieldManager = annotationManager.getFieldManager();
+          //       fieldManager.forEachField(field =>{
                 
 
 
-                  if(this.userService.getRole() === 'Student'){
+          //         if(this.userService.getRole() === 'Student'){
 
-                    if(field.name !== "student_sig"){
+          //           if(field.name !== "student_sig"){
   
-                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
-                    }
+          //             field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+          //           }
 
-                  }
-                  else if (this.userService.getRole() === 'Faculty'){
+          //         }
+          //         else if (this.userService.getRole() === 'Faculty'){
                     
-                    if(field.name !== "professor_sig"){
-                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
-                    }
-                    if(field.name === "professor_sig"){
-                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+          //           if(field.name !== "professor_sig"){
+          //             field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+          //           }
+          //           if(field.name === "professor_sig"){
+          //             field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
 
-                    }
+          //           }
 
-                  }
+          //         }
                   
-                });
-                fieldManager.forEachField(field => {
-                  switch (field.name){
+          //       });
+          //       fieldManager.forEachField(field => {
+          //         switch (field.name){
 
-                    case "professor_name":
-                      field.setValue(this.prof_name);
-                      //do something
-                      break;
-                    case "dateRequested":
-                      field.setValue(this.readableDate(new Date()));
-                      //do something
-                      break;
-                    case "student_name":
-                      field.setValue(this.student_name);
-                      //do something
-                      break;
-                    case "subject":
-                      field.setValue(this.data.subject);
-                      //do something
-                      break;
-                    case "semester":
-                      field.setValue(this.data.semester);
-                      //do something
-                      break;
-                    case "year1":
-                      field.setValue(this.data.year);
-                      //do something
-                      break;
-                    case "year2":
+          //           case "professor_name":
+          //             field.setValue(this.prof_name);
+          //             //do something
+          //             break;
+          //           case "dateRequested":
+          //             field.setValue(this.readableDate(new Date()));
+          //             //do something
+          //             break;
+          //           case "student_name":
+          //             field.setValue(this.student_name);
+          //             //do something
+          //             break;
+          //           case "subject":
+          //             field.setValue(this.data.subject);
+          //             //do something
+          //             break;
+          //           case "semester":
+          //             field.setValue(this.data.semester);
+          //             //do something
+          //             break;
+          //           case "year1":
+          //             field.setValue(this.data.year);
+          //             //do something
+          //             break;
+          //           case "year2":
                     
-                      field.setValue(this.acad_year2);
-                      //do something
-                      break;
-                    case "reason":
-                     field.setValue(this.data.desc);
-                      //do something
-                      break;
-                    case "action_passed":
+          //             field.setValue(this.acad_year2);
+          //             //do something
+          //             break;
+          //           case "reason":
+          //            field.setValue(this.data.desc);
+          //             //do something
+          //             break;
+          //           case "action_passed":
 
-                      if(this.data.verdict){
-                        if(this.data.verdict !== "5.00"){
-                          field.setValue("✔");
-                        }
-                      }
+          //             if(this.data.verdict){
+          //               if(this.data.verdict !== "5.00"){
+          //                 field.setValue("✔");
+          //               }
+          //             }
                     
-                      //do something
-                      break;
-                    case "rating_passed":
-                      console.log("verdict is : "+this.data.verdict);
-                      if(this.data.verdict !== "5.00"){
+          //             //do something
+          //             break;
+          //           case "rating_passed":
+          //             console.log("verdict is : "+this.data.verdict);
+          //             if(this.data.verdict !== "5.00"){
 
-                        field.setValue(this.data.verdict);
+          //               field.setValue(this.data.verdict);
 
-                      }
+          //             }
 
-                      //do something
-                      break;
-                    case "action_failed":
-                      if(this.data.verdict === "5.00"){
+          //             //do something
+          //             break;
+          //           case "action_failed":
+          //             if(this.data.verdict === "5.00"){
 
-                        field.setValue("✔");
+          //               field.setValue("✔");
 
-                      }
-                      //do something
-                      break;
-                    case "rating_failed":
-                      if(this.data.verdict === "5.00"){
+          //             }
+          //             //do something
+          //             break;
+          //           case "rating_failed":
+          //             if(this.data.verdict === "5.00"){
 
-                        field.setValue(this.data.verdict);
+          //               field.setValue(this.data.verdict);
 
-                      }
-                      //do something
-                      break;
-                    case "date_accepted":
-                      field.setValue(this.readableDate(new Date()));
-                      break;
-                    case "professor_sig":
-                      //do something
-                      break;
-                    case "professor_name2":
-                      field.setValue(this.prof_name);
-                      //do something
-                      break;
-                    case "student_sig":
-                      //do something
-                      break;
-                    case "stud_id":
-                      field.setValue(this.student_no);
-                      //do something
-                      break;
-                    case "cys":
-                      field.setValue(this.data.cys);
-                      //do something
-                      break;
-                  }
-                });
-              });
-            });
-          });
+          //             }
+          //             //do something
+          //             break;
+          //           case "date_accepted":
+          //             field.setValue(this.readableDate(new Date()));
+          //             break;
+          //           case "professor_sig":
+          //             //do something
+          //             break;
+          //           case "professor_name2":
+          //             field.setValue(this.prof_name);
+          //             //do something
+          //             break;
+          //           case "student_sig":
+          //             //do something
+          //             break;
+          //           case "stud_id":
+          //             field.setValue(this.student_no);
+          //             //do something
+          //             break;
+          //           case "cys":
+          //             field.setValue(this.data.cys);
+          //             //do something
+          //             break;
+          //         }
+          //       });
+          //     });
+          //   });
+          // });
 
 
 
@@ -268,74 +277,120 @@ export class RequestFormComponent implements AfterViewInit {
 
   }
 
-  // generatePDF(){
-  //   var file;
-  //   html2canvas(this.pdfRef.nativeElement,{
-
-  //   useCORS: true
-
-  //   }).then(canvas =>{
-
-  //     var imgData = canvas.toDataURL('image/png');
-  //     var doc = new jspdf.jsPDF('p', 'pt');
-  //     doc.addImage(imgData, 0,0, 612, 791);
-  //     file = doc.save("image.pdf");
-  //   });
-  //  console.log(file);
-  // }
+  saveRequest(){
 
 
-  // async afillForm() {
-  //   const formUrl = 'pdfhost.io/v/EJX6at~8d_Completion_Form_Fields'
-  //   const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
-  //   const pdfDoc = await PDFDocument.load(formPdfBytes)
+    if(!this.edit){
+
+      html2canvas(this.pdfRef.nativeElement,{
   
-  //   const form = pdfDoc.getForm();
+      useCORS: true
   
-  //   const dateRequestedField = form.getTextField('dateRequested')
-  //   const professor_nameField = form.getTextField('professor_name')
-  //   const student_nameField = form.getTextField('student_name')
-  //   const subjectField = form.getTextField('subject')
-  //   const semesterField = form.getTextField('semester')
-  //   const year1Field = form.getTextField('year1')
-  //   const year2Field = form.getTextField('year2')
-  //   const reasonField = form.getTextField('reason')
-  //   const action_passedField = form.getTextField('action_passed')
-  //   const rating_passedField = form.getTextField('rating_passed')
-  //   const action_failedField = form.getTextField('action_failed')
-  //   const rating_failedField = form.getTextField('rating_failed')
-  //   const date_acceptedField = form.getTextField('date_accepted')
-  //   //const professor_sigField = form.getSignature('professor_sig')
-  //   const professor_name2Field = form.getTextField('professor_name2')
-  //   //const student_sigField = form.getSignature('student_sig')
-
-  //   const stud_idField = form.getTextField('stud_id')
-  //   const cysField = form.getTextField('cys')
-
-
+      }).then(canvas =>{
   
-  //   dateRequestedField.setText('Mario')
-  //   professor_nameField.setText('24 years')
-  //   student_nameField.setText(`5' 1"`)
-  //   subjectField.setText('196 lbs')
-  //   semesterField.setText('blue')
-  //   year1Field.setText('white')
-  //   year2Field.setText('brown')
-  //   reasonField.setText('brown')
-  //   action_passedField.setText('brown')
-  //   rating_passedField.setText('brown')
-  //   action_failedField.setText('brown')
-  //   rating_failedField.setText('brown')
-  //   date_acceptedField.setText('brown')
-  //   professor_name2Field.setText('brown')
+        var imgData = canvas.toDataURL('image/png');
+        var doc = new jspdf.jsPDF('p', 'pt');
+        doc.addImage(imgData, 0,0, 612, 791);
+        var blob = doc.output("blob");
+        var file = new File([blob], "Request_Form.pdf");
+        this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
+        subscribe(res =>{
+        
+          window.alert("Success!");
+          window.location.reload();
+        },
+        err=>{
+          window.alert("Error! "+err);
+        });
+      });
+
+    }
+
+    // const blob = new Blob([arr], { type: 'application/pdf' });
+
+  }
+
+  generatePDF(){
+    let file;
+    if(!this.edit){
+
+      html2canvas(this.pdfRef.nativeElement,{
+  
+      useCORS: true
+  
+      }).then(canvas =>{
+  
+        var imgData = canvas.toDataURL('image/png');
+        var doc = new jspdf.jsPDF('p', 'pt');
+        doc.addImage(imgData, 0,0, 612, 791);
+        file = doc.save("image.pdf");
+      });
+
+    }
+    else{
 
 
-  //   // student_sigField.setImage()
-  //   // professor_sigField.setImage(marioImage)
-  //   const pdfBytes = await pdfDoc.save()
 
+
+    }
+  
+
+  }
+
+
+
+  async embedImages() {
+
+
+
+      //get form
+      const formUrl = this.data.request_form;
+      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
+      
+      //get signature png
+      const sig = this.e_sig_path_prof;
+      const sigImageBytes = await fetch(sig).then(res => res.arrayBuffer());
+      
+      //load doc
+      const pdfDoc = await PDFDocument.load(formPdfBytes);
+      
+      //assign image
+      const sigImage = await pdfDoc.embedJpg(sigImageBytes);
+      const jpgDims = sigImage.scale(0.5)
+  
+      //get page and embed
+      const page = pdfDoc.getPage(0);
+      page.drawImage(sigImage, {
+        x: page.getWidth() / 2 - jpgDims.width / 2,
+        y: page.getHeight() / 2 - jpgDims.height / 2 + 250,
+        width: jpgDims.width,
+        height: jpgDims.height,
+      })
+  
+      console.log('went here');
+     const pdfBytes = await pdfDoc.save();
+      pdfDoc.save();
+     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+     var file = new File([blob], "Request_Form.pdf");
+
+     var now = new Date()
+     console.log("date  requested : " +this.data.dateRequested);
+     this.requestService.updateRequest(this.data.request_id, this.data.subject, this.data.faculty_id,this.data.user_id,
+      "Processing", this.data.creator, this.data.desc, this.data.dateRequested, now, this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict,file).
+     subscribe(res =>{
+     
+       window.alert("Success!");
+       window.location.reload();
+     },
+     err=>{
+       window.alert("Error! "+err);
+     });
+    
+  
    
-  // }
+
+  }
+
 
   
 

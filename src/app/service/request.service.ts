@@ -171,6 +171,7 @@ updateRequest(id:string,
   verdict:string,
   request_form: File | string){
 
+    let now = new Date();
     let requestData: FormData | Request
     //adding file
     if(typeof(request_form)==='object'){
@@ -183,8 +184,8 @@ updateRequest(id:string,
       requestData.append('status', status);
       requestData.append('desc', desc);
       requestData.append('creator', creator);
-      requestData.append('dateRequested', dateRequested.toISOString());
-      requestData.append('dateAccepted', dateAccepted.toISOString());
+      requestData.append('dateRequested', now.toISOString());
+      requestData.append('dateAccepted', dateAccepted.toLocaleDateString());
       requestData.append('semester', semester);
       requestData.append('year', year.toString());
       requestData.append('semester', semester);

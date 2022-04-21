@@ -36,7 +36,6 @@ export class MyrequestComponent implements OnInit {
 
         const dialogRef2 = this.dialog.open(RequestFormComponent, {
           height: '90%',
-          width: '80%',
           data: res
         });
 
