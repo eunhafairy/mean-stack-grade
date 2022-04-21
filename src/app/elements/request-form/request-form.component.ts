@@ -127,15 +127,23 @@ export class RequestFormComponent implements AfterViewInit {
                 
 
 
+                  if(this.userService.getRole() === 'Student'){
+
                     if(field.name !== "student_sig"){
   
-                      field.widgets.map(annot =>{
-  
-                        annot.fieldFlags.set('ReadOnly', true);
-  
-                      })
-  
+                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+                    }
+
+                  }
+                  else if (this.userService.getRole() === 'Faculty'){
                     
+                    if(field.name !== "professor_sig"){
+                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+                    }
+                    if(field.name === "professor_sig"){
+                      field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
+
+                    }
 
                   }
                   
@@ -180,13 +188,14 @@ export class RequestFormComponent implements AfterViewInit {
 
                       if(this.data.verdict){
                         if(this.data.verdict !== "5.00"){
-                          field.setValue("l");
+                          field.setValue("✔");
                         }
                       }
                     
                       //do something
                       break;
                     case "rating_passed":
+                      console.log("verdict is : "+this.data.verdict);
                       if(this.data.verdict !== "5.00"){
 
                         field.setValue(this.data.verdict);
@@ -198,7 +207,7 @@ export class RequestFormComponent implements AfterViewInit {
                     case "action_failed":
                       if(this.data.verdict === "5.00"){
 
-                        field.setValue("l");
+                        field.setValue("✔");
 
                       }
                       //do something
@@ -212,7 +221,7 @@ export class RequestFormComponent implements AfterViewInit {
                       //do something
                       break;
                     case "date_accepted":
-                      //do something
+                      field.setValue(this.readableDate(new Date()));
                       break;
                     case "professor_sig":
                       //do something
