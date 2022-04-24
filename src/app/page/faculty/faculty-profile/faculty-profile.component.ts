@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { UserService } from 'src/app/service/user.service';
 
@@ -12,8 +14,11 @@ export class FacultyProfileComponent implements OnInit {
   fullname:string;
   e_sig_path:string;
   user: any;
+  email: string;
 
-  constructor(private userService: UserService, private adminService: AdminServiceService) { }
+  constructor(private userService: UserService,
+     private adminService: AdminServiceService,
+     private dialog : MatDialog) { }
 
   ngOnInit(): void {
 
@@ -24,6 +29,7 @@ export class FacultyProfileComponent implements OnInit {
       this.user = user;
       this.fullname = this.user.l_name + ", "+this.user.f_name;
       this.e_sig_path = this.user.e_sig;
+      this.email = this.user.email;
     },
     err =>{
 
@@ -55,6 +61,27 @@ export class FacultyProfileComponent implements OnInit {
   }
   
   editMyAccount(){
+
+    const dialogRef = this.dialog.open(AddAccountComponent, {
+      width: '80%',
+      data: this.user
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+
+      //realod 
+      if(res){
+        
+        window.location.reload();
+
+      }
+
+
+
+    });
+
+
+
 
 
   }

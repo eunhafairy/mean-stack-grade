@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
     },
     filename: (req,file,cb) => {
 
-        cb(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
+        cb(null, file.originalname.replaceAll(" ", "").split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
 
     }
 
@@ -70,7 +70,8 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
                 status: myBool,
                 course: req.body.course,
                 year: req.body.year,
-                section: req.body.section
+                section: req.body.section,
+                student_no: req.body.student_no
     
             });
 

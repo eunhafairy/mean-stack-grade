@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     },
     filename: (req,file,cb) => {
 
-        cb(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
+        cb(null, file.originalname.replaceAll(" ", "").split('.')[0] + '-' + Date.now() + '.' + getFileExt(file.originalname));
 
     }
 
@@ -171,16 +171,17 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 
 
-router.put("/:id", (req,res, next) =>{
+router.put("/:id",  multer({storage: storage}).single('request_form'), (req,res, next) =>{
 
    var request_form = req.body.request_form;
+   
     if(req.file){
-        
+        console.log("req file is existing!");     
         const  url = req.protocol + "://"+req.get("host");
         request_form = url+"/files/"+req.file.filename;
 
     }
-   console.log(req.body.request_form);
+   console.log("final rquest form: "+request_form);
 
     const request = new Request({
 
@@ -205,6 +206,8 @@ router.put("/:id", (req,res, next) =>{
     })
     .catch(err=>{
 
+        console.log(JSON.stringify(err));
+        
         res.status(500).json({
 
             error: err,

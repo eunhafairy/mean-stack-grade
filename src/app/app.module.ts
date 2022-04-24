@@ -48,6 +48,8 @@ import { DialogRejectRequestComponent } from './elements/dialog-reject-request/d
 import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict/dialog-request-verdict.component';
 import { RequestFormComponent } from './elements/request-form/request-form.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AddAccountComponent } from './elements/add-account/add-account.component';
+import { AccountCardComponent } from './elements/account-card/account-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,7 +78,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     DialogAddRequestComponent,
     DialogRejectRequestComponent,
     DialogRequestVerdictComponent,
-    RequestFormComponent
+    RequestFormComponent,
+    AddAccountComponent,
+    AccountCardComponent
   ],
   imports: [
     BrowserModule,

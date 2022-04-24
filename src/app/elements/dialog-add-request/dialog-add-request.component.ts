@@ -50,6 +50,8 @@ export class DialogAddRequestComponent implements AfterViewInit{
   ) {
 
     this.myRole = userService.getRole();
+   
+   
     this.form = new FormGroup({
       'subject': new FormControl(null, {validators: [Validators.required]}),
       'faculty' : new FormControl(null, {validators: [Validators.required]}),

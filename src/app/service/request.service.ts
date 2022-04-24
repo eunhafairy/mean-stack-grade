@@ -176,6 +176,7 @@ updateRequest(id:string,
     //adding file
     if(typeof(request_form)==='object'){
 
+      console.log('request form is object ' + (request_form as File).name);
       requestData = new FormData();
       requestData.append('request_id', id);
       requestData.append('subject', subject);
@@ -199,6 +200,8 @@ updateRequest(id:string,
     }
 
     else{
+
+      console.log('request form is string');
 
 
        requestData  = {

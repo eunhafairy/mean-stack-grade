@@ -1,6 +1,6 @@
 <div id="form-body">
   
-    <div id ="pdfForm" #pdfForm *ngIf="!edit">
+    <!-- <div id ="pdfForm" #pdfForm *ngIf="!edit">
       <p id = "student_name">{{student_name}}</p>
       <p id = "faculty_name">{{prof_name}}</p>
       <p id = "date_requested">{{readableDate(this.date_requested)}}</p>
@@ -9,18 +9,18 @@
       <p id = "ay-1">{{data.year}}</p>
       <p id = "ay-2">{{acad_year2}}</p>
       <p id = "reason">{{data.desc}}</p>
-      <!-- <p id = "action-passed" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">&#10004;</p>
+      <p id = "action-passed" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">&#10004;</p>
       <p id = "action-failed" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">&#10004;</p>
       <p id = "rating-passed"  [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">{{data.verdict}}</p>
       <p id = "rating-failed"  [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">{{data.verdict}}</p>
       <p id = "date_accepted" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}">{{readableDate(this.date_accepted)}}</p>
-      <img id = "professor_name" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}" [src]="e_sig_path_prof"> -->
+      <img id = "professor_name" [ngStyle]="(edit) ? {'visibility':'visible'} : {'visibility':'hidden'}" [src]="e_sig_path_prof">
       <img id = "stud_signature" [src]="e_sig_path">
       <p id = "stud_id">{{student_no}}</p>
       <p id = "cys">{{data.cys}}</p>
-    </div>
+    </div> -->
 
-    <div *ngIf="edit">
+    <!-- <div *ngIf="edit">
       <pdf-viewer 
       [src]="data.request_form"
       [original-size]="true"
@@ -28,7 +28,7 @@
     
     </pdf-viewer>
      
-    </div>
+    </div> -->
 
     
 
@@ -54,9 +54,9 @@
 
 
 </div>
-<button *ngIf="!edit" mat-button (click)="generatePDF()">Download This</button>
+<!-- <button *ngIf="!edit" mat-button (click)="generatePDF()">Download This</button>
 <button *ngIf="!edit" mat-button (click)="saveRequest()">Save Request</button>
-<button *ngIf="edit" mat-button (click)="embedImages()">Proceed</button>
+<button *ngIf="edit" mat-button (click)="embedImages()">Proceed</button> -->
 
 
 <!-- <div class ="content">

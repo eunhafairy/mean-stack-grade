@@ -51,33 +51,44 @@ export class RequestFormComponent implements AfterViewInit {
 
     }
 
-    console.log("will edit?: " + this.edit + "linnk to pdf " + this.data.request_form);
+    console.log("will edit?: " + this.edit);
 
     // ================== GET VALUES FROM DATA============================
+        this.userService.getUser(this.data.user_id as string)
+        .subscribe(res=>{
 
-    this.userService.getUser(this.data.user_id as string)
-       .subscribe(res=>{
-
-          this.e_sig_path = res['e_sig'];
-
+        console.log(res);
+        this.e_sig_path = res['e_sig'];
           this.student_name = res['f_name'] + " " + res['l_name'];
           this.student_no = res['student_no'];
           
+          
+        });
         
-         });
 
-    this.userService.getUser(this.data.faculty_id)
+    this.userService.getUser(this.data.faculty_id as string)
     .subscribe(res =>{
 
-    this.prof_name = res['f_name'] + " "+res['l_name'];
-    this.e_sig_path_prof = res['e_sig'];
+      
+      this.prof_name = res['f_name'] + " "+res['l_name'];
+      this.e_sig_path_prof = res['e_sig'];
+      this.acad_year2 = +this.data.year + 1;
+      this.date_requested = new Date();
+      this.date_accepted = new Date();
 
-    })
+    });
 
-    this.acad_year2 = +this.data.year + 1;
+   
+    setTimeout(()=>{this.fillForm()},3000);
 
-    this.date_requested = new Date();
-    this.date_accepted = new Date();
+
+
+      
+
+    //----------------------------PDF LIB FILL FORM----------------------------------------
+
+
+    //------------------------ WEB VIEWER (BACKUP) --------------------------------------
    
     // let pdfPath = 'assets/files/Completion_Form_Fields.pdf';
     // if(this.userService.getRole() != 'Student'){
@@ -306,91 +317,247 @@ export class RequestFormComponent implements AfterViewInit {
 
     }
 
-    // const blob = new Blob([arr], { type: 'application/pdf' });
-
+    
   }
-
-  generatePDF(){
-    let file;
-    if(!this.edit){
-
-      html2canvas(this.pdfRef.nativeElement,{
-  
-      useCORS: true
-  
-      }).then(canvas =>{
-  
-        var imgData = canvas.toDataURL('image/png');
-        var doc = new jspdf.jsPDF('p', 'pt');
-        doc.addImage(imgData, 0,0, 612, 791);
-        file = doc.save("image.pdf");
-      });
-
-    }
-    else{
-
-
-
-
-    }
   
 
-  }
+
+
+  //----------------------CONVERT UNIT8ARRAY TO BLOB SYNTAX----------------------------------
+  // const blob = new Blob([arr], { type: 'application/pdf' });
 
 
 
-  async embedImages() {
+
+  //-----------------------------HTML TO CANVAS (NOT WORKING PROPERLY)----------------------------------
+  // generatePDF(){
+  //   let file;
+  //   if(!this.edit){
+
+  //     html2canvas(this.pdfRef.nativeElement,{
+  
+  //     useCORS: true
+  
+  //     }).then(canvas =>{
+  
+  //       var imgData = canvas.toDataURL('image/png');
+  //       var doc = new jspdf.jsPDF('p', 'pt');
+  //       doc.addImage(imgData, 0,0, 612, 791);
+  //       file = doc.save("image.pdf");
+  //     });
+
+  //   }
+  //   else{
 
 
 
-      //get form
-      const formUrl = this.data.request_form;
-      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
+
+  //   }
+  
+
+  // }
+
+
+
+  //---------------------PDF LIB EMBED IMAGE(NOT WORKING) ---------------------
+
+  // async embedImages() {
+
+
+
+  //     //get form
+  //     const formUrl = this.data.request_form;
+  //     const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
       
-      //get signature png
-      const sig = this.e_sig_path_prof;
-      const sigImageBytes = await fetch(sig).then(res => res.arrayBuffer());
+  //     //get signature png
+  //     const sig = this.e_sig_path_prof;
+  //     const sigImageBytes = await fetch(sig).then(res => res.arrayBuffer());
       
-      //load doc
-      const pdfDoc = await PDFDocument.load(formPdfBytes);
+  //     //load doc
+  //     const pdfDoc = await PDFDocument.load(formPdfBytes);
       
-      //assign image
-      const sigImage = await pdfDoc.embedJpg(sigImageBytes);
-      const jpgDims = sigImage.scale(0.5)
+  //     //assign image
+  //     const sigImage = await pdfDoc.embedJpg(sigImageBytes);
+  //     const jpgDims = sigImage.scale(0.5)
   
-      //get page and embed
-      const page = pdfDoc.getPage(0);
-      page.drawImage(sigImage, {
-        x: page.getWidth() / 2 - jpgDims.width / 2,
-        y: page.getHeight() / 2 - jpgDims.height / 2 + 250,
-        width: jpgDims.width,
-        height: jpgDims.height,
-      })
+  //     //get page and embed
+  //     const page = pdfDoc.getPage(0);
+  //     page.drawImage(sigImage, {
+  //       x: page.getWidth() / 2 - jpgDims.width / 2,
+  //       y: page.getHeight() / 2 - jpgDims.height / 2 + 250,
+  //       width: jpgDims.width,
+  //       height: jpgDims.height,
+  //     })
   
-      console.log('went here');
-     const pdfBytes = await pdfDoc.save();
-      pdfDoc.save();
-     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-     var file = new File([blob], "Request_Form.pdf");
+  //     console.log('went here');
+  //    const pdfBytes = await pdfDoc.save();
+  //     pdfDoc.save();
+  //    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  //    var file = new File([blob], "Request_Form.pdf");
 
-     var now = new Date()
-     console.log("date  requested : " +this.data.dateRequested);
-     this.requestService.updateRequest(this.data.request_id, this.data.subject, this.data.faculty_id,this.data.user_id,
-      "Processing", this.data.creator, this.data.desc, this.data.dateRequested, now, this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict,file).
-     subscribe(res =>{
+  //    var now = new Date()
+  //    console.log("date  requested : " +this.data.dateRequested);
+  //    this.requestService.updateRequest(this.data.request_id, this.data.subject, this.data.faculty_id,this.data.user_id,
+  //     "Processing", this.data.creator, this.data.desc, this.data.dateRequested, now, this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict,file).
+  //    subscribe(res =>{
      
-       window.alert("Success!");
-       window.location.reload();
-     },
-     err=>{
-       window.alert("Error! "+err);
-     });
+  //      window.alert("Success!");
+  //      window.location.reload();
+  //    },
+  //    err=>{
+  //      window.alert("Error! "+err);
+  //    });
     
   
    
 
-  }
+  // }
 
+
+async fillForm() {
+
+ 
+ 
+      if(this.edit){
+
+      
+        //get pdf form url
+      const formUrl = this.data.request_form;
+      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
+
+      //get professor signature
+      const sigImageBytes = await fetch(this.e_sig_path_prof).then(res => res.arrayBuffer())
+
+       //load pdf 
+      const pdfDoc = await PDFDocument.load(formPdfBytes)
+
+      //load image
+      const sigImage = await pdfDoc.embedPng(sigImageBytes)
+
+      //get form
+      const form = pdfDoc.getForm()
+
+      const actionPassedField = form.getTextField('action_passed')
+      const actionFailedField = form.getTextField('action_failed')
+      const ratingFailedField = form.getTextField('rating_failed')
+      const ratingPassedField = form.getTextField('rating_passed')
+      const dateAcceptedField = form.getTextField('date_accepted')
+      const professorSignatureImageField = form.getButton('prof_sig')
+
+      if(this.data.verdict ==='5.00'){
+        //failed
+        actionFailedField.setText("l")
+        ratingFailedField.setText(this.data.verdict)
+
+      }
+      else{
+        
+        actionPassedField.setText("l")
+        ratingPassedField.setText(this.data.verdict)
+
+      }
+
+      dateAcceptedField.setText(this.readableDate(new Date()))
+      professorSignatureImageField.setImage(sigImage)
+
+      const pdfBytes = await pdfDoc.save();
+  
+      const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
+      console.log("blob" +blob);
+      //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      var file = new File([blob], "Request_Form.pdf");
+
+      var now = new Date()
+      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, this.data.dateRequested, new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
+      subscribe(res =>{
+      
+        window.alert("Success!");
+        window.location.reload();
+      },
+      err=>{
+        window.alert("Error! "+err);
+      });
+
+      
+
+        
+
+      }
+
+     else{
+
+
+      //get pdf form url
+      const formUrl = "assets/files/Completion_Form_Fields.pdf";
+      const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
+
+      //getstudent signature
+      const sigUrl = this.e_sig_path;
+      console.log('png to: '+ this.e_sig_path);
+      const sigImageBytes = await fetch(sigUrl).then(res => res.arrayBuffer())
+
+
+
+      //load pdf 
+      const pdfDoc = await PDFDocument.load(formPdfBytes)
+
+      //load image
+      const sigImage = await pdfDoc.embedPng(sigImageBytes)
+
+      //get form
+      const form = pdfDoc.getForm()
+
+      //get name fields
+      const studentNameField = form.getTextField('student_name')
+      const professorNameField = form.getTextField('professor_name')
+      const professorNameField2 = form.getTextField('prof_name2')
+      const dateRequestedField = form.getTextField('dateRequested')
+     
+      const studIdField = form.getTextField('stud_id')
+      const cysField = form.getTextField('cys')
+      const subjectField = form.getTextField('subject')
+      const semesterField = form.getTextField('semester')
+      const year1Field = form.getTextField('year1')
+      const year2Field = form.getTextField('year2')
+      const reasonField = form.getTextField('reason')
+
+      const studentSignatureImageField = form.getButton('student_sig')
+      
+
+      studentNameField.setText(this.student_name)
+      professorNameField.setText(this.prof_name)
+      professorNameField2.setText(this.prof_name)
+      dateRequestedField.setText(this.readableDate(new Date()))
+      studIdField.setText(this.student_no)
+      cysField.setText(this.data.cys)
+      subjectField.setText(this.data.subject)
+      semesterField.setText(this.data.semester)
+      year1Field.setText(this.data.year.toString())
+      year2Field.setText((this.acad_year2).toString())
+      reasonField.setText(this.data.desc)
+      
+      studentSignatureImageField.setImage(sigImage)
+      const pdfBytes = await pdfDoc.save();
+    
+      const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
+      console.log("blob" +blob);
+      //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      var file = new File([blob], "Request_Form.pdf");
+
+      var now = new Date()
+      this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, "Requested", this.data.desc,this.data.creator, this.data.semester, this.data.year, this.data.cys, null, file).
+      subscribe(res =>{
+      
+        window.alert("Success!");
+        window.location.reload();
+      },
+      err=>{
+        window.alert("Error! "+err);
+      });
+
+
+      }
+    }
 
   
 

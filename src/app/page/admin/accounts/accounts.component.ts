@@ -12,6 +12,7 @@ import { MatLabel } from '@angular/material/form-field';
 import { UserService } from 'src/app/service/user.service';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -115,23 +116,10 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   editUser(user:any):void{
 
-    const editedUser : User =({
-      u_id : user._id,
-      f_name : user.f_name,
-      l_name: user.l_name,
-      role: user.role,
-      email: user.email,
-      student_no: user.student_no,
-      e_sig: user.e_sig,
-      status: user.status,
-      course: user.course,
-      year: user.year,
-      section: user.section
     
-    });
-    const dialogRef = this.dialog.open(DialogContentEdit, {
+    const dialogRef = this.dialog.open(AddAccountComponent, {
       width: '80%',
-      data: editedUser
+      data: user
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -143,9 +131,9 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   }
 
   openDialog() : void{
-    const dialogRef = this.dialog.open(DialogContent, {
+    const dialogRef = this.dialog.open(AddAccountComponent, {
       width: '80%',
-      data: this.authData
+      data: null
     });
 
     dialogRef.afterClosed().subscribe(result => {

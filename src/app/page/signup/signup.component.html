@@ -144,7 +144,7 @@
                     <!-- ESIG -->
                     <div style="margin-bottom: 2rem">
                         <button mat-button type="button" (click)="filePickerESig.click()">Upload your signature</button>
-                        <input type="file" #filePickerESig (change) = "onFilePickedESig($event)" required>
+                        <input type="file" #filePickerESig (change) = "onFilePickedESig($event)" accept="image/png" required>
                         <div class= "sig-preview" *ngIf = "imagePreviewESig !== '' && imagePreviewESig">
                             <img [src] = "imagePreviewESig" >
                         </div>
