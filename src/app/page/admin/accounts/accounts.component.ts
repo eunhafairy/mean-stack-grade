@@ -27,7 +27,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   totalRequests = 0;
   isLoading = false;
   dataSource: any;
-  displayedColumns: string[] = [ 'f_name', 'l_name', 'email',  'student_no', 'role', 'action'];
+  displayedColumns: string[] = [ 'f_name', 'l_name', 'email',  'student_no', 'cys', 'role', 'action'];
  
   pageSizeOptions : number[];
   // sort
@@ -182,433 +182,433 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 }
 
 
-//add user modal
+// //add user modal
 
-@Component({
-  selector: 'dialog-content',
-  templateUrl: 'dialog-content.html',
-   styleUrls: ['./accounts.component.css']
-})
-export class DialogContent implements OnInit {
-
-
- form : FormGroup;
-  fileTitlePFP:string;
-  imagePreviewPFP: string = '../../../assets/images/default_cict.png';
-  fileTitleESig : string;
-  imagePreviewESig: string;
-  isLoading = false;
-  selectedRole: string;
-  public roles: any = [
-    {value : "Student"}, 
-    {value: "Faculty"}, 
-    {value: "Admin"}];
-
-    public years: any = [
-      {value : 1},
-      {value : 2},
-      {value : 3},
-      {value : 4}
-    ];
-
-    public courses: any = [
-      {value : 'BSIT'},
-      {value : 'BLIS'}
-    ];
-
-    public sections: any = [
-      {value : 'A'},
-      {value : 'B'},
-      {value : 'C'},
-      {value : 'D'},
-      {value : 'E'},
-      {value : 'F'},
-      {value : 'G'},
-      {value : 'H'},
-      {value : 'I'},
-      {value : 'J'},
-      {value : 'K'},
-      {value : 'L'},
-      {value : 'M'},
-      {value : 'N'},
-      {value : 'O'},
-      {value : 'P'},
-      {value : 'Q'},
-      {value : 'R'},
-      {value : 'S'},
-      {value : 'T'},
-      {value : 'U'},
-      {value : 'V'},
-      {value : 'W'},
-      {value : 'X'},
-      {value : 'Y'},
-      {value : 'Z'}
-    ];
+// @Component({
+//   selector: 'dialog-content',
+//   templateUrl: 'dialog-content.html',
+//    styleUrls: ['./accounts.component.css']
+// })
+// export class DialogContent implements OnInit {
 
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogContent>,
-    @Inject(MAT_DIALOG_DATA) public data: User,
-    private userService: UserService
-  ) {}
-  ngOnInit(): void {
+//  form : FormGroup;
+//   fileTitlePFP:string;
+//   imagePreviewPFP: string = '../../../assets/images/default_cict.png';
+//   fileTitleESig : string;
+//   imagePreviewESig: string;
+//   isLoading = false;
+//   selectedRole: string;
+//   public roles: any = [
+//     {value : "Student"}, 
+//     {value: "Faculty"}, 
+//     {value: "Admin"}];
 
-    this.form = new FormGroup({
-      '__first_name': new FormControl(null, {validators: [Validators.required]}),
-      '__last_name' : new FormControl(null, {validators: [Validators.required]}),
-      '__role' : new FormControl(null, {validators: [Validators.required]}),
-      '__email' : new FormControl(null, {validators: [Validators.required]}),
-      '__password' : new FormControl(null, {validators: [Validators.required]}),
-      '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
-      '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
-      '__student_no' : new FormControl(null, {validators: [Validators.nullValidator]}),
-      '__course' : new FormControl(null),
-      '__section' : new FormControl(null),
-      '__year' : new FormControl(null)
+//     public years: any = [
+//       {value : 1},
+//       {value : 2},
+//       {value : 3},
+//       {value : 4}
+//     ];
+
+//     public courses: any = [
+//       {value : 'BSIT'},
+//       {value : 'BLIS'}
+//     ];
+
+//     public sections: any = [
+//       {value : 'A'},
+//       {value : 'B'},
+//       {value : 'C'},
+//       {value : 'D'},
+//       {value : 'E'},
+//       {value : 'F'},
+//       {value : 'G'},
+//       {value : 'H'},
+//       {value : 'I'},
+//       {value : 'J'},
+//       {value : 'K'},
+//       {value : 'L'},
+//       {value : 'M'},
+//       {value : 'N'},
+//       {value : 'O'},
+//       {value : 'P'},
+//       {value : 'Q'},
+//       {value : 'R'},
+//       {value : 'S'},
+//       {value : 'T'},
+//       {value : 'U'},
+//       {value : 'V'},
+//       {value : 'W'},
+//       {value : 'X'},
+//       {value : 'Y'},
+//       {value : 'Z'}
+//     ];
 
 
-  });
+//   constructor(
+//     public dialogRef: MatDialogRef<DialogContent>,
+//     @Inject(MAT_DIALOG_DATA) public data: User,
+//     private userService: UserService
+//   ) {}
+//   ngOnInit(): void {
+
+//     this.form = new FormGroup({
+//       '__first_name': new FormControl(null, {validators: [Validators.required]}),
+//       '__last_name' : new FormControl(null, {validators: [Validators.required]}),
+//       '__role' : new FormControl(null, {validators: [Validators.required]}),
+//       '__email' : new FormControl(null, {validators: [Validators.required]}),
+//       '__password' : new FormControl(null, {validators: [Validators.required]}),
+//       '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
+//       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
+//       '__student_no' : new FormControl(null, {validators: [Validators.nullValidator]}),
+//       '__course' : new FormControl(null),
+//       '__section' : new FormControl(null),
+//       '__year' : new FormControl(null)
+
+
+//   });
 
 
 
-  }
+//   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+//   onNoClick(): void {
+//     this.dialogRef.close();
+//   }
 
-  onSignUp(){
+//   onSignUp(){
 
 
-    console.log('ERROR '+ this.findInvalidControls());
-    //CHECK IF FORM IS INVALID --
-    if(this.form.invalid){
+//     console.log('ERROR '+ this.findInvalidControls());
+//     //CHECK IF FORM IS INVALID --
+//     if(this.form.invalid){
 
      
-      window.alert("Please complete all fields!");
-      return;
-    }
+//       window.alert("Please complete all fields!");
+//       return;
+//     }
 
-    //NOT MATCHING PASSWORD
-    if(this.form.value.__confirm_password !== this.form.value.__password){
-      window.alert("Make sure the password and confirm password are the same.");
-      return;
-    }
+//     //NOT MATCHING PASSWORD
+//     if(this.form.value.__confirm_password !== this.form.value.__password){
+//       window.alert("Make sure the password and confirm password are the same.");
+//       return;
+//     }
 
-    //SPECIAL CASES FOR STUDENT
-    if(this.form.value.__role === "Student"){
+//     //SPECIAL CASES FOR STUDENT
+//     if(this.form.value.__role === "Student"){
 
-        if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
-          window.alert('Please complete all fields!');
-          return;
-        }
-    }
+//         if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
+//           window.alert('Please complete all fields!');
+//           return;
+//         }
+//     }
 
 
-  //FORM IS VALID -- CONTINUE
-    this.isLoading = true;
-    this.userService.createUserFromAdmin(this.form.value.__first_name,
-      this.form.value.__last_name,
-      this.selectedRole,
-      this.form.value.__email,  
-      this.form.value.__password, 
-      this.form.value.__fileESig,
-      this.form.value.__student_no,
-      this.form.value.__course,
-      this.form.value.__year,
-      this.form.value.__section)
-    .subscribe(
+//   //FORM IS VALID -- CONTINUE
+//     this.isLoading = true;
+//     this.userService.createUserFromAdmin(this.form.value.__first_name,
+//       this.form.value.__last_name,
+//       this.selectedRole,
+//       this.form.value.__email,  
+//       this.form.value.__password, 
+//       this.form.value.__fileESig,
+//       this.form.value.__student_no,
+//       this.form.value.__course,
+//       this.form.value.__year,
+//       this.form.value.__section)
+//     .subscribe(
       
-      (response)=>{
+//       (response)=>{
 
-        //success
-        console.log(response);
-        window.alert("Success!");
-        this.isLoading = false;
-        this.dialogRef.close();
-      },
+//         //success
+//         console.log(response);
+//         window.alert("Success!");
+//         this.isLoading = false;
+//         this.dialogRef.close();
+//       },
       
-      (error) =>{
+//       (error) =>{
 
-        //error
-      window.alert(error);
-      this.isLoading = false;
-      this.dialogRef.close();
+//         //error
+//       window.alert(error);
+//       this.isLoading = false;
+//       this.dialogRef.close();
 
-    });
+//     });
     
 
   
 
-  }
+//   }
 
-  onFilePickedESig(event: Event){
+//   onFilePickedESig(event: Event){
 
-    const file = (event.target as HTMLInputElement).files[0];
-    this.fileTitleESig = file.name;
-    this.form.patchValue({__fileESig: file});
-    this.form.get('__fileESig').updateValueAndValidity();
-    const reader = new FileReader();
-    reader.onload = () =>{
-        this.imagePreviewESig = reader.result as string;
-    }
-    reader.readAsDataURL(file);
+//     const file = (event.target as HTMLInputElement).files[0];
+//     this.fileTitleESig = file.name;
+//     this.form.patchValue({__fileESig: file});
+//     this.form.get('__fileESig').updateValueAndValidity();
+//     const reader = new FileReader();
+//     reader.onload = () =>{
+//         this.imagePreviewESig = reader.result as string;
+//     }
+//     reader.readAsDataURL(file);
 
 
-  }
-
-  
-  public findInvalidControls() {
-    const invalid = [];
-    const controls = this.form.controls;
-    for (const name in controls) {
-        if (controls[name].invalid) {
-            invalid.push(name);
-        }
-    }
-    return invalid;
-  }
-
+//   }
 
   
+//   public findInvalidControls() {
+//     const invalid = [];
+//     const controls = this.form.controls;
+//     for (const name in controls) {
+//         if (controls[name].invalid) {
+//             invalid.push(name);
+//         }
+//     }
+//     return invalid;
+//   }
+
 
   
 
-
-
-}
+  
 
 
 
-  //EDIT MODAL
+// }
+
+
+
+//   //EDIT MODAL
 
   
 
-  @Component({
-    selector: 'dialog-content-edit',
-    templateUrl: 'dialog-content-edit.html',
-     styleUrls: ['./accounts.component.css']
-  })
-  export class DialogContentEdit implements OnInit {
+//   @Component({
+//     selector: 'dialog-content-edit',
+//     templateUrl: 'dialog-content-edit.html',
+//      styleUrls: ['./accounts.component.css']
+//   })
+//   export class DialogContentEdit implements OnInit {
   
-    form : FormGroup;
-    isLoading = false;
-    selectedRole: string = '';
-    selectedStatus: boolean; 
-    public roles: any = [
-      {value : "Student"}, 
-      {value: "Faculty"}, 
-      {value: "Admin"}];
+//     form : FormGroup;
+//     isLoading = false;
+//     selectedRole: string = '';
+//     selectedStatus: string; 
+//     public roles: any = [
+//       {value : "Student"}, 
+//       {value: "Faculty"}, 
+//       {value: "Admin"}];
     
-    public status: any = [
-      {value : 'false'},
-      {value : 'true'}
+//     public status: any = [
+//       {value : 'false'},
+//       {value : 'true'}
 
-    ];
-    public years: any = [
-      {value : 1},
-      {value : 2},
-      {value : 3},
-      {value : 4}
-    ];
+//     ];
+//     public years: any = [
+//       {value : 1},
+//       {value : 2},
+//       {value : 3},
+//       {value : 4}
+//     ];
 
-    public courses: any = [
-      {value : 'BSIT'},
-      {value : 'BLIS'}
-    ];
+//     public courses: any = [
+//       {value : 'BSIT'},
+//       {value : 'BLIS'}
+//     ];
 
-    public sections: any = [
-      {value : 'A'},
-      {value : 'B'},
-      {value : 'C'},
-      {value : 'D'},
-      {value : 'E'},
-      {value : 'F'},
-      {value : 'G'},
-      {value : 'H'},
-      {value : 'I'},
-      {value : 'J'},
-      {value : 'K'},
-      {value : 'L'},
-      {value : 'M'},
-      {value : 'N'},
-      {value : 'O'},
-      {value : 'P'},
-      {value : 'Q'},
-      {value : 'R'},
-      {value : 'S'},
-      {value : 'T'},
-      {value : 'U'},
-      {value : 'V'},
-      {value : 'W'},
-      {value : 'X'},
-      {value : 'Y'},
-      {value : 'Z'}
-    ];
+//     public sections: any = [
+//       {value : 'A'},
+//       {value : 'B'},
+//       {value : 'C'},
+//       {value : 'D'},
+//       {value : 'E'},
+//       {value : 'F'},
+//       {value : 'G'},
+//       {value : 'H'},
+//       {value : 'I'},
+//       {value : 'J'},
+//       {value : 'K'},
+//       {value : 'L'},
+//       {value : 'M'},
+//       {value : 'N'},
+//       {value : 'O'},
+//       {value : 'P'},
+//       {value : 'Q'},
+//       {value : 'R'},
+//       {value : 'S'},
+//       {value : 'T'},
+//       {value : 'U'},
+//       {value : 'V'},
+//       {value : 'W'},
+//       {value : 'X'},
+//       {value : 'Y'},
+//       {value : 'Z'}
+//     ];
 
 
-    _firstName : string;
-    _lastName: string;
-    _email:string;
-    _password:string;
-    _confirmPassword: string;
-    _role: string;
-    imagePreviewESig : string;
-    fileTitleESig: string;
+//     _firstName : string;
+//     _lastName: string;
+//     _email:string;
+//     _password:string;
+//     _confirmPassword: string;
+//     _role: string;
+//     imagePreviewESig : string;
+//     fileTitleESig: string;
   
   
-    constructor(
-      public dialogRef: MatDialogRef<DialogContentEdit>,
-      @Inject(MAT_DIALOG_DATA) public data: User,
-      private userService: UserService
-    ) {
+//     constructor(
+//       public dialogRef: MatDialogRef<DialogContentEdit>,
+//       @Inject(MAT_DIALOG_DATA) public data: User,
+//       private userService: UserService
+//     ) {
 
-      this.selectedRole= data.role as string;
-      this.selectedStatus = data.status;
-    }
-    ngOnInit(): void {
+//       this.selectedRole= data.role as string;
+//       this.selectedStatus = data.status;
+//     }
+//     ngOnInit(): void {
      
-    this.form = new FormGroup({
-      '__first_name': new FormControl(null, {validators: [Validators.required]}),
-      '__last_name' : new FormControl(null, {validators: [Validators.required]}),
-      '__role' : new FormControl(null, {validators: [Validators.required]}),
-      '__email' : new FormControl(null, {validators: [Validators.required]}),
-      '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
+//     this.form = new FormGroup({
+//       '__first_name': new FormControl(null, {validators: [Validators.required]}),
+//       '__last_name' : new FormControl(null, {validators: [Validators.required]}),
+//       '__role' : new FormControl(null, {validators: [Validators.required]}),
+//       '__email' : new FormControl(null, {validators: [Validators.required]}),
+//       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
 
-      '__student_no' : new FormControl(null),
-        '__status' : new FormControl(false),
-      '__course' : new FormControl(null),
-      '__section' : new FormControl(null),
-      '__year' : new FormControl(null)
-      });
+//       '__student_no' : new FormControl(null),
+//         '__status' : new FormControl(false),
+//       '__course' : new FormControl(null),
+//       '__section' : new FormControl(null),
+//       '__year' : new FormControl(null)
+//       });
 
-      //set values
-      this.form.patchValue({__first_name : this.data.f_name});
-      this.form.patchValue({__last_name : this.data.l_name});
-      this.form.patchValue({__role : this.data.role});
-      this.form.patchValue({__email : this.data.email});
-      this.form.patchValue({__fileESig : this.data.e_sig});
+//       //set values
+//       this.form.patchValue({__first_name : this.data.f_name});
+//       this.form.patchValue({__last_name : this.data.l_name});
+//       this.form.patchValue({__role : this.data.role});
+//       this.form.patchValue({__email : this.data.email});
+//       this.form.patchValue({__fileESig : this.data.e_sig});
       
-      if(this.data.role === 'Student'){
+//       if(this.data.role === 'Student'){
 
-        this.form.patchValue({__student_no : this.data.student_no});
-        this.form.patchValue({__course : this.data.course});
-        this.form.patchValue({__year : this.data.year});
-        this.form.patchValue({__section : this.data.section});
+//         this.form.patchValue({__student_no : this.data.student_no});
+//         this.form.patchValue({__course : this.data.course});
+//         this.form.patchValue({__year : this.data.year});
+//         this.form.patchValue({__section : this.data.section});
 
 
-      }
-      if(this.data.role === 'Faculty'){
+//       }
+//       if(this.data.role === 'Faculty'){
 
-        console.log(this.data.status);
-        this.form.patchValue({__status : this.data.status});
+//         console.log(this.data.status);
+//         this.form.patchValue({__status : this.data.status});
 
-      }
+//       }
 
-      this.imagePreviewESig = this.data.e_sig;
+//       this.imagePreviewESig = this.data.e_sig;
  
-    }
+//     }
   
-    onNoClick(): void {
-      this.dialogRef.close();
-    }
+//     onNoClick(): void {
+//       this.dialogRef.close();
+//     }
 
 
-    onEdit(){
+//     onEdit(){
 
   
-      //CHECK IF FORM IS INVALID --
-      if(this.form.invalid){
-        window.alert("Please complete all fields!");
-        return;
-      }
+//       //CHECK IF FORM IS INVALID --
+//       if(this.form.invalid){
+//         window.alert("Please complete all fields!");
+//         return;
+//       }
 
-      //NOT MATCHING PASSWORD
-      if(this.form.value.__confirm_password !== this.form.value.__password){
-        window.alert("Make sure the password and confirm password are the same.");
-        return;
-      }
+//       //NOT MATCHING PASSWORD
+//       if(this.form.value.__confirm_password !== this.form.value.__password){
+//         window.alert("Make sure the password and confirm password are the same.");
+//         return;
+//       }
 
-      //SPECIAL CASES FOR STUDENT
-      if(this.form.value.__role === "Student"){
+//       //SPECIAL CASES FOR STUDENT
+//       if(this.form.value.__role === "Student"){
 
-          if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
-            window.alert('Please complete all fields!');
-            return;
-          }
-      }
+//           if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
+//             window.alert('Please complete all fields!');
+//             return;
+//           }
+//       }
 
-      //SPECIAL CASES FOR FACULTY
-      else if(this.form.value.__role === "Faculty"){
+//       //SPECIAL CASES FOR FACULTY
+//       else if(this.form.value.__role === "Faculty"){
 
-          if(!this.form.value.__status){
-              window.alert('Please complete all fields!');
-              return;
-          }
+//           if(!this.form.value.__status){
+//               window.alert('Please complete all fields!');
+//               return;
+//           }
 
-      }
+//       }
 
-      //FORM IS VALID
+//       //FORM IS VALID
   
-      this.isLoading = true;
-      this.userService.updateUser(this.data.u_id,
-        this.form.value.__first_name,
-        this.form.value.__last_name,
-        this.form.value.__email,
-        this.form.value.__role,
-        this.form.value.__fileESig,
-        this.form.value.__student_no,
-        this.form.value.__status,
-        this.form.value.__course,
-        this.form.value.__year,
-        this.form.value.__section)
-      .subscribe(
-        response =>{
+//       this.isLoading = true;
+//       this.userService.updateUser(this.data.u_id,
+//         this.form.value.__first_name,
+//         this.form.value.__last_name,
+//         this.form.value.__email,
+//         this.form.value.__role,
+//         this.form.value.__fileESig,
+//         this.form.value.__student_no,
+//         this.form.value.__status,
+//         this.form.value.__course,
+//         this.form.value.__year,
+//         this.form.value.__section)
+//       .subscribe(
+//         response =>{
 
-          window.alert("User edited!");
-          this.isLoading = false;
-          this.dialogRef.close();
-        },
-        error =>{
+//           window.alert("User edited!");
+//           this.isLoading = false;
+//           this.dialogRef.close();
+//         },
+//         error =>{
 
-          window.alert(error);
-          this.isLoading = false;
-        }
-      );
+//           window.alert(error);
+//           this.isLoading = false;
+//         }
+//       );
 
-    }
+//     }
 
-    onFilePickedESig(event: Event){
+//     onFilePickedESig(event: Event){
 
-      const file = (event.target as HTMLInputElement).files[0];
-      this.fileTitleESig = file.name;
-      this.form.patchValue({__fileESig: file});
-      this.form.get('__fileESig').updateValueAndValidity();
-      const reader = new FileReader();
-      reader.onload = () =>{
-          this.imagePreviewESig = reader.result as string;
-      }
-      reader.readAsDataURL(file);
+//       const file = (event.target as HTMLInputElement).files[0];
+//       this.fileTitleESig = file.name;
+//       this.form.patchValue({__fileESig: file});
+//       this.form.get('__fileESig').updateValueAndValidity();
+//       const reader = new FileReader();
+//       reader.onload = () =>{
+//           this.imagePreviewESig = reader.result as string;
+//       }
+//       reader.readAsDataURL(file);
   
   
-    }
+//     }
 
 
-    public findInvalidControls() {
-      const invalid = [];
-      const controls = this.form.controls;
-      for (const name in controls) {
-          if (controls[name].invalid) {
-              invalid.push(name);
-          }
-      }
-      return invalid;
-    }
+//     public findInvalidControls() {
+//       const invalid = [];
+//       const controls = this.form.controls;
+//       for (const name in controls) {
+//           if (controls[name].invalid) {
+//               invalid.push(name);
+//           }
+//       }
+//       return invalid;
+//     }
   
   
     
   
-    }
+//     }
   
   
 

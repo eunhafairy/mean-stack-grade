@@ -1,4 +1,7 @@
 <div id="form-body">
+
+  <button mat-button color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Create Request</button>
+  <h1 *ngIf="isLoading">Generating file... Please wait!</h1>
   
     <!-- <div id ="pdfForm" #pdfForm *ngIf="!edit">
       <p id = "student_name">{{student_name}}</p>

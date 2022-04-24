@@ -25,7 +25,7 @@
         <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
         <!-- ACTION ROW -->
         <mat-action-row *ngIf = "request.status === 'Requested'">
-            <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>
+            <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
             <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
         </mat-action-row>
     

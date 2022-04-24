@@ -14,6 +14,8 @@ import { AdminServiceService } from './admin-service.service';
 })
 export class UserService {
 
+
+  private status: string;
   private cys: string;
   private isAuthenticated = false;
   private token:string;
@@ -85,10 +87,7 @@ export class UserService {
 
   // }
 
-  getAllUsers(){
-
-
-  }
+ 
 
   getCYS(){
 
@@ -127,7 +126,7 @@ export class UserService {
     }
 
     if(role === 'Faculty'){
-      authData.append("status", "False");
+      authData.append("status", "Pending");
     }
     
 
@@ -178,7 +177,7 @@ export class UserService {
   }
 
   
-  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string, status: boolean, course:string, year:string, section:string){
+  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string, status: string, course:string, year:string, section:string){
 
     let userData : User | FormData;
     
@@ -196,7 +195,7 @@ export class UserService {
       userData.append("section", section);
       userData.append("course", course);
       userData.append("year", year);
-      userData.append("status", String(status));
+      userData.append("status", status);
 
 
     }
@@ -231,6 +230,13 @@ export class UserService {
     .pipe(catchError(this.handleError));
   
   }
+
+getStatus(){
+
+  return this.status;
+
+}
+
   //------------LOGIN USER ----------------------
   loginUser(email:string, password: string) : Observable<any>{
 
@@ -242,14 +248,14 @@ export class UserService {
 
     };
 
-    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string, course: string, year: number, section: string}>("http://localhost:3000/api/users/login", loginData)
+    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string, course: string, year: number, section: string, status: string}>("http://localhost:3000/api/users/login", loginData)
     .pipe( map(response =>{
 
       const token = response.token;
       this.setToken(token);
       if(token){
 
-      
+      this.status = response.status;
         this.u_id = response.u_id;
         this.role = response.role;
         if(this.role === 'Student'){

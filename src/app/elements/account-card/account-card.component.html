@@ -1,1 +1,29 @@
-<p>account-card works!</p>
+<!--SHOW THIS IF LOADING-->
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<!--ELSE SHOW THIS-->
+<mat-accordion multi=true *ngIf="users.length > 0 && !isLoading" >
+    <mat-expansion-panel  *ngFor = "let user of users" >
+        
+        <!-- TITLE -->
+        <mat-expansion-panel-header>
+            <b style= "color: #673AB7;">{{getFullName(user.f_name, user.l_name)}}</b>
+        </mat-expansion-panel-header>
+           
+        <!-- INFORMATION -->
+        <li><b>email: </b>{{user.email}}</li>
+        <li><b>status: </b>{{user.status}}</li>
+        <!-- ACTION ROW -->
+        <mat-action-row *ngIf="user.status !== 'Accepted'">
+            <button  *ngIf = "user.status === 'Pending'"  mat-button color="primary" (click) = "acceptFaculty(user, 'Accept')">Accept</button>
+            <button  *ngIf = "user.status === 'Pending'"  mat-button color="warn" (click)= "acceptFaculty(user, 'Reject')">Reject</button>
+            <button *ngIf = "user.status === 'Rejected'"  mat-button color="warn" (click)= "acceptFaculty(user, 'Appeal')" >Re-appeal</button>
+
+        </mat-action-row>
+    
+    </mat-expansion-panel>
+    
+</mat-accordion>
+<br><br>
+<p *ngIf="users.length <= 0 && !isLoading"><b>*Hoot hoot* *Hoot hoot*</b> <bR>Nothing here..</p>
+  

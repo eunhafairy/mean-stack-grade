@@ -26,6 +26,7 @@ const storage = multer.diskStorage({
 
 router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, next) =>{
 
+    console.log(req.body.status);
     const url = req.protocol + '://'+ req.get('host');
 
     bcrypt.hash(req.body.password, 10)
@@ -33,13 +34,6 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
 
         
         let user;
-        let myBool = true;
-
-        //convert status(string) to boolean
-        if(req.body.status === 'False' || req.body.status === '0'){
-        myBool = false;
-        }
-
         //if faculty or admin
         if(req.body.role === 'Faculty' || req.body.role === 'Admin'){
 
@@ -51,7 +45,7 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
                 password: hash,
                 role: req.body.role,
                 e_sig: url+ '/files/' + req.file.filename,
-                status: myBool
+                status: req.body.status
                
             });
 
@@ -67,7 +61,7 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
                 password: hash,
                 role: req.body.role,
                 e_sig: url+ '/files/' + req.file.filename,
-                status: myBool,
+                status: req.body.status,
                 course: req.body.course,
                 year: req.body.year,
                 section: req.body.section,
@@ -94,6 +88,36 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
             });
         })
     
+    });
+
+
+
+});
+
+router.get('/faculty/:status', checkAuth ,(req,res,next) =>{
+
+  
+
+    User.find().where('role').equals('Faculty')
+    .where('status').equals(req.params.status)
+    .then( post =>{
+       
+            res.status(200).json( {
+
+                message:"Success!",
+                users: post
+
+      }); 
+     })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            message: "An error occured",
+            error: err
+
+        });
+
     });
 
 
@@ -174,7 +198,8 @@ router.post("/login", (req,res,next) => {
                 role: fetchedUser.role,
                 course: fetchedUser.course,
                 year: fetchedUser.year, 
-                section: fetchedUser.section
+                section: fetchedUser.section,
+                status: fetchedUser.status
     
             });
         
@@ -221,7 +246,8 @@ router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,r
     e_sig: e_sig,
     course: req.body.course,
     year: req.body.year,
-    section: req.body.section
+    section: req.body.section,
+    status: req.body.status
 
 
     });

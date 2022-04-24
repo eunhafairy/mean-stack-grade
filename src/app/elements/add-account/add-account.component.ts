@@ -166,15 +166,7 @@ role : string;
           }
       }
 
-      //SPECIAL CASES FOR FACULTY
-      else if(this.role === 'Admin' && this.mode === 'create' && this.form.value.__role === "Faculty"){
-
-          if(!this.form.value.__status){
-              window.alert('Please complete all fields!');
-              return;
-          }
-
-      }
+    
 
 
       //FORM IS VALID

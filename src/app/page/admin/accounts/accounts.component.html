@@ -67,6 +67,12 @@
           <td  mat-cell *matCellDef="let row">{{row.student_no}} </td>
         </ng-container>
 
+         <!-- Course Year Section -->
+          <ng-container matColumnDef="cys">
+          <th  mat-header-cell *matHeaderCellDef mat-sort-header>CYS</th>
+          <td  mat-cell *matCellDef="let row">{{row.course+" "+row.year+row.section}} </td>
+        </ng-container>
+
           <!-- Role Column -->
           <ng-container matColumnDef="role">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
@@ -89,7 +95,7 @@
 
           <!-- if filter doesn't return any rows -->
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            <td class="mat-cell" colspan="4">No data</td>
           </tr>
 
         </table>
@@ -107,19 +113,22 @@
 
 
     <mat-tab-group animationDuration="1000ms">
-    <!-- TAB 1 REQUESTED -->
+    <!-- TAB 1 PENDING -->
     <mat-tab label="Pending">
-
+      <app-account-card status="Pending"></app-account-card>
     </mat-tab>
 
     <!-- TAB 2 PROCESSING -->
     <mat-tab label="Accepted">
-      
+      <app-account-card status='Accepted'></app-account-card>
     </mat-tab>
 
+    <!-- TAB 2 PROCESSING -->
     <mat-tab label="Rejected">
-       
+      <app-account-card status='Rejected'></app-account-card>
     </mat-tab>
+
+  
 
  
 
