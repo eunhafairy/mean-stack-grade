@@ -2,7 +2,7 @@
 <div mat-dialog-content>
 
 <main>
-<form [formGroup] = "form" (submit) ="onAddRequest()" >
+<form [formGroup] = "form" (submit) ="onAddRequest()" class ="example-form">
 
 
      <!--STUDENT-->
@@ -54,8 +54,11 @@
     </mat-form-field><br>
 
 
-     <!-- SEMESTER -->
-     <mat-form-field  class="full-width">
+  
+  <!-- SEMESTER -->
+
+    
+    <mat-form-field  class="full-width">
       <mat-label>Semester/Tri-semester/Summer</mat-label>
       <input matInput 
       formControlName="semester"
@@ -64,20 +67,24 @@
       required>
       <mat-error *ngIf = "form.get('semester').invalid">Please enter the semester which you took the subject.</mat-error>
     </mat-form-field><br>
-
+    
+ 
+    
     <!-- YEAR -->
-    <mat-form-field  class="full-width">
+    <mat-form-field>
       <mat-label>Academic Year</mat-label>
+      <span matPrefix>20 &nbsp;</span>
       <input matInput 
       formControlName="year"
-      placeholder="e.g. 2021-2022"
       type="text" 
-      required>
+      #year
+      class ="year_input"
+      maxlength="2"
+      required> <span matSuffix>{{addOne(year.value)}}</span>
       <mat-error *ngIf = "form.get('year').invalid">Please enter the academic year.</mat-error>
     </mat-form-field><br>
-
-
-          
+    
+  
     <!-- CYS -->
     <mat-form-field  class="full-width">
         <mat-label>Course/Year/Section</mat-label>

@@ -120,7 +120,15 @@ export class DialogAddRequestComponent implements AfterViewInit{
 
      }
   
+addOne(year : string){
 
+
+  if(year === ''){
+      return '';
+  }
+  let addedYear = +year +1
+  return 'to 20'+addedYear;
+}
 
 
   getStudentsAndProfs(){

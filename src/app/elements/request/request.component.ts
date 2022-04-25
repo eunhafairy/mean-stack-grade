@@ -121,7 +121,6 @@ deleteRequest(requestId: string){
 
      
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
-      width: '80%',
       data: id
     });
 
