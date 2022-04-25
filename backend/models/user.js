@@ -8,11 +8,14 @@ const userSchema = mongoose.Schema({
     e_sig: {type: String, required: true},
     role: {type:String, required: true},
     student_no: {type:String, required: false, default: null},
-    course: {type: String, enum: ['BSIT', 'BLIS'], required: false, default:'BSIT'},
-    year: {type: Number, enum: [1,2,3,4], required: false, default:1},
-    section : {type: String, enum : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I','J','K','L','M', 'N','O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W','X','Y','Z'], required: false, default:'A'},
+    course: {type: String, enum: ['BSIT', 'BLIS'], required: false},
+    year: {type: Number, enum: [1,2,3,4], required: false},
+    section : {type: String, enum : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I','J','K','L','M', 'N','O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W','X','Y','Z'], required: false},
     password: {type: String, required: true},
-    status: {type: Boolean, required: false, default:false}
+    status: {type: String, enum: ['Pending', 'Rejected', 'Accepted'], required: false, default:"Pending"},
+    rejectedReason  : {type: String, required: false, default: null}
+   
+    
 });
 
 userSchema.plugin(uniqueValidator);

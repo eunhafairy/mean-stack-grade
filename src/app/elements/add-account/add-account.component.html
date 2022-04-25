@@ -1,0 +1,160 @@
+<h1 mat-dialog-title>Create Account</h1>
+<div mat-dialog-content>
+
+<main>
+<form (submit) ="onSubmit()" [formGroup] = "form"  enctype="multipart/form-data">
+
+
+    <!--FIRST NAME-->
+    <mat-form-field  class="full-width">
+      <mat-label>First Name</mat-label>
+      <input matInput 
+      formControlName="__first_name"
+      type="text" 
+      required>
+      <mat-error *ngIf = "form.get('__first_name').invalid">Please enter your first name.</mat-error>
+    </mat-form-field>
+
+  
+    <!--LAST NAME-->
+    <mat-form-field  class="full-width">
+      <mat-label>Surname</mat-label>
+      <input matInput 
+      type="text" 
+      formControlName = "__last_name"
+      required>
+      <mat-error *ngIf = "form.get('__last_name').invalid">Please enter your last name.</mat-error>
+  </mat-form-field>
+
+  <!--EMAIL-->
+  <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput  
+      type="email" 
+      placeholder="yourname@email.com" 
+      formControlName="__email"
+        required email >
+      <mat-error *ngIf = "form.get('__email').invalid">Please enter a valid email</mat-error>
+  </mat-form-field><br>
+
+  <!--PASSWORD-->
+  <mat-form-field  class="full-width" *ngIf="mode ==='create'">
+      <mat-label>Password</mat-label>
+      <input matInput 
+      type="password" 
+      formControlName="__password"
+      required>
+      <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password</mat-error>
+  </mat-form-field><br>
+
+  <!--CONFIRM PASSWORD-->
+  <mat-form-field  class="full-width"  *ngIf="mode ==='create'">
+      <mat-label>Confirm Password</mat-label>
+      <input  matInput
+       type="password"
+       formControlName="__confirm_password"
+       required>
+      <mat-error *ngIf = "form.get('__confirm_password').invalid">Please make sure that the passwords are the same.</mat-error>
+  </mat-form-field>
+
+  <!--ROLE-->
+  <mat-form-field class="full-width" *ngIf="role === 'Admin'">
+      <mat-label>Role</mat-label>
+      <mat-select 
+      [(value)]="selectedRole"
+      name = "role"
+      formControlName= "__role"
+      required
+      >
+      <mat-option *ngFor="let role of roles" [value] = "role.value">
+          {{role.value}}
+      </mat-option>
+      </mat-select>
+      <mat-error *ngIf = "selectedRole === '' || form.get('__role').invalid">Please choose a role.</mat-error>
+  </mat-form-field>
+
+
+   <!--STUDENT NO-->
+   <mat-form-field *ngIf="selectedRole === 'Student'"  class="full-width">
+    <mat-label>Student No.</mat-label>
+    <input  matInput 
+    type="text" 
+    formControlName="__student_no"
+    >
+    <mat-error *ngIf = "form.get('__student_no').invalid">Please make sure you enter your unique student number.</mat-error>
+</mat-form-field>
+
+        <!--COURSE-->
+        <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+            <mat-label>Course</mat-label>
+                <mat-select 
+                value="BSIT"
+                name = "course"
+                formControlName= "__course"
+                
+                >
+                    <mat-option *ngFor="let course of courses" [value]=course.value>
+                        {{course.value}}
+                    </mat-option>
+                
+                </mat-select>
+            <mat-error *ngIf = "form.get('__course').invalid">Please choose a course.</mat-error>
+
+        </mat-form-field>
+
+        <!--YEAR-->
+        <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+            <mat-label>Year</mat-label>
+                <mat-select 
+                value ='1'
+                name = "year"
+                formControlName= "__year"
+                
+                >
+                    <mat-option *ngFor="let year of years" [value]=year.value>
+                        {{year.value}}
+                    </mat-option>
+                
+                </mat-select>
+            <mat-error *ngIf = "form.get('__year').invalid">Please choose a year.</mat-error>
+
+        </mat-form-field>
+
+
+        <!--SECTION-->
+        <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width">
+            <mat-label>Section</mat-label>
+                <mat-select 
+                value="A"
+                name = "section"
+                formControlName= "__section"
+                >
+                    <mat-option *ngFor="let section of sections" [value]=section.value>
+                        {{section.value}}
+                    </mat-option>
+                
+                </mat-select>
+            <mat-error *ngIf = "form.get('__section').invalid">Please choose a section.</mat-error>
+
+        </mat-form-field>
+
+   <!-- ESIG -->
+    <div style="margin-bottom: 2rem">
+        <button mat-button type="button" (click)="filePickerESig.click()">Upload your signature</button>
+        <input type="file" #filePickerESig (change) = "onFilePickedESig($event)" accept="image/png">
+        <div class= "sig-preview" *ngIf = "imagePreviewESig !== '' && imagePreviewESig">
+            <img [src] = "imagePreviewESig" >
+        </div>
+    </div>
+    
+  
+
+
+  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Submit</button>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+
+</form>
+<button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+</main>
+</div>

@@ -13,6 +13,7 @@ import { DialogAddRequestComponent } from '../dialog-add-request/dialog-add-requ
 })
 export class RequestComponent implements OnInit, OnDestroy{
 
+  role : string;
 @Input() status:string;
 requests : any[] = [];
 totalRequests: number;
@@ -25,9 +26,57 @@ private requestSub: Subscription = new Subscription;
   constructor(private requestService: RequestService, private userService: UserService, private dialog : MatDialog) {  }
 
   ngOnInit(): void {
+    this.isLoading=true;
+    this.role = this.userService.getRole();
     this.refreshTable();
   }
 
+
+  completeRequest(requestId: string){
+
+    this.isLoading= true;
+    let request : Request;
+    this.requestService.getRequest(requestId)
+    .subscribe(res=>{
+
+    
+
+      this.requestService.updateRequest(res['_id'],
+       res['subject'],
+        res['faculty_id'],
+         res['user_id'], 
+         "Completed", 
+         res['creator'],
+         res['desc'],
+         res['dateRequested'],
+         res['dateAccepted'],
+         res['semester'],
+         res['year'],
+         res['note'],
+         res['cys'],
+         res['verdict'],
+         res['request_form'] )
+         .subscribe(res=>{
+
+          this.isLoading = false;
+          window.alert("Successfully completed request!");
+          window.location.reload();
+
+         },
+         err=>{
+          this.isLoading = false;
+
+          console.log(err);
+
+         })
+      
+    
+
+    })
+
+   // this.requestService.updateRequest(request._id, request.subject, request.fac);
+
+  }
   
 
 deleteRequest(requestId: string){
@@ -108,13 +157,20 @@ deleteRequest(requestId: string){
     for(let i = 0; i < request.length; i++){
 
   
-      if(request[i].user_id === this.userService.getUserId()){
+  
+      if(this.role !== 'Admin'){
 
-        this.requests.push(request[i]);
-
+        if(request[i].user_id === this.userService.getUserId()){
+  
+          this.requests.push(request[i]);
+  
+        }
+      
+      
       }
-    
-     
+      else {
+        this.requests.push(request[i]);
+      }
 
     }
 
@@ -142,6 +198,7 @@ deleteRequest(requestId: string){
      
 
     }
+    console.log(this.requests);
 
   }
 

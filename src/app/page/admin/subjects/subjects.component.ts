@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
+import { DialogAddSubjectComponent } from 'src/app/elements/dialog-add-subject/dialog-add-subject.component';
 import { Subjects } from 'src/app/models/subjects';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 
@@ -13,7 +14,7 @@ import { AdminServiceService } from 'src/app/service/admin-service.service';
   templateUrl: './subjects.component.html',
   styleUrls: ['./subjects.component.css']
 })
-export class SubjectsComponent implements AfterViewInit  {
+export class SubjectsComponent implements OnInit  {
 
   _filter:string;
   public subjects : Subjects[]=[];
@@ -34,16 +35,13 @@ export class SubjectsComponent implements AfterViewInit  {
 
   constructor(private adminService: AdminServiceService, private dialog: MatDialog) {
    
-    this.isLoading = true;
-   
 
    }
-
-   ngAfterViewInit(){
-    
+  ngOnInit(): void {
     this.refreshTable();
-
+    
   }
+
 
   setPageSizeOption(){
 
@@ -69,7 +67,7 @@ export class SubjectsComponent implements AfterViewInit  {
 
   openDialog(){
 
-    const dialogRef = this.dialog.open(CreateSubjectDialog, {
+    const dialogRef = this.dialog.open(DialogAddSubjectComponent, {
       width: '80%',
       data: null
     });
@@ -83,6 +81,21 @@ export class SubjectsComponent implements AfterViewInit  {
 
   }
 
+  editDialog(subject: Subjects){
+
+    const dialogRef = this.dialog.open(DialogAddSubjectComponent, {
+      width: '80%',
+      data: subject
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      //after closing dialog, refresh the table
+      console.log(result);
+      this.refreshTable();
+    });
+
+  }
+
   //refresh table data
   refreshTable(){
 
@@ -90,12 +103,20 @@ export class SubjectsComponent implements AfterViewInit  {
     this.adminService.getSubjects();
     this.adminService.getSubjectsUpdateListener()
     .subscribe(subjectData => {
-      this.isLoading=false;
+      this.isLoading = false;
+      console.log(JSON.stringify(subjectData))
       this.subjects = subjectData.subjects;
       this.dataSource = new MatTableDataSource(this.subjects);
       this.setPageSizeOption();
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+    },
+    err =>{
+
+
+      window.alert(err);
+console.log(err);
+
     });
   
     
@@ -162,104 +183,104 @@ export class SubjectsComponent implements AfterViewInit  {
 
 //---------------create subject dialog-------------------------
 
-@Component({
-  selector: 'create-subject-dialog',
-  templateUrl: 'create-subject-dialog.html',
-   styleUrls: ['./subjects.component.css']
-})
-export class CreateSubjectDialog implements OnInit {
+// @Component({
+//   selector: 'create-subject-dialog',
+//   templateUrl: 'create-subject-dialog.html',
+//    styleUrls: ['./subjects.component.css']
+// })
+// export class CreateSubjectDialog implements OnInit {
 
-  @ViewChild('subjectCode', {static:true}) subjCodeInput : NgModel;
-  isLoading = false;
-  mode: string;
+//   @ViewChild('subjectCode', {static:true}) subjCodeInput : NgModel;
+//   isLoading = false;
+//   mode: string;
 
 
-  constructor(
-    public dialogRef: MatDialogRef<CreateSubjectDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Subjects,
-    private adminService: AdminServiceService
-  ) {
+//   constructor(
+//     public dialogRef: MatDialogRef<CreateSubjectDialog>,
+//     @Inject(MAT_DIALOG_DATA) public data: Subjects,
+//     private adminService: AdminServiceService
+//   ) {
 
-    if (this.data){
+//     if (this.data){
 
-      this.mode = 'edit';
+//       this.mode = 'edit';
      
-     }
-     else{
-       this.mode = 'create';
+//      }
+//      else{
+//        this.mode = 'create';
        
-     }
+//      }
 
-  }
+//   }
 
-  ngOnInit(): void {
+//   ngOnInit(): void {
     
-  }
+//   }
 
-  onNoClick(): void {
+//   onNoClick(): void {
 
-    this.dialogRef.close();
+//     this.dialogRef.close();
 
-  }
+//   }
 
-  onCreateSubject(form: NgForm){
+//   onCreateSubject(form: NgForm){
   
   
-    this.isLoading = true;
+//     this.isLoading = true;
 
-    if(form.invalid){
-      return;
-    }
+//     if(form.invalid){
+//       return;
+//     }
 
-    if(this.mode == "create"){
+//     if(this.mode == "create"){
 
-      this.adminService.createSubject(form.value.subjectCode,form.value.subjectName, form.value.subjectDesc)
-      .subscribe(
+//       this.adminService.createSubject(form.value.subjectCode,form.value.subjectName, form.value.subjectDesc)
+//       .subscribe(
         
-        (response)=>{
+//         (response)=>{
   
-          //success
-          console.log(response);
-          window.alert("Success!");
-          this.isLoading = false;
-          this.dialogRef.close("Success");
-        },
+//           //success
+//           console.log(response);
+//           window.alert("Success!");
+//           this.isLoading = false;
+//           this.dialogRef.close("Success");
+//         },
         
-        (error) =>{
+//         (error) =>{
   
-          //error
-        window.alert(error);
-        this.isLoading = false;
-        this.dialogRef.close("Failed");
+//           //error
+//         window.alert(error);
+//         this.isLoading = false;
+//         this.dialogRef.close("Failed");
   
-      });
+//       });
 
-    }
-    else{
+//     }
+//     else{
 
-      this.adminService.updateSubject(this.data)
-      .subscribe(
-        response =>{
+//       this.adminService.updateSubject(this.data)
+//       .subscribe(
+//         response =>{
 
-          window.alert("User udpated!");
-          this.isLoading = false;
-          this.dialogRef.close();
-        },
-        error =>{
+//           window.alert("User udpated!");
+//           this.isLoading = false;
+//           this.dialogRef.close();
+//         },
+//         error =>{
 
-          window.alert(error);
-          this.isLoading = false;
-        }
-      );;
+//           window.alert(error);
+//           this.isLoading = false;
+//         }
+//       );;
 
       
-    }
+//     }
 
     
 
   
 
-  }
-}
+//   }
+// }
 
 

@@ -1,3 +1,5 @@
+
+
 export interface User{
 
     u_id: string;
@@ -7,7 +9,7 @@ export interface User{
     role: string;
     e_sig: string;
     student_no:string;
-    status: boolean; 
+    status: string; 
     course: string; 
     year: string; 
     section: string;

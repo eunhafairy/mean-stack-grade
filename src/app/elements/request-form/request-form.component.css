@@ -1,8 +1,6 @@
-/* 
-#form-body{
 
-    zoom: 0.5;
-}
+
+/* 
 #pdfForm{
     background-image: url("form.png");
     width: 1224px;
@@ -12,9 +10,20 @@
     overflow-x: hidden;
 }
 
+#pdfFormEdit{
+    
+    width: 1224px;
+    height: 1582px;
+    background-position: center;
+    background-size: cover;
+    overflow-x: hidden;
+
+}
+
+
 
 p{
-    display: flex;
+display: flex;
 z-index: 100;
 position:relative;
 color:red;
@@ -96,14 +105,10 @@ left:850px;
 
 }
 
+
 #professor_name{
-    width: 200px;
-    border: 1px solid red;
-    height:100px;
     top:350px;
     left:780px;
-    z-index: 100;
-    position:relative;
 
 }
 
@@ -120,18 +125,18 @@ left:850px;
 }
 
 #stud_id{
-    top:615px;
+    top:690px;
     left:825px;
 
 }
 
 #cys{
 
-    top:590px;
+    top:675px;
     left:980px;
-} */
+}
 
-.webviewer{
+/* .webviewer{
 
     width: 100%;
     height: 1000px;
@@ -141,4 +146,4 @@ left:850px;
 
     width: 100%;
 
-}
+} */ 

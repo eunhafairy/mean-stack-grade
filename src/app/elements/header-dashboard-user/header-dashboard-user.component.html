@@ -63,17 +63,17 @@
       <!-- SHOW IF FACULTY -->
 
          <!-- HOME BUTTON -->
-         <button matTooltip="Faculty Dashboard" *ngIf="userIsAuthenticated && role ==='Faculty'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/faculty-dashboard">
+         <button matTooltip="Faculty Dashboard" *ngIf="userIsAuthenticated && role ==='Faculty' && status === 'Accepted'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/faculty-dashboard">
           <mat-icon>home</mat-icon>
         </button>
 
         <!-- PROFILE -->
-        <button matTooltip="Profile" *ngIf="userIsAuthenticated  && role ==='Faculty'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/faculty-profile">
+        <button matTooltip="Profile" *ngIf="userIsAuthenticated  && role ==='Faculty' && status === 'Accepted'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/faculty-profile">
             <mat-icon>person</mat-icon>
         </button>
 
         <!-- REQUESTS LIST-->
-        <button matTooltip="Requests" *ngIf="userIsAuthenticated  && role ==='Faculty'"   routerLink="/faculty-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
+        <button matTooltip="Requests" *ngIf="userIsAuthenticated  && role ==='Faculty' && status === 'Accepted'"   routerLink="/faculty-request" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
             <mat-icon>event_note</mat-icon>
         </button>
 

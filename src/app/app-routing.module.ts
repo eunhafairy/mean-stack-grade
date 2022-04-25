@@ -18,7 +18,9 @@ import { AdminRequestComponent } from './page/admin/admin-request/admin-request.
 import { MyrequestComponent } from './user/myrequest/myrequest.component';
 import { SubjectsComponent } from './page/admin/subjects/subjects.component';
 import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component'
+
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component'
+import { ValidityRedirectComponent } from './page/faculty/validity-redirect/validity-redirect.component';
 const routes: Routes = [
 
 
@@ -43,6 +45,7 @@ const routes: Routes = [
   {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-profile', component: FacultyProfileComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-request', component: FacultyRequestComponent,  canActivate: [AuthGuard, FacultyGuard] },
+  {path : 'validity-redirect', component: ValidityRedirectComponent,  canActivate: [AuthGuard] }
 
 ];
 

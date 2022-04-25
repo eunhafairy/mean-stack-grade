@@ -22,7 +22,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './elements/header/header.component';
 import { ButtonComponent } from './elements/button/button.component';
 import { InputTextComponent } from './elements/input-text/input-text.component';
 import { SignInComponent } from './page/sign-in/sign-in.component';
@@ -35,11 +34,11 @@ import { ProfileComponent } from './user/profile/profile.component';
 import { AuthInterceptor } from './service/auth-interceptor';
 import { AdminDashboardComponent } from './page/admin/admin-dashboard/admin-dashboard.component';
 import { FacultyDashboardComponent } from './page/faculty/faculty-dashboard/faculty-dashboard.component';
-import { AccountsComponent, DialogContent, DialogContentEdit } from './page/admin/accounts/accounts.component';
+import { AccountsComponent} from './page/admin/accounts/accounts.component';
 import { AdminRequestComponent } from './page/admin/admin-request/admin-request.component';
 import { AdminSettingsComponent } from './page/admin/admin-settings/admin-settings.component';
 import { MyrequestComponent } from './user/myrequest/myrequest.component';
-import { SubjectsComponent, CreateSubjectDialog } from './page/admin/subjects/subjects.component';
+import { SubjectsComponent } from './page/admin/subjects/subjects.component';
 import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-request.component';
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component';
 import { FacultyRequestElementComponent } from './elements/faculty-request-element/faculty-request-element.component';
@@ -47,11 +46,16 @@ import { DialogAddRequestComponent } from './elements/dialog-add-request/dialog-
 import { DialogRejectRequestComponent } from './elements/dialog-reject-request/dialog-reject-request.component';
 import { DialogRequestVerdictComponent } from './elements/dialog-request-verdict/dialog-request-verdict.component';
 import { RequestFormComponent } from './elements/request-form/request-form.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { AddAccountComponent } from './elements/add-account/add-account.component';
+import { AccountCardComponent } from './elements/account-card/account-card.component';
+import { ValidityRedirectComponent } from './page/faculty/validity-redirect/validity-redirect.component';
+import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-add-subject.component';
+import { SettingsComponent } from './page/settings/settings.component';
+import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
 @NgModule({
   declarations: [
     AppComponent,
-    DialogContent,
-    HeaderComponent,
     ButtonComponent,
     InputTextComponent,
     SignInComponent,
@@ -65,17 +69,21 @@ import { RequestFormComponent } from './elements/request-form/request-form.compo
     AccountsComponent,
     AdminRequestComponent,
     AdminSettingsComponent,
-    DialogContentEdit,
     MyrequestComponent,
     SubjectsComponent,
-    CreateSubjectDialog,
     FacultyRequestComponent,
     FacultyProfileComponent,
     FacultyRequestElementComponent,
     DialogAddRequestComponent,
     DialogRejectRequestComponent,
     DialogRequestVerdictComponent,
-    RequestFormComponent
+    RequestFormComponent,
+    AddAccountComponent,
+    AccountCardComponent,
+    ValidityRedirectComponent,
+    DialogAddSubjectComponent,
+    SettingsComponent,
+    DialogChangePassComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +107,8 @@ import { RequestFormComponent } from './elements/request-form/request-form.compo
     MatPaginatorModule,
     MatSortModule,
     MatDialogModule,
-    MatTabsModule
+    MatTabsModule,
+    PdfViewerModule
     
    
   ],

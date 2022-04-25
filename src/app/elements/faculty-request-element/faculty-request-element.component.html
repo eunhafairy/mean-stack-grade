@@ -18,9 +18,11 @@
         <li><b>Semester: </b>{{request.semester}}</li>
         <li><b>Academic Year: </b>{{transformAcadYear(request.year)}}</li>
         <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
+        <li *ngIf="request.status==='Completed' || request.status ==='Processing'"><b>Date accepted: </b>{{readableDate(request.dateAccepted)}}</li>
         <li><b>Status: </b>{{request.status}}</li>
         <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
         <li *ngIf="request.status === 'Rejected'" style="color:red"><b >Note: </b>{{request.note}}</li>
+        <li *ngIf="request.status === 'Processing'" style="color:red"><b>Note: </b>Processing can take up to 10 days!</li>
 
  
  

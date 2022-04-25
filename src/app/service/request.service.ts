@@ -162,7 +162,7 @@ updateRequest(id:string,
   status: string, 
   creator:string, 
   desc: string, 
-  dateRequested: Date, 
+  dateRequested: string, 
   dateAccepted:Date, 
   semester:string, 
   year: number, 
@@ -175,6 +175,8 @@ updateRequest(id:string,
     //adding file
     if(typeof(request_form)==='object'){
 
+      let now = new Date();
+      console.log('request form is object ' + (request_form as File).name);
       requestData = new FormData();
       requestData.append('request_id', id);
       requestData.append('subject', subject);
@@ -183,15 +185,15 @@ updateRequest(id:string,
       requestData.append('status', status);
       requestData.append('desc', desc);
       requestData.append('creator', creator);
-      requestData.append('dateRequested', dateRequested.toISOString());
-      requestData.append('dateAccepted', dateAccepted.toISOString());
+      requestData.append('dateRequested', dateRequested);
+      console.log("dto sa service: "+now.toISOString());
+      requestData.append('dateAccepted', now.toISOString());
       requestData.append('semester', semester);
       requestData.append('year', year.toString());
       requestData.append('semester', semester);
       requestData.append('note', note);
       requestData.append('cys', cys);
       requestData.append('verdict', verdict);
-      requestData.append('cys', cys);
       requestData.append('request_form', request_form, (request_form as File).name);
 
       
@@ -199,6 +201,9 @@ updateRequest(id:string,
 
     else{
 
+      console.log('request form is string');
+
+      let now = new Date();
 
        requestData  = {
           request_id: id,
@@ -208,8 +213,8 @@ updateRequest(id:string,
           status: status,
           desc: desc,
           creator: creator,
-          dateRequested: dateRequested,
-          dateAccepted: dateAccepted,
+          dateRequested: new Date(dateRequested),
+          dateAccepted: now,
           semester: semester,
           year: year,
           note: note,

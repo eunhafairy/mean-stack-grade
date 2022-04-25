@@ -21,13 +21,24 @@
         <li><b>Status: </b>{{request.status}}</li>
     
         <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
+        <li *ngIf="request.status==='Completed' || request.status ==='Processing'"><b>Date accepted: </b>{{readableDate(request.dateAccepted)}}</li>
         <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
         <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
+        <li *ngIf="request.status === 'Processing'" style="color:red"><b>Note: </b>Processing can take up to 10 days!</li>
+
         <!-- ACTION ROW -->
         <mat-action-row *ngIf = "request.status === 'Requested'">
-            <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button>
+            <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
+          
             <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
+
         </mat-action-row>
+
+        <mat-action-row *ngIf="role ==='Admin' && request.status === 'Processing'">
+            <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
+            <button  mat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
+        </mat-action-row>
+
     
     </mat-expansion-panel>
     

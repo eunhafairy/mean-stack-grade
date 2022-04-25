@@ -14,6 +14,8 @@ import { AdminServiceService } from './admin-service.service';
 })
 export class UserService {
 
+
+  private status: string;
   private cys: string;
   private isAuthenticated = false;
   private token:string;
@@ -85,10 +87,7 @@ export class UserService {
 
   // }
 
-  getAllUsers(){
-
-
-  }
+ 
 
   getCYS(){
 
@@ -127,7 +126,7 @@ export class UserService {
     }
 
     if(role === 'Faculty'){
-      authData.append("status", "False");
+      authData.append("status", "Pending");
     }
     
 
@@ -178,7 +177,7 @@ export class UserService {
   }
 
   
-  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string, status: boolean, course:string, year:string, section:string){
+  updateUser(id:string, firstName:string, lastName:string, email:string, role: string, e_sig:File | string, student_no:string, status: string, course:string, year:string, section:string){
 
     let userData : User | FormData;
     
@@ -196,7 +195,7 @@ export class UserService {
       userData.append("section", section);
       userData.append("course", course);
       userData.append("year", year);
-      userData.append("status", String(status));
+      userData.append("status", status);
 
 
     }
@@ -231,6 +230,37 @@ export class UserService {
     .pipe(catchError(this.handleError));
   
   }
+
+getStatus(){
+  const authInformation = this.getAuthData();
+  return authInformation.status;
+
+}
+
+changePass(id: string, newPass : string){
+
+  const formBody = {
+
+    newpass : newPass
+
+  }
+  return this.http
+  .put("http://localhost:3000/api/users/changepass/" + id, formBody)
+  .pipe(catchError(this.handleError));
+
+}
+
+checkPass(id:string, password: string){
+
+  const formBody ={
+    password: password
+  }
+
+  return this.http.post("http://localhost:3000/api/users/checkpass/"+id, formBody)
+  .pipe(catchError(this.handleError));
+
+}
+
   //------------LOGIN USER ----------------------
   loginUser(email:string, password: string) : Observable<any>{
 
@@ -242,14 +272,15 @@ export class UserService {
 
     };
 
-    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string, course: string, year: number, section: string}>("http://localhost:3000/api/users/login", loginData)
+    return this.http.post<{token:string, expiresIn: number, u_id: string, role:string, course: string, year: number, section: string, status: string}>("http://localhost:3000/api/users/login", loginData)
     .pipe( map(response =>{
 
       const token = response.token;
       this.setToken(token);
       if(token){
 
-      
+        console.log("response.status: "+response.status);
+      this.status = response.status;
         this.u_id = response.u_id;
         this.role = response.role;
         if(this.role === 'Student'){
@@ -262,7 +293,7 @@ export class UserService {
         this.setAuthTimer(expiresInDuration);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration *1000);
-        this.saveAuthData(token, expirationDate, this.u_id, this.role);
+        this.saveAuthData(token, expirationDate, this.u_id, this.role, this.status);
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
     
@@ -326,12 +357,14 @@ export class UserService {
     return this.authStatusListener.asObservable();
   }
 
-  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string){
+  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string, status: string){
 
     localStorage.setItem('token', token);
     localStorage.setItem('expirationDate', expirationDate.toISOString()); 
     localStorage.setItem('u_id', u_id);
     localStorage.setItem('role', role);
+    localStorage.setItem('status', status);
+
   }
 
   private clearAuthData(){
@@ -340,6 +373,8 @@ export class UserService {
     localStorage.removeItem("expirationDate");
     localStorage.removeItem("u_id");
     localStorage.removeItem("role");
+    localStorage.removeItem('status');
+
   }
 
   autoAuthUser(){
@@ -355,6 +390,7 @@ export class UserService {
       this.token = authInformation.token;
       this.u_id = authInformation.u_id;
       this.role = authInformation.role;
+      this.status = authInformation.status;
       this.setAuthTimer(expiresIn/1000);
       this.isAuthenticated = true;
       this.authStatusListener.next(true);
@@ -371,6 +407,7 @@ export class UserService {
     const expirationDate = localStorage.getItem('expirationDate');
     const u_id = localStorage.getItem('u_id');
     const role = localStorage.getItem('role');
+    const status = localStorage.getItem('status');
     
     if(!token || !expirationDate){
       return null;
@@ -381,7 +418,8 @@ export class UserService {
         token: token,
         expirationDate : new Date(expirationDate),
         u_id: u_id,
-        role: role
+        role: role,
+        status: status
 
       };
 

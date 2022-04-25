@@ -1,4 +1,7 @@
 import { Component, OnInit, Input} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
+import { DialogChangePassComponent } from 'src/app/elements/dialog-change-pass/dialog-change-pass.component';
 import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { UserService } from 'src/app/service/user.service';
@@ -16,7 +19,9 @@ export class ProfileComponent implements OnInit {
   e_sig_path:string;
  
 
-  constructor(private userService: UserService, private adminService: AdminServiceService) { }
+  constructor(private userService: UserService, 
+    private adminService: AdminServiceService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -56,8 +61,49 @@ export class ProfileComponent implements OnInit {
 
     
   }
+
+  changePassword(){
+
+    //open dialog
+    const dialogRef = this.dialog.open(DialogChangePassComponent, {
+      width: '80%'
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+
+      //realod 
+      if(res){
+        
+        window.location.reload();
+
+      }
+
+
+
+    });
+
+
+  }
   
   editMyAccount(){
+
+    const dialogRef = this.dialog.open(AddAccountComponent, {
+      width: '80%',
+      data: this.user
+    });
+
+    dialogRef.afterClosed().subscribe((res) => {
+
+      //realod 
+      if(res){
+        
+        window.location.reload();
+
+      }
+
+
+
+    });
 
 
   }

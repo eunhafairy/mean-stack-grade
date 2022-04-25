@@ -118,13 +118,13 @@ export class SignupComponent implements OnInit {
 
     console.log(this.form.value.__student_no);
     this.isLoading = true;
+    
     this.userService.createUserFromAdmin(this.form.value.__first_name,
       this.form.value.__last_name, 
       this.selectedRole, 
       this.form.value.__email,  
       this.form.value.__password, 
-      this.form.value.__fileESig, 
-      this.form.value.__student_no,
+      this.form.value.__fileESig,this.form.value.__student_no,
       this.form.value.__course,
       this.form.value.__year,
       this.form.value.__section)

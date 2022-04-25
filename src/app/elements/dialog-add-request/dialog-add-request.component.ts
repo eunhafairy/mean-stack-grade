@@ -50,6 +50,8 @@ export class DialogAddRequestComponent implements AfterViewInit{
   ) {
 
     this.myRole = userService.getRole();
+   
+   
     this.form = new FormGroup({
       'subject': new FormControl(null, {validators: [Validators.required]}),
       'faculty' : new FormControl(null, {validators: [Validators.required]}),
@@ -166,21 +168,16 @@ export class DialogAddRequestComponent implements AfterViewInit{
   getSubjects(){
 
 
-    this.adminService.getSubjects()
-    .subscribe(
-      response =>{
+    this.adminService.getSubjects();
+    this.adminService.getSubjectsUpdateListener()
+    .subscribe((subjData) =>{
 
-       this.subjects = response['subjects'];
-       this.subjects.sort((a,b)=>a.subject_name.localeCompare(b.subject_name));
+      this.subjects = subjData.subjects;
+      this.subjects.sort((a,b)=>a.subject_name.localeCompare(b.subject_name));
+      
 
-      },
-      err =>{
-
-        console.log(err);
-
-      }
-    );
-
+    })
+      
 
   }
 

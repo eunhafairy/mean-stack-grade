@@ -49,12 +49,27 @@ export class AdminServiceService {
   }
 
   //SUBJECTS
+  getFacultyByStatus(status: string){
 
+
+    return this.http.get("http://localhost:3000/api/users/faculty/" + status)
+    .pipe(catchError(this.handleError));
+
+
+  }
   getSubjects(){
 
     return this.http
-    .get("http://localhost:3000/api/subjects")
-    .pipe(catchError(this.handleError));
+    .get<{subjects: Subjects[], message: string}>("http://localhost:3000/api/subjects")
+    .subscribe((subjectData) => {
+
+  
+      this.subjects = subjectData.subjects;
+
+      this.subjectsUpdated.next({
+        subjects : [...this.subjects]
+      });
+  });
 
   }
 
@@ -85,7 +100,7 @@ export class AdminServiceService {
   updateSubject(_subj: Subjects){
   
     let id : string;
-    let subjData : Subjects | FormData;
+    let subjData : Subjects;
     subjData = {
         subject_id: _subj.subject_id,
         subject_code:   _subj.subject_code,

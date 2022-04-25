@@ -35,7 +35,7 @@ router.put("/:id", checkAuth, (req,res, next) =>{
 
     const subj = new Subject({
 
-        _id: req.body.subject_id,
+        _id: req.params.id,
         subject_code: req.body.subject_code,
         subject_name: req.body.subject_name,
         subject_description: req.body.subject_description
