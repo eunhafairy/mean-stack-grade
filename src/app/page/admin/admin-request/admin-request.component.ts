@@ -66,12 +66,8 @@ export class AdminRequestComponent implements OnInit {
     this.requestService.getRequestUpdateListener()
      .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
       
-      this.isLoading=false;
       this.transformRequests(requestsData.requests);
-      this.setPageSizeOption();
-      this.totalRequests = this.dataSource.data.length;
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
+    
      },
         error=>{
 
@@ -105,24 +101,33 @@ export class AdminRequestComponent implements OnInit {
 
         this.requests[i].user_id = responseData['l_name'] + ", "+ responseData['f_name'];
 
-        this.isLoading=false;
-
-
       });
 
       this.userService.getUser(request[i].faculty_id)
       .subscribe(responseData =>{
 
         this.requests[i].faculty_id = responseData['l_name'] + ", "+ responseData['f_name'];
-        this.isLoading=false;
 
-      });
+        if(i === (request.length-1)){
+
+          console.log("RUN ONCE");
+          this.isLoading = false;
+          this.dataSource = new MatTableDataSource(this.requests);
+          this.totalRequests = this.dataSource.data.length;
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          this.setPageSizeOption();
+          
+        }
      
+        
+      });
+      
+      
+   
      
 
     }
-
-    this.dataSource = new MatTableDataSource(this.requests);
 
   
   

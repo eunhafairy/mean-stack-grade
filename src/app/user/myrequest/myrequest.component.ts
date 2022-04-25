@@ -24,7 +24,6 @@ export class MyrequestComponent implements OnInit {
 
     
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
-      width: '80%',
       data: null
     });
 
