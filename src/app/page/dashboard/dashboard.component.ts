@@ -15,25 +15,29 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
+  isLoading = false;
   user: User;
+  role: string;
   constructor(public userService : UserService, private router: Router) { }
  
 
   ngOnInit(): void {
   
+    this.isLoading=true;
 
-    // this.userService.getUser(this.userService.getUserId())
-    // .subscribe(res =>{
+    this.userService.getUser(this.userService.getUserId())
+    .subscribe(res =>{
 
 
-    //   this.user = res as User;
-    //   if(this.user.status !== 'Accepted'){
+      this.user = res as User;
+      this.role = this.user.role;
+      
+      this.isLoading=false;
+     
 
-    //       this.router.navigate(['/validity-redirect']);
+    });
 
-    //   }
 
-    // });
 
 
   }

@@ -23,6 +23,9 @@ const storage = multer.diskStorage({
 
 router.post("", multer({storage: storage}).single('request_form'), checkAuth, (req,res,next) =>{
 
+
+
+
     let request_form = req.body.request_form;
     if(req.file){
         const  url = req.protocol + "://"+req.get("host");
@@ -173,6 +176,7 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
 router.put("/:id",  multer({storage: storage}).single('request_form'), (req,res, next) =>{
 
+    console.log("backend: " + req.body.dateAccepted);
    var request_form = req.body.request_form;
    
     if(req.file){
@@ -196,7 +200,8 @@ router.put("/:id",  multer({storage: storage}).single('request_form'), (req,res,
         year: req.body.year,
         note: req.body.note,
         cys: req.body.cys,
-        request_form: request_form
+        request_form: request_form,
+        dateAccepted : req.body.dateAccepted
 
     });
  

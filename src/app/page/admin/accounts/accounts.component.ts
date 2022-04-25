@@ -38,7 +38,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   authData: AuthData;
   
 
-  constructor(private adminService: AdminServiceService, private dialog : MatDialog) {
+  constructor(private adminService: AdminServiceService, private dialog : MatDialog, private userService: UserService) {
  
   }
 
@@ -56,6 +56,15 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   }
   deleteUser(u_id : string){
+
+
+    if(this.userService.getUserId() === u_id){
+
+      window.alert("You have selected your own account. If you wish to continue, please do delete it in your settings page.");
+      return;
+
+    }
+
 
     var willDelete = window.confirm('Are you sure you want to delete?');
 

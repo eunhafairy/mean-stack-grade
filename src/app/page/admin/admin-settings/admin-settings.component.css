@@ -1,0 +1,8 @@
+.example-card {
+    max-width: 400px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://bulsu.edu.ph/resources/colleges-logo/CICT.png');
+    background-size: cover;
+  }

@@ -15,6 +15,7 @@ export class FacultyGuard implements CanActivate {
 
     if(this.userService.getRole() ==='Faculty'){
 
+      console.log("validity status: " + this.userService.getStatus());
       if(this.userService.getStatus() !== 'Accepted'){
 
       this.router.navigate(['/validity-redirect']);

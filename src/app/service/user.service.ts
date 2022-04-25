@@ -232,8 +232,32 @@ export class UserService {
   }
 
 getStatus(){
+  const authInformation = this.getAuthData();
+  return authInformation.status;
 
-  return this.status;
+}
+
+changePass(id: string, newPass : string){
+
+  const formBody = {
+
+    newpass : newPass
+
+  }
+  return this.http
+  .put("http://localhost:3000/api/users/changepass/" + id, formBody)
+  .pipe(catchError(this.handleError));
+
+}
+
+checkPass(id:string, password: string){
+
+  const formBody ={
+    password: password
+  }
+
+  return this.http.post("http://localhost:3000/api/users/checkpass/"+id, formBody)
+  .pipe(catchError(this.handleError));
 
 }
 
@@ -255,6 +279,7 @@ getStatus(){
       this.setToken(token);
       if(token){
 
+        console.log("response.status: "+response.status);
       this.status = response.status;
         this.u_id = response.u_id;
         this.role = response.role;
@@ -268,7 +293,7 @@ getStatus(){
         this.setAuthTimer(expiresInDuration);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration *1000);
-        this.saveAuthData(token, expirationDate, this.u_id, this.role);
+        this.saveAuthData(token, expirationDate, this.u_id, this.role, this.status);
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
     
@@ -332,12 +357,14 @@ getStatus(){
     return this.authStatusListener.asObservable();
   }
 
-  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string){
+  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string, status: string){
 
     localStorage.setItem('token', token);
     localStorage.setItem('expirationDate', expirationDate.toISOString()); 
     localStorage.setItem('u_id', u_id);
     localStorage.setItem('role', role);
+    localStorage.setItem('status', status);
+
   }
 
   private clearAuthData(){
@@ -346,6 +373,8 @@ getStatus(){
     localStorage.removeItem("expirationDate");
     localStorage.removeItem("u_id");
     localStorage.removeItem("role");
+    localStorage.removeItem('status');
+
   }
 
   autoAuthUser(){
@@ -361,6 +390,7 @@ getStatus(){
       this.token = authInformation.token;
       this.u_id = authInformation.u_id;
       this.role = authInformation.role;
+      this.status = authInformation.status;
       this.setAuthTimer(expiresIn/1000);
       this.isAuthenticated = true;
       this.authStatusListener.next(true);
@@ -377,6 +407,7 @@ getStatus(){
     const expirationDate = localStorage.getItem('expirationDate');
     const u_id = localStorage.getItem('u_id');
     const role = localStorage.getItem('role');
+    const status = localStorage.getItem('status');
     
     if(!token || !expirationDate){
       return null;
@@ -387,7 +418,8 @@ getStatus(){
         token: token,
         expirationDate : new Date(expirationDate),
         u_id: u_id,
-        role: role
+        role: role,
+        status: status
 
       };
 

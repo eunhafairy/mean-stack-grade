@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
 
@@ -11,7 +12,7 @@ export class ValidityRedirectComponent implements OnInit {
 
   status:string;
   user : User;
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
   ngOnInit(): void {
 
 
@@ -23,6 +24,11 @@ export class ValidityRedirectComponent implements OnInit {
       this.user = res as User;
 
       this.status = this.user.status;
+      if(this.status === "Accepted"){
+
+        this.router.navigate(['/faculty-dashboard']);
+
+      }
     },
     err =>{
 

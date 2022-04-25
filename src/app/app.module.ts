@@ -51,6 +51,8 @@ import { AddAccountComponent } from './elements/add-account/add-account.componen
 import { AccountCardComponent } from './elements/account-card/account-card.component';
 import { ValidityRedirectComponent } from './page/faculty/validity-redirect/validity-redirect.component';
 import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-add-subject.component';
+import { SettingsComponent } from './page/settings/settings.component';
+import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -79,7 +81,9 @@ import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-
     AddAccountComponent,
     AccountCardComponent,
     ValidityRedirectComponent,
-    DialogAddSubjectComponent
+    DialogAddSubjectComponent,
+    SettingsComponent,
+    DialogChangePassComponent
   ],
   imports: [
     BrowserModule,

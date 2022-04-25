@@ -23,6 +23,40 @@ const storage = multer.diskStorage({
 
 });
 
+router.put("/changepass/:id", checkAuth, (req, res, next)=>{
+    
+    
+    bcrypt.hash(req.body.newpass, 10)
+    .then(hash =>{
+
+        User.updateOne({_id: req.params.id}, {
+
+            password: hash
+
+        })
+        .then(result =>{
+            res.status(200).json({
+                message:'update successful',
+                result: result
+            });
+        })
+        .catch(err =>{
+    
+            res.status(500).json({
+                message: 'Something went wrong',
+                error: err
+            });
+        })
+
+
+    });
+
+
+
+
+
+})
+
 
 router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, next) =>{
 
@@ -142,6 +176,68 @@ router.delete("/:id",checkAuth, (req,res,next) => {
 
     });
     
+});
+
+router.post("/checkpass/:id", checkAuth , (req,res,next) => {
+
+
+     User.findOne({ _id: req.params.id})
+     .then(user =>{
+
+        if(!user){
+
+            //no account
+            return res.status(401).json({message: 'No account found'});
+        }
+        else{
+       
+
+            //fetching compare password
+            return bcrypt.compare(req.body.password, user.password);
+
+        }
+
+     })
+     .then(result =>{
+
+        if(!result){
+
+            //wrong password
+            return res
+            .status(401)
+            .json({       
+                isCorrect: false,
+                message:"Wrong password!"
+            });
+        }
+        else{
+
+            return res
+            .status(200)
+            .json({       
+                isCorrect: true,
+                message: "Correct pass!"
+            });
+
+
+        }
+
+
+     })
+     .catch(err=>{
+      
+        console.log(err);
+        return res
+        .status(500)
+        .json({       
+            message: "Something went wrong!",
+            error: err
+        });
+
+
+     })
+
+
 });
 
 router.post("/login", (req,res,next) => {

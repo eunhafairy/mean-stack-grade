@@ -63,24 +63,24 @@ export class RequestFormComponent implements AfterViewInit {
         this.e_sig_path = res['e_sig'];
           this.student_name = res['f_name'] + " " + res['l_name'];
           this.student_no = res['student_no'];
-          this.isLoading = false;
+      
+          this.userService.getUser(this.data.faculty_id as string)
+          .subscribe(res =>{
+      
+            
+            this.prof_name = res['f_name'] + " "+res['l_name'];
+            this.e_sig_path_prof = res['e_sig'];
+            this.acad_year2 = +this.data.year + 1;
+            this.date_requested = new Date();
+            this.date_accepted = new Date();
+            this.isLoading = false;
+      
+      
+          });
           
         });
         
 
-    this.userService.getUser(this.data.faculty_id as string)
-    .subscribe(res =>{
-
-      
-      this.prof_name = res['f_name'] + " "+res['l_name'];
-      this.e_sig_path_prof = res['e_sig'];
-      this.acad_year2 = +this.data.year + 1;
-      this.date_requested = new Date();
-      this.date_accepted = new Date();
-      this.isLoading = false;
-
-
-    });
 
    
  
@@ -109,6 +109,7 @@ export class RequestFormComponent implements AfterViewInit {
 async fillForm() {
 
  
+  this.isLoading=true;
  
       if(this.edit){
 
@@ -120,17 +121,22 @@ async fillForm() {
       //get professor signature
       const sigImageBytes = await fetch(this.e_sig_path_prof).then(res => res.arrayBuffer())
 
+      //check image
+      const checkImageBytes = await fetch('assets/files/check.png').then(res => res.arrayBuffer())
+      
+
        //load pdf 
       const pdfDoc = await PDFDocument.load(formPdfBytes)
 
       //load image
       const sigImage = await pdfDoc.embedPng(sigImageBytes)
+      const checkImage = await pdfDoc.embedPng(checkImageBytes);
 
       //get form
       const form = pdfDoc.getForm()
 
-      const actionPassedField = form.getTextField('action_passed')
-      const actionFailedField = form.getTextField('action_failed')
+      const actionPassedField = form.getButton('action_passed')
+      const actionFailedField = form.getButton('action_failed')
       const ratingFailedField = form.getTextField('rating_failed')
       const ratingPassedField = form.getTextField('rating_passed')
       const dateAcceptedField = form.getTextField('date_accepted')
@@ -138,13 +144,13 @@ async fillForm() {
 
       if(this.data.verdict ==='5.00'){
         //failed
-        actionFailedField.setText("l")
+        actionFailedField.setImage(checkImage)
         ratingFailedField.setText(this.data.verdict)
 
       }
       else{
         
-        actionPassedField.setText("l")
+        actionPassedField.setImage(checkImage)
         ratingPassedField.setText(this.data.verdict)
 
       }
@@ -152,6 +158,7 @@ async fillForm() {
       dateAcceptedField.setText(this.readableDate(new Date()))
       professorSignatureImageField.setImage(sigImage)
 
+      form.flatten();
       const pdfBytes = await pdfDoc.save();
   
       const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
@@ -159,17 +166,20 @@ async fillForm() {
       //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       var file = new File([blob], "Request_Form.pdf");
 
-      var now = new Date()
-      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, this.data.dateRequested, new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
+      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, new Date(this.data.dateRequested).toISOString(), new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
       subscribe(res =>{
       
           this.isLoading = false;
 
         window.alert("Success!");
-        window.location.reload();
+        this.dialogRef.close("Success");
       },
       err=>{
-        window.alert("Error! "+err);
+        window.alert("Error! "+err);    
+      
+        this.dialogRef.close();
+      
+      
       });
 
       
@@ -244,10 +254,13 @@ async fillForm() {
         this.isLoading = false;
     
         window.alert("Success!");
-        window.location.reload();
+        this.dialogRef.close("Success");
+
       },
       err=>{
         window.alert("Error! "+err);
+        this.dialogRef.close();
+
       });
 
 

@@ -132,18 +132,16 @@ export class FacultyRequestElementComponent implements OnInit {
            width: '40%'
         });
         dialogRef.afterClosed().subscribe(result =>{
-          window.location.reload();
-          this.refreshTable();
+
+          if(result){
+            window.location.reload();
+          }
+        
         })
 
         
       }
-      else{
-        
-        window.location.reload();
-        this.refreshTable();
-        
-      }
+     
     });
   }
   rejectRequest(id: string){
