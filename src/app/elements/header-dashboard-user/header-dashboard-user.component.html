@@ -8,11 +8,11 @@
 
     <!-- SHOW IF NOT LOGGED IN -->
       <!-- SIGN IN -->
-      <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a> 
+      <!-- <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a>  -->
       
 
       <!-- SIGN UP -->
-      <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a>
+      <!-- <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a> -->
 
     <!-- SHOW IF LOGGED IN -->
 
@@ -63,7 +63,7 @@
       <!-- SHOW IF FACULTY -->
 
          <!-- HOME BUTTON -->
-         <button matTooltip="Faculty Dashboard" *ngIf="userIsAuthenticated && role ==='Faculty' && status === 'Accepted'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/faculty-dashboard">
+         <button matTooltip="Faculty Dashboard" *ngIf="userIsAuthenticated && role ==='Faculty' && status === 'Accepted'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/dashboard">
           <mat-icon>home</mat-icon>
         </button>
 

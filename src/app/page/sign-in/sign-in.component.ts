@@ -4,14 +4,17 @@ import { Router } from '@angular/router';
 import { catchError } from 'rxjs';
 import { UserService } from 'src/app/service/user.service';
 
+
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+  styleUrls: ['./sign-in.component.css'],
+
 })
 
 export class SignInComponent implements OnInit {
 isLoading = false;
+hidePass = true;
 
   constructor(private userService : UserService, private router: Router) { }
   ngOnInit(): void {}

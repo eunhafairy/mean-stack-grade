@@ -5,7 +5,7 @@ const path = require('path');
 const requestsRoutes = require('./routes/requests');
 const userRoutes = require('./routes/user');
 const subjectRoutes = require('./routes/subjects');
-const cors = require('cors');
+//const cors = require('cors');
 const app = express();
 
 
@@ -34,5 +34,5 @@ app.use("/files", express.static(path.join("backend/files")));
 app.use("/api/requests",requestsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/subjects", subjectRoutes);
-app.use(cors());
+//app.use(cors());
 module.exports = app;

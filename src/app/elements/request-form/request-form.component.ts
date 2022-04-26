@@ -34,7 +34,11 @@ export class RequestFormComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<RequestFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Request,
     private requestService: RequestService,
-    private userService: UserService,) { }
+    private userService: UserService,) {
+
+      this.dialogRef.disableClose=true;
+
+     }
  
  
   ngAfterViewInit(): void {
@@ -86,6 +90,11 @@ export class RequestFormComponent implements AfterViewInit {
  
   }
 
+  onNoClick(){
+
+    this.dialogRef.close();
+
+  }
 
   clickBtn(){
 

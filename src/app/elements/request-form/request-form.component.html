@@ -2,6 +2,8 @@
 
   <mat-spinner *ngIf="isLoading===true"></mat-spinner>
   <button  *ngIf="isLoading===false" mat-button color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Create Request</button>
+  <button  *ngIf="isLoading===false" mat-button color="warn" (click) = "onNoClick()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Cancel</button>
+
   <h1 *ngIf="isLoading">Generating file... Please wait!</h1>
 
 

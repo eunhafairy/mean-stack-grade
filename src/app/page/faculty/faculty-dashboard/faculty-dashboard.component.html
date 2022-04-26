@@ -1,2 +1,26 @@
 <app-header-dashboard-user></app-header-dashboard-user>
 <h1>Faculty Dashboard</h1>
+<div class='container' >
+
+    <button *ngIf="role === 'Student'" mat-raised-button color="primary" matTooltip="My Profile" class="admin-btn" routerLink="/profile">
+       <mat-icon color="accent">person</mat-icon>
+    </button>
+
+       <button  *ngIf="role === 'Faculty'" mat-raised-button color="primary" matTooltip="My Profile" class="admin-btn" routerLink="/faculty-profile">
+       <mat-icon color="accent">person</mat-icon>
+    </button>
+
+
+    <button *ngIf="role === 'Faculty'" mat-raised-button color="primary" matTooltip="My Requests" class="admin-btn" routerLink="/faculty-request">
+        <mat-icon  color="accent">event_note</mat-icon>
+    </button>
+
+    <button *ngIf="role === 'Student'" mat-raised-button color="primary" matTooltip="My Requests" class="admin-btn" routerLink="/myrequest">
+        <mat-icon  color="accent">event_note</mat-icon>
+    </button>
+
+    <!-- <button mat-raised-button color="primary" matTooltip="Settings" class="admin-btn">
+        <mat-icon  color="accent">settings</mat-icon>
+    </button> -->
+
+</div>

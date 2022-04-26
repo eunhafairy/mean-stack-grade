@@ -3,13 +3,69 @@ mat-card{
 
     width: 80%;
     margin: auto;
+
+
 }
-.example-form {
+.signin-form {
     min-width: 150px;
     max-width: 500px;
     width: 100%;
-  }
+}
   
 .full-width {
     width: 100%;
-  }
+    padding: 0px;
+
+}
+
+mat-form-field.full-width {
+  font-size: 12px;
+  margin: 0px;
+}
+
+
+.btnSignInForm {
+   width: 100%;
+   height: 45px;
+   margin-bottom: 10px;
+   margin-top: 30px;
+}
+.positive{
+  background-color: #2ba9c8;
+}
+.negative{
+  background-color: #2b79c8;
+}
+
+
+
+.txtTitle{
+  font-weight: bold;
+  padding-top: 1em;
+  margin-bottom: 2em;
+  font-size: xx-large;
+  text-align: center;
+}
+.signUpLink{
+  font-weight: bold;
+  color: #2ba9c8;
+  cursor: pointer;
+
+}
+p {
+  text-align: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 30px auto;
+  min-height: 300px;
+  padding: 30px;
+  border-radius: 5px;
+}
+
+mat-spinner {
+  zoom: 0.2
+}
+
+

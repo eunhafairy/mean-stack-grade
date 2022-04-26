@@ -117,7 +117,6 @@ export class UserService {
     authData.append("password", password);
     authData.append("e_sig", e_sig, e_sig.name);
     
-    console.log("It is a "+role);
     if(role === 'Student'){
       authData.append("student_no", student_no);
       authData.append("course", course);
@@ -129,7 +128,6 @@ export class UserService {
       authData.append("status", "Pending");
     }
     
-
 
     return this.http.post("http://localhost:3000/api/users/signup", authData)
     .pipe(

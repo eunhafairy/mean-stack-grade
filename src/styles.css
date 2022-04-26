@@ -27,78 +27,30 @@
   
   body {
     font-family:  sans-serif;
+    margin: 0;
+    background-color: #075773;
   }
   
   .container {
-    max-width: 500px;
-    margin: 30px auto;
-    
+    max-width: 800px;
+    margin: auto;
     min-height: 300px;
     padding: 30px;
     border-radius: 5px;
-  }
-  .btn {
-    display: inline-block;
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 15px;
-    font-family: inherit;
+    
+    
   }
 
-  mat-form-field{
-    margin-bottom : 1rem;
-    
-      }
+
 input[type="file"]{
   visibility: hidden;
   }
-  .btn:focus {
-    outline: none;
-  }
-  .btn:active {
-    transform: scale(0.98);
-  }
   
-  .btn-block {
-    display: block;
-    width: 100%;
+
+  html, body {margin: 0; height: 100%; overflow: hidden;}
+
+  mat-form-field.full-width {
+    font-size: 14px;
   }
-  
-  .form-control {
-    margin: 20px 0;
-  }
-  
-  .form-control label {
-    display: block;
-  }
-  
-  .form-control input {
-    width: 100%;
-    height: 40px;
-    margin: 5px;
-    padding: 3px 7px;
-    font-size: 17px;
-  }
-  
-  .form-control-check {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .form-control-check label {
-    flex: 1;
-  }
-  
-  .form-control-check input {
-    flex: 2;
-    height: 20px;
-  }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
