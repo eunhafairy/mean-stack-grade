@@ -3,6 +3,7 @@ mat-card{
 
     width: 80%;
     margin: auto;
+    padding: 5%;
 
 }
 
@@ -30,7 +31,7 @@ mat-card{
   background-color: #2ba9c8;
 }
 .negative{
-  background-color: #2b79c8;
+  background-color: #b04949;
 }
 mat-form-field.full-width {
   font-size: 12px;
@@ -41,7 +42,7 @@ mat-form-field.full-width {
 .txtTitle{
   font-weight: bold;
   padding-top: 0.5em;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
   font-size: xx-large;
   text-align: center;
 }
@@ -64,6 +65,25 @@ mat-spinner {
   zoom: 0.2
 }
 
+.container {
+  max-width: 800px;
+  min-height: 300px;
+  padding: 30px;
+  border-radius: 5px;
+
+  /* center */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: rgb(215, 215, 215);
+  border-radius: 5px;
+}
 
 
    

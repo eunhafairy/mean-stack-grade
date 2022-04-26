@@ -2,20 +2,23 @@
 
 <main>
 
-    <mat-card class="example-card">
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>{{fullname}}</mat-card-title>
-          <mat-card-subtitle>{{cys}}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-label>Signature</mat-label>
-        <img mat-card-image [src]="e_sig_path">
-       
-        <mat-card-actions>
-          <button mat-button (click)="editMyAccount()">Edit</button>
-          <button mat-button color="warn" (click)="deleteMyAccount()">Delete Account</button>
-          <button mat-button (click)="changePassword()">Change Password</button>
-        </mat-card-actions>
-      </mat-card>
+  <div class="container">
+    <mat-card class="profile-form">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{fullname}}</mat-card-title>
+        <mat-card-subtitle>{{cys}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-label>Signature</mat-label>
+      <img mat-card-image [src]="e_sig_path">
+     
+      <mat-card-actions>
+        <button mat-button (click)="editMyAccount()">Edit</button>
+        <button mat-button color="warn" (click)="deleteMyAccount()">Delete Account</button>
+        <button mat-button (click)="changePassword()">Change Password</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+   
 
 </main>
