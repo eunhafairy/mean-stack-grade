@@ -1,18 +1,30 @@
 
 mat-card{
 
+    max-height: 650px;
+    height: 100%;
     width: 80%;
     margin: auto;
     padding: 5%;
 
 }
+mat-card.signup-form{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+mat-card-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 
 .signin-form {
     min-width: 150px;
     max-width: 500px;
     width: 100%;
 }
-  
+
 .full-width {
     width: 100%;
     padding: 0px;
@@ -28,22 +40,30 @@ mat-card{
    margin-bottom: 10px;
 }
 .positive{
-  background-color: #2ba9c8;
+  background-color: #ffd740;
 }
 .negative{
-  background-color: #b04949;
+  background-color: #302e2e;
 }
+
+
 mat-form-field.full-width {
   font-size: 12px;
   margin: 0px;
 }
 
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .txtTitle{
   font-weight: bold;
   padding-top: 0.5em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
   font-size: xx-large;
+  width: 100%;
   text-align: center;
 }
 
@@ -81,9 +101,9 @@ mat-spinner {
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: rgb(215, 215, 215);
+  background-color: rgb(240, 240, 240);
   border-radius: 5px;
 }
 
 
-   
+

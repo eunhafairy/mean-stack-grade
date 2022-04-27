@@ -3,7 +3,7 @@ mat-card{
 
     margin: auto;
     padding: 5%;
-    
+
 
 
 }
@@ -12,7 +12,7 @@ mat-card{
     max-width: 400px;
     width: 100%;
 }
-  
+
 .full-width {
     width: 100%;
     padding: 0px;
@@ -32,7 +32,7 @@ mat-form-field.full-width {
    margin-top: 30px;
 }
 .positive{
-  background-color: #2ba9c8;
+  background-color: #ffd740;
 }
 .negative{
   background-color: #2b79c8;
@@ -78,6 +78,6 @@ mat-spinner {
 
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  background-color: rgb(215, 215, 215);
+  background-color: rgb(240, 240, 240);
   border-radius: 5px;
 }

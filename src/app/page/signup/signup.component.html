@@ -2,9 +2,12 @@
 <div class="container">
     <mat-card class="signup-form">
 
+        <mat-card-header>
+          <h1 class="txtTitle">Sign up</h1>
+        </mat-card-header>
         <mat-card-content>
-            
-            <h1 class="txtTitle">Sign up</h1>
+
+
             <form (submit) ="onSignUp()" [formGroup] = "form"  enctype="multipart/form-data" class="signin-account-form" >
 
                 <div class="row">
@@ -13,20 +16,20 @@
                     <!--FIRST NAME-->
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>First Name</mat-label>
-                        <input matInput 
-                        formControlName="__first_name"  
-                        type="text" 
+                        <input matInput
+                        formControlName="__first_name"
+                        type="text"
                         required>
                         <mat-error *ngIf = "form.get('__first_name').invalid">Please enter your first name.</mat-error>
                     </mat-form-field>
                     </div>
-                    
+
                     <div class="col">
                     <!--LAST NAME-->
                     <mat-form-field  class="full-width" appearance="outline">
                         <mat-label>Surname</mat-label>
-                        <input matInput 
-                        type="text" 
+                        <input matInput
+                        type="text"
                         formControlName = "__last_name"
                         required>
                         <mat-error *ngIf = "form.get('__last_name').invalid">Please enter your last name.</mat-error>
@@ -36,20 +39,20 @@
                 </div>
 
                 <div class="row">
-                
+
                     <div class="col">
                     <!--EMAIL-->
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Email</mat-label>
-                        <input matInput  
-                        type="email" 
-                        placeholder="yourname@email.com" 
+                        <input matInput
+                        type="email"
+                        placeholder="yourname@email.com"
                         formControlName="__email"
                         required email >
                         <mat-error *ngIf = "form.get('__email').invalid">Please enter a valid email</mat-error>
                     </mat-form-field>
                     </div>
-                
+
                 </div>
 
                 <div class="row">
@@ -58,14 +61,14 @@
                     <!--PASSWORD-->
                     <mat-form-field  class="full-width" appearance="outline">
                         <mat-label>Password</mat-label>
-                        <input matInput 
-                        type="password" 
+                        <input matInput
+                        type="password"
                         formControlName="__password"
                         required>
                         <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password</mat-error>
                     </mat-form-field>
                     </div>
-                
+
                     <div class="col">
                     <!--CONFIRM PASSWORD-->
                     <mat-form-field  class="full-width" appearance="outline">
@@ -79,14 +82,14 @@
                     </div>
 
                 </div>
-                
+
 
                 <div class="row">
                     <div class="col">
                     <!--ROLE-->
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Role</mat-label>
-                        <mat-select 
+                        <mat-select
                         [(value)]="selectedRole"
                         name = "role"
                         formControlName= "__role"
@@ -108,8 +111,8 @@
                     <!--STUDENT NO-->
                     <mat-form-field *ngIf="selectedRole === 'Student'"  class="full-width" appearance="outline">
                     <mat-label>Student No.</mat-label>
-                    <input  matInput 
-                    type="text" 
+                    <input  matInput
+                    type="text"
                     formControlName="__student_no"
                     required>
                     <mat-error *ngIf = "form.get('__student_no').invalid">Please make sure you enter your unique student number.</mat-error>
@@ -120,7 +123,7 @@
                     <!--COURSE-->
                     <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width" appearance="outline">
                 <mat-label>Course</mat-label>
-                    <mat-select 
+                    <mat-select
                     value="BSIT"
                     name = "course"
                     formControlName= "__course"
@@ -129,10 +132,10 @@
                         <mat-option *ngFor="let course of courses" [value]=course.value>
                             {{course.value}}
                         </mat-option>
-                    
+
                     </mat-select>
                 <mat-error *ngIf = "form.get('__course').invalid">Please choose a course.</mat-error>
-    
+
                     </mat-form-field>
                     </div>
 
@@ -144,7 +147,7 @@
                     <!--YEAR-->
                     <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width" appearance="outline">
                 <mat-label>Year</mat-label>
-                    <mat-select 
+                    <mat-select
                     value ='1'
                     name = "year"
                     formControlName= "__year"
@@ -153,10 +156,10 @@
                         <mat-option *ngFor="let year of years" [value]=year.value>
                             {{year.value}}
                         </mat-option>
-                    
+
                     </mat-select>
                 <mat-error *ngIf = "form.get('__year').invalid">Please choose a year.</mat-error>
-    
+
                     </mat-form-field>
                     </div>
 
@@ -164,7 +167,7 @@
                     <!--SECTION-->
                     <mat-form-field *ngIf="selectedRole === 'Student'" class="full-width" appearance="outline">
                 <mat-label>Section</mat-label>
-                    <mat-select 
+                    <mat-select
                     value="A"
                     name = "section"
                     formControlName= "__section"
@@ -173,15 +176,15 @@
                         <mat-option *ngFor="let section of sections" [value]=section.value>
                             {{section.value}}
                         </mat-option>
-                    
+
                     </mat-select>
                 <mat-error *ngIf = "form.get('__section').invalid">Please choose a section.</mat-error>
-    
+
                     </mat-form-field>
                     </div>
 
                 </div>
-                
+
                 <div class="row">
 
                     <div class="col">
@@ -192,7 +195,7 @@
                         <div class="row">
                             <div class="col">
                                 <button mat-flat-button color="primary" type="button" (click)="filePickerESig.click()" class="btnUpload">
-                                    Upload your signature 
+                                    Upload your signature
                                     <mat-icon>upload</mat-icon>
                                 </button>
                                 <input type="file" #filePickerESig (change) = "onFilePickedESig($event)" accept="image/png" required>
@@ -204,28 +207,29 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     </div>
                 </div>
-         
-
-                <div class="row">
-                    <div class="col">
-                        <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Register</button>
-                        <mat-spinner *ngIf="isLoading"></mat-spinner>
-                    </div>
-                </div>
-                    
-                <div class="row">
-                    <div class="col">
-                        <button class="btnSignUpForm negative" mat-flat-button  color="primary" routerLink = '/sign-in'>Cancel</button>
-                    </div>
-                </div>
-
-
 
         </form>
-    </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+        <mat-card-actions>
+
+          <div class="row">
+            <div class="col">
+                <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Register</button>
+                <mat-spinner *ngIf="isLoading"></mat-spinner>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+                <button class="btnSignUpForm negative" mat-flat-button  color="primary" routerLink = '/sign-in'>Cancel</button>
+            </div>
+          </div>
+
+        </mat-card-actions>
+
+      </mat-card>
 </div>

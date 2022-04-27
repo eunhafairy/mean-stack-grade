@@ -24,34 +24,35 @@
     margin-left: auto;
     margin-right: auto;
   }
-  
+
   body {
     font-family:  sans-serif;
     margin: 0;
     background-color: #075773;
   }
-  
+
   .container {
     max-width: 800px;
     margin: auto;
     min-height: 300px;
     padding: 30px;
     border-radius: 5px;
-    
-    
   }
 
 
 input[type="file"]{
   visibility: hidden;
   }
-  
+
 
   html, body {margin: 0; height: 100%; overflow: hidden;}
 
   mat-form-field.full-width {
     font-size: 14px;
   }
+
+
+
 
 
 
