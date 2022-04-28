@@ -1,13 +1,41 @@
-<div id="form-body">
 
-  <mat-spinner *ngIf="isLoading===true"></mat-spinner>
-  <button  *ngIf="isLoading===false" mat-button color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Create Request</button>
-  <button  *ngIf="isLoading===false" mat-button color="warn" (click) = "onNoClick()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Cancel</button>
 
-  <h1 *ngIf="isLoading">Generating file... Please wait!</h1>
 
+
+
+<div mat-dialog-content>
+
+
+  <div class="container">
+    <mat-card class="signup-form">
+
+
+          <mat-spinner *ngIf="isLoading===true"></mat-spinner>
+
+
+          <h1 *ngIf="isLoading===false">Are you sure?</h1>
+          <div class="row">
+
+            <div class="col">
+              <button  *ngIf="isLoading===false" class="btnSignUpForm positive" mat-flat-button  color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Create Request</button>
+            </div>
+
+            <div class="col">
+              <button  *ngIf="isLoading===false" class="btnSignUpForm negative" mat-flat-button  color="primary" (click) = "onNoClick()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Cancel</button>
+            </div>
+
+          </div>
+
+
+          <h1 *ngIf="isLoading">Generating file... Please wait!</h1>
+
+
+
+      </mat-card>
+</div>
 
 </div>
+
     <!-- <div id ="pdfForm" #pdfForm *ngIf="!edit">
       <p id = "student_name">{{student_name}}</p>
       <p id = "faculty_name">{{prof_name}}</p>
@@ -29,16 +57,16 @@
     </div> -->
 
     <!-- <div *ngIf="edit">
-      <pdf-viewer 
+      <pdf-viewer
       [src]="data.request_form"
       [original-size]="true"
       style="width: auto; height: 100">
-    
+
     </pdf-viewer>
-     
+
     </div> -->
 
-    
+
 
     <!-- <div id ="pdfFormEdit" #pdfFormEdit *ngIf="edit" [ngStyle]="{'background-image' : 'url('+data.request_form+')'}">
       <p id = "student_name" style="visibility:hidden">{{student_name}}</p>
@@ -68,7 +96,7 @@
 
 
 <!-- <div class ="content">
-  
+
   <div #viewer id="viewer" class = "webviewer"></div>
 
 </div> -->

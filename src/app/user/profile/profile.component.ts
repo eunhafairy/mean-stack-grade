@@ -17,9 +17,9 @@ export class ProfileComponent implements OnInit {
   fullname: string;
   cys: string;
   e_sig_path:string;
- 
 
-  constructor(private userService: UserService, 
+
+  constructor(private userService: UserService,
     private adminService: AdminServiceService,
     private dialog: MatDialog) { }
 
@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  
+
   deleteMyAccount(){
 
     let u_id : string = this.user._id;
@@ -54,26 +54,26 @@ export class ProfileComponent implements OnInit {
 
         window.alert("Your account was successfully deleted!");
         this.userService.logout();
-       
+
 
       });
     }
 
-    
+
   }
 
   changePassword(){
 
     //open dialog
     const dialogRef = this.dialog.open(DialogChangePassComponent, {
-      width: '80%'
+
     });
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //realod 
+      //realod
       if(res){
-        
+
         window.location.reload();
 
       }
@@ -84,19 +84,19 @@ export class ProfileComponent implements OnInit {
 
 
   }
-  
+
   editMyAccount(){
 
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
+
       data: this.user
     });
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //realod 
+      //realod
       if(res){
-        
+
         window.location.reload();
 
       }

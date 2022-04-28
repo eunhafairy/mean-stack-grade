@@ -11,7 +11,7 @@ import { RequestFormComponent } from 'src/app/elements/request-form/request-form
   styleUrls: ['./myrequest.component.css']
 })
 export class MyrequestComponent implements OnInit {
-  
+
   constructor(private dialog : MatDialog, private router: Router) { }
 
   ngOnInit(): void {
@@ -22,43 +22,41 @@ export class MyrequestComponent implements OnInit {
   //open create request dialog
   openCreateRequestDialog(){
 
-    
+
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
       data: null
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-    
 
-      
+
+
       if(res){
 
         const dialogRef2 = this.dialog.open(RequestFormComponent, {
-          height: '50%',
-          width: '40%',
           data: res
         });
 
         dialogRef2.afterClosed().subscribe(res =>{
-          
+
           if(res){
             window.location.reload();
-            
+
           }
-          
+
         })
-        
+
 
 
       }
-     
+
     });
 
 
 
   }
 
-  
+
 
 
 
