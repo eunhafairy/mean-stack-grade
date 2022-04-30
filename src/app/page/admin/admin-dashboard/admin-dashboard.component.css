@@ -3,5 +3,14 @@ button{
     width: 200px;
     height: 200px;
     margin:10px;
+    background-color: #ffffff;
 
+}
+.container{
+  height: fit-content;
+  width: fit-content;
+}
+
+.icon-display {
+  transform: scale(6);
 }

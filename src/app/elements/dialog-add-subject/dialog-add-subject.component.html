@@ -1,55 +1,65 @@
 <h1 mat-dialog-title>Create Subject</h1>
 
 <div mat-dialog-content>
-
-    <main>
-        <form [formGroup]="form" (submit) ="onCreateSubject()">
-
-                
-            <!--SUBJECT CODE-->
-           <mat-form-field  class="full-width">
-            <mat-label>Subject Code</mat-label>
-            <input  
-             name="subjectCode" 
-             formControlName ="subjectCode"
-             matInput 
-             type="text" 
-             required>
-            <mat-error *ngIf = "form.get('subjectCode').invalid">Please enter a unique subject code.</mat-error>
-        </mat-form-field>
-
-        
-            <!--SUBJECT NAME-->
-        <mat-form-field  class="full-width">
-            <mat-label>Subject Name</mat-label>
-            <input  
-            name="subjectName" 
-            matInput 
-            formControlName ="subjectName"
-            type="text" 
-            required>
-            <mat-error *ngIf = "form.get('subjectName').invalid">Please enter the subject name.</mat-error>
-        </mat-form-field>
-
-        <!--SUBJECT DESCRIPTION-->
-        <mat-form-field class="full-width">
-            <mat-label>Subject Description</mat-label>
-            <textarea 
-            matInput 
-            name = "subjectDesc" 
-            formControlName ="subjectDesc"
-            type="text" 
-            ></textarea>
-            <mat-error *ngIf = "form.get('subjectDesc').invalid">Please enter a a subject description.</mat-error>
-        </mat-form-field><br>
+<div class="container">
+<mat-card class="signup-form">
+  <mat-card-header>
+    <h1 class="txtTitle">Add Subject</h1>
+  </mat-card-header>
 
 
-        <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Create Subject</button>
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
-        <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+  <form [formGroup]="form" (submit) ="onCreateSubject()">
 
-        </form>
 
-    </main>
+    <!--SUBJECT CODE-->
+   <mat-form-field  class="full-width" appearance="outline">
+    <mat-label>Subject Code</mat-label>
+    <input
+     name="subjectCode"
+     formControlName ="subjectCode"
+     matInput
+     type="text"
+     required>
+    <mat-error *ngIf = "form.get('subjectCode').invalid">Please enter a unique subject code.</mat-error>
+</mat-form-field>
 
+
+    <!--SUBJECT NAME-->
+<mat-form-field  class="full-width" appearance="outline">
+    <mat-label>Subject Name</mat-label>
+    <input
+    name="subjectName"
+    matInput
+    formControlName ="subjectName"
+    type="text"
+    required>
+    <mat-error *ngIf = "form.get('subjectName').invalid">Please enter the subject name.</mat-error>
+</mat-form-field>
+
+<!--SUBJECT DESCRIPTION-->
+<mat-form-field class="full-width" appearance="outline">
+    <mat-label>Subject Description</mat-label>
+    <textarea
+    matInput
+    name = "subjectDesc"
+    formControlName ="subjectDesc"
+    type="text"
+    rows="5"
+    ></textarea>
+    <mat-error *ngIf = "form.get('subjectDesc').invalid">Please enter a a subject description.</mat-error>
+</mat-form-field><br>
+
+
+<button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Create Subject</button>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<button class="btnSignUpForm negative" mat-flat-button color="primary"  (click)="onNoClick()"  >Cancel</button>
+
+</form>
+
+
+</mat-card>
+
+
+
+  </div>
 </div>

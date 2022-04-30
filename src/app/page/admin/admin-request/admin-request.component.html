@@ -1,122 +1,129 @@
 <app-header-dashboard-user></app-header-dashboard-user>
 
 
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<main>
-    <div [ngStyle]=" isLoading ? {'visibility': 'hidden'} :  {'visibility': 'visible'} " class="demo-button-container">
-      
-        <!-- ADD USER -->
-        <button color = "primary" mat-raised-button (click)="openDialog()" class="demo-button">
-          Add Request
-        </button>
-  
-        <!-- SHOW ALL -->
-        <button color = "accent" mat-raised-button (click)="showAll()" class="demo-button">
-          Show All
-        </button>
-     
-        <!-- EXPORT TABLE AS ... -->
-        <button  mat-raised-button (click)="exporter.exportTable('xlsx',{fileName:',User_data'})">Export as Excel</button>
-        <button mat-raised-button (click)="exporter.exportTable('csv',{fileName:'User_data'})">Export as CSV</button>
-        <button mat-raised-button (click)="exporter.exportTable('json',{fileName:'User_data'})">Export as JSON</button>
-      </div>
-  
-       <!-- FILTER -->
-      <mat-form-field appearance="standard">
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Enter a filter" #input [(ngModel)]="_filter" name="_filter">
-      </mat-form-field>
-  
-      <div [ngStyle]="isLoading ? {'visibility': 'invisible'} :  {'visibility': 'visible'} "  class="example-container mat-elevation-z8">
-    
-        <div class="example-table-container">
-  
-        
-          <table  mat-table matTableExporter [hiddenColumns]="[4]" [dataSource]="dataSource" class="example-table" #exporter="matTableExporter" matSort >
-            <!-- Subject -->
-            <ng-container   matColumnDef="subject">
-              <th mat-header-cell  *matHeaderCellDef mat-sort-header>Title</th>
-              <td mat-cell *matCellDef="let row">{{row.subject}}</td>
-            </ng-container>
-      
-            <!-- Student -->
-            <ng-container  matColumnDef="user_id">
-              <th  mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
-              <td mat-cell *matCellDef="let row">{{row.user_id}}</td>
-            </ng-container>
-      
-            <!-- Faculty -->
-            <ng-container   matColumnDef="faculty_id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Faculty</th>
-              <td mat-cell *matCellDef="let row">{{row.faculty_id}}</td>
-            </ng-container>
-      
-            <!-- Status Column -->
-            <ng-container  matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let row">{{row.status}}</td>
-            </ng-container>
-
-
-            <!-- Actions Column -->
-            <ng-container matColumnDef="action">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let row">
-                <button mat-raised-button color="warn" (click) ="deleteRequest(row)">Delete</button>
-                <!-- <button mat-raised-button color="accent" (click) ="editRequest(row.request_id)">Edit</button> -->
-              </td>
-        
-            </ng-container>
-  
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
-            <!-- if filter doesn't return any rows -->
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-            </tr>
-  
-          </table>
-        </div>
-    
-        <mat-paginator [pageSizeOptions]="pageSizeOptions"
-        showFirstLastButtons ></mat-paginator>
-    </div>
-
-
-
-
-
-
-</main>
 
 
 <!-- MANAGE REQUEST STATUS -->
 
 <main>
 
+  <mat-card>
+    <mat-card-content>
+      <mat-tab-group>
+
+        <mat-tab label="All">
+          <div [ngStyle]=" isLoading ? {'visibility': 'hidden'} :  {'visibility': 'visible'} " class="demo-button-container">
+
+            <div class="row">
+              <div class="col-sm-8">
+              <!-- ADD USER -->
+              <button class="btnSignInForm positive demo-button" color="primary" mat-raised-button (click)="openDialog()" >
+                Add Request
+              </button>
+
+              <!-- SHOW ALL -->
+              <button class="btnSignInForm demo-button" mat-raised-button color = "accent" (click)="showAll()" >
+                Show All
+              </button>
+
+              <!-- EXPORT TABLE AS ... -->
+              <button class="btnSignInForm demo-button" mat-raised-button  (click)="exporter.exportTable('xlsx',{fileName:',User_data'})">Export as Excel</button>
+              <button class="btnSignInForm demo-button" mat-raised-button (click)="exporter.exportTable('csv',{fileName:'User_data'})">Export as CSV</button>
+              <button class="btnSignInForm demo-button" mat-raised-button  (click)="exporter.exportTable('json',{fileName:'User_data'})">Export as JSON</button>
+
+              </div>
+              <div class="col-sm-4">
+              <!-- FILTER -->
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-icon matPrefix>search</mat-icon>
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Enter a filter" #input [(ngModel)]="_filter" name="_filter">
+              </mat-form-field>
+              </div>
+            </div>
+
+            <div [ngStyle]="isLoading ? {'visibility': 'invisible'} :  {'visibility': 'visible'} "  class="example-container mat-elevation-z8">
+
+              <div class="example-table-container">
 
 
-    <h1>Process Requests</h1>
-    <mat-tab-group>
+                <table  mat-table matTableExporter [hiddenColumns]="[4]" [dataSource]="dataSource" class="example-table" #exporter="matTableExporter" matSort >
+                  <!-- Subject -->
+                  <ng-container   matColumnDef="subject">
+                    <th mat-header-cell  *matHeaderCellDef mat-sort-header>Title</th>
+                    <td mat-cell *matCellDef="let row">{{row.subject}}</td>
+                  </ng-container>
+
+                  <!-- Student -->
+                  <ng-container  matColumnDef="user_id">
+                    <th  mat-header-cell *matHeaderCellDef mat-sort-header>Student</th>
+                    <td mat-cell *matCellDef="let row">{{row.user_id}}</td>
+                  </ng-container>
+
+                  <!-- Faculty -->
+                  <ng-container   matColumnDef="faculty_id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Faculty</th>
+                    <td mat-cell *matCellDef="let row">{{row.faculty_id}}</td>
+                  </ng-container>
+
+                  <!-- Status Column -->
+                  <ng-container  matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                    <td mat-cell *matCellDef="let row">{{row.status}}</td>
+                  </ng-container>
 
 
-      <mat-tab label="Processing">
+                  <!-- Actions Column -->
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let row">
+                      <button mat-raised-button color="warn" (click) ="deleteRequest(row)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <!-- <button mat-raised-button color="accent" (click) ="editRequest(row.request_id)">Edit</button> -->
+                    </td>
 
-        <app-request status="Processing"></app-request>
+                  </ng-container>
 
-      </mat-tab>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-      <mat-tab label="Completed">
+                  <!-- if filter doesn't return any rows -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+                  </tr>
 
-        <app-request status="Completed"></app-request>
-
-      </mat-tab>
-
-    </mat-tab-group>
+                </table>
+              </div>
 
 
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+              <mat-paginator [pageSizeOptions]="pageSizeOptions"
+              showFirstLastButtons ></mat-paginator>
+          </div>
 
+          </div>
+
+
+
+
+        </mat-tab>
+
+        <mat-tab label="Processing">
+
+          <app-request status="Processing"></app-request>
+
+        </mat-tab>
+
+        <mat-tab label="Completed">
+
+          <app-request status="Completed"></app-request>
+
+        </mat-tab>
+
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
 
 
 </main>

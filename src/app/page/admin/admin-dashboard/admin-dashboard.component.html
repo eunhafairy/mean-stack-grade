@@ -3,24 +3,31 @@
 
     <div class='container' >
 
-        <button mat-raised-button color="primary" matTooltip="Manage Accounts" class="admin-btn" routerLink="/accounts">
-           <mat-icon color="accent">people</mat-icon>
-        </button>
+      <div class="row">
+        <div class="col">
+          <button mat-raised-button  matTooltip="Manage Accounts" class="admin-btn" routerLink="/accounts">
+            <mat-icon class="icon-display" color="accent">people</mat-icon>
+          </button>
+        </div>
+        <div class="col">
+          <button mat-raised-button matTooltip="Manage Requests" class="admin-btn" routerLink="/admin-request">
+            <mat-icon class="icon-display" color="accent">event_note</mat-icon>
+          </button>
+        </div>
+      </div>
 
-        <button mat-raised-button color="primary" matTooltip="Manage Requests" class="admin-btn" routerLink="/admin-request">
-            <mat-icon  color="accent">event_note</mat-icon>
-        </button>
 
-        <button mat-raised-button color="primary" matTooltip="Manage Subjects" class="admin-btn"  routerLink="/subject">
-            <mat-icon  color="accent">collections_bookmark</mat-icon>
-        </button>
-
-        <button mat-raised-button color="primary" matTooltip="Profile Settings" routerLink="/admin-settings" class="admin-btn">
-            <mat-icon  color="accent">settings</mat-icon>
-        </button>
-    
+      <div class="row">
+        <div class="col">
+          <button mat-raised-button  matTooltip="Manage Subjects" class="admin-btn"  routerLink="/subject">
+            <mat-icon class="icon-display" color="accent">collections_bookmark</mat-icon>
+          </button>
+        </div>
+        <div class="col">
+          <button mat-raised-button  matTooltip="Profile Settings" routerLink="/admin-settings" class="admin-btn">
+            <mat-icon class="icon-display" color="accent">settings</mat-icon>
+          </button>
+        </div>
+      </div>
     </div>
-    
-     
-
 </main>

@@ -20,7 +20,7 @@ import { AddAccountComponent } from 'src/app/elements/add-account/add-account.co
 })
 export class AccountsComponent  implements OnInit, OnDestroy {
 
-  
+
   _filter :string = '';
   public users : User[] = [];
   private userSub: Subscription = new Subscription;
@@ -28,26 +28,26 @@ export class AccountsComponent  implements OnInit, OnDestroy {
   isLoading = false;
   dataSource: any;
   displayedColumns: string[] = [ 'f_name', 'l_name', 'email',  'student_no', 'cys', 'role', 'action'];
- 
+
   pageSizeOptions : number[];
   // sort
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  // new user 
+  // new user
   authData: AuthData;
-  
+
 
   constructor(private adminService: AdminServiceService, private dialog : MatDialog, private userService: UserService) {
- 
+
   }
 
-  
+
 
   ngOnInit(): void {
 
     this.refreshTable();
-  
+
   }
 
 
@@ -89,18 +89,18 @@ export class AccountsComponent  implements OnInit, OnDestroy {
           else{
             this.pageSizeOptions =  [1, 2, 5,  10];
           }
-        
+
         });
 
       });
     }
 
-    
+
   }
 
 
   applyFilter(event: Event){
-   
+
     const filterValue = (event.target as HTMLInputElement).value;
 
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -125,7 +125,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   editUser(user:any):void{
 
-    
+
     const dialogRef = this.dialog.open(AddAccountComponent, {
       width: '80%',
       data: user
@@ -141,7 +141,6 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   openDialog() : void{
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
       data: null
     });
 
@@ -166,13 +165,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       this.setPageSizeOption();
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-    
+
     },
     err =>{
 
       console.log(err);
     });
-    
+
   }
 
   setPageSizeOption(){
@@ -209,8 +208,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //   isLoading = false;
 //   selectedRole: string;
 //   public roles: any = [
-//     {value : "Student"}, 
-//     {value: "Faculty"}, 
+//     {value : "Student"},
+//     {value: "Faculty"},
 //     {value: "Admin"}];
 
 //     public years: any = [
@@ -293,7 +292,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //     //CHECK IF FORM IS INVALID --
 //     if(this.form.invalid){
 
-     
+
 //       window.alert("Please complete all fields!");
 //       return;
 //     }
@@ -319,15 +318,15 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //     this.userService.createUserFromAdmin(this.form.value.__first_name,
 //       this.form.value.__last_name,
 //       this.selectedRole,
-//       this.form.value.__email,  
-//       this.form.value.__password, 
+//       this.form.value.__email,
+//       this.form.value.__password,
 //       this.form.value.__fileESig,
 //       this.form.value.__student_no,
 //       this.form.value.__course,
 //       this.form.value.__year,
 //       this.form.value.__section)
 //     .subscribe(
-      
+
 //       (response)=>{
 
 //         //success
@@ -336,7 +335,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //         this.isLoading = false;
 //         this.dialogRef.close();
 //       },
-      
+
 //       (error) =>{
 
 //         //error
@@ -345,9 +344,9 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       this.dialogRef.close();
 
 //     });
-    
 
-  
+
+
 
 //   }
 
@@ -366,7 +365,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
 //   }
 
-  
+
 //   public findInvalidControls() {
 //     const invalid = [];
 //     const controls = this.form.controls;
@@ -379,9 +378,9 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //   }
 
 
-  
 
-  
+
+
 
 
 
@@ -391,7 +390,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
 //   //EDIT MODAL
 
-  
+
 
 //   @Component({
 //     selector: 'dialog-content-edit',
@@ -399,16 +398,16 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //      styleUrls: ['./accounts.component.css']
 //   })
 //   export class DialogContentEdit implements OnInit {
-  
+
 //     form : FormGroup;
 //     isLoading = false;
 //     selectedRole: string = '';
-//     selectedStatus: string; 
+//     selectedStatus: string;
 //     public roles: any = [
-//       {value : "Student"}, 
-//       {value: "Faculty"}, 
+//       {value : "Student"},
+//       {value: "Faculty"},
 //       {value: "Admin"}];
-    
+
 //     public status: any = [
 //       {value : 'false'},
 //       {value : 'true'}
@@ -464,8 +463,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //     _role: string;
 //     imagePreviewESig : string;
 //     fileTitleESig: string;
-  
-  
+
+
 //     constructor(
 //       public dialogRef: MatDialogRef<DialogContentEdit>,
 //       @Inject(MAT_DIALOG_DATA) public data: User,
@@ -476,7 +475,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       this.selectedStatus = data.status;
 //     }
 //     ngOnInit(): void {
-     
+
 //     this.form = new FormGroup({
 //       '__first_name': new FormControl(null, {validators: [Validators.required]}),
 //       '__last_name' : new FormControl(null, {validators: [Validators.required]}),
@@ -497,7 +496,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       this.form.patchValue({__role : this.data.role});
 //       this.form.patchValue({__email : this.data.email});
 //       this.form.patchValue({__fileESig : this.data.e_sig});
-      
+
 //       if(this.data.role === 'Student'){
 
 //         this.form.patchValue({__student_no : this.data.student_no});
@@ -515,9 +514,9 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       }
 
 //       this.imagePreviewESig = this.data.e_sig;
- 
+
 //     }
-  
+
 //     onNoClick(): void {
 //       this.dialogRef.close();
 //     }
@@ -525,7 +524,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
 //     onEdit(){
 
-  
+
 //       //CHECK IF FORM IS INVALID --
 //       if(this.form.invalid){
 //         window.alert("Please complete all fields!");
@@ -558,7 +557,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       }
 
 //       //FORM IS VALID
-  
+
 //       this.isLoading = true;
 //       this.userService.updateUser(this.data.u_id,
 //         this.form.value.__first_name,
@@ -598,8 +597,8 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //           this.imagePreviewESig = reader.result as string;
 //       }
 //       reader.readAsDataURL(file);
-  
-  
+
+
 //     }
 
 
@@ -613,11 +612,11 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 //       }
 //       return invalid;
 //     }
-  
-  
-    
-  
+
+
+
+
 //     }
-  
-  
+
+
 

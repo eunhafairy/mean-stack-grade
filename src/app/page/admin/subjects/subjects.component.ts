@@ -34,12 +34,12 @@ export class SubjectsComponent implements OnInit  {
 
 
   constructor(private adminService: AdminServiceService, private dialog: MatDialog) {
-   
+
 
    }
   ngOnInit(): void {
     this.refreshTable();
-    
+
   }
 
 
@@ -68,7 +68,6 @@ export class SubjectsComponent implements OnInit  {
   openDialog(){
 
     const dialogRef = this.dialog.open(DialogAddSubjectComponent, {
-      width: '80%',
       data: null
     });
 
@@ -84,7 +83,6 @@ export class SubjectsComponent implements OnInit  {
   editDialog(subject: Subjects){
 
     const dialogRef = this.dialog.open(DialogAddSubjectComponent, {
-      width: '80%',
       data: subject
     });
 
@@ -118,9 +116,9 @@ export class SubjectsComponent implements OnInit  {
 console.log(err);
 
     });
-  
-    
-      
+
+
+
   }
 
 
@@ -165,7 +163,7 @@ console.log(err);
   //edit a subject
   editSubject(subject: Subjects ){
 
-   
+
         // const dialogRef = this.dialog.open(CreateSubjectDialog, {
         //   width: '80%',
         //   data: subject
@@ -204,17 +202,17 @@ console.log(err);
 //     if (this.data){
 
 //       this.mode = 'edit';
-     
+
 //      }
 //      else{
 //        this.mode = 'create';
-       
+
 //      }
 
 //   }
 
 //   ngOnInit(): void {
-    
+
 //   }
 
 //   onNoClick(): void {
@@ -224,8 +222,8 @@ console.log(err);
 //   }
 
 //   onCreateSubject(form: NgForm){
-  
-  
+
+
 //     this.isLoading = true;
 
 //     if(form.invalid){
@@ -236,23 +234,23 @@ console.log(err);
 
 //       this.adminService.createSubject(form.value.subjectCode,form.value.subjectName, form.value.subjectDesc)
 //       .subscribe(
-        
+
 //         (response)=>{
-  
+
 //           //success
 //           console.log(response);
 //           window.alert("Success!");
 //           this.isLoading = false;
 //           this.dialogRef.close("Success");
 //         },
-        
+
 //         (error) =>{
-  
+
 //           //error
 //         window.alert(error);
 //         this.isLoading = false;
 //         this.dialogRef.close("Failed");
-  
+
 //       });
 
 //     }
@@ -273,12 +271,12 @@ console.log(err);
 //         }
 //       );;
 
-      
+
 //     }
 
-    
 
-  
+
+
 
 //   }
 // }
