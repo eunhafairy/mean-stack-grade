@@ -1,8 +1,84 @@
 .example-card {
-    max-width: 400px;
-  }
-  
-  .example-header-image {
-    background-image: url('https://bulsu.edu.ph/resources/colleges-logo/CICT.png');
-    background-size: cover;
-  }
+  max-width: 400px;
+}
+
+.example-header-image {
+  background-image: url('https://bulsu.edu.ph/resources/colleges-logo/CICT.png');
+  background-size: cover;
+}
+
+.container {
+  max-width: 500px;
+  min-height: 300px;
+  padding: 30px;
+  border-radius: 5px;
+
+  /* center */
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+mat-card{
+
+  margin: auto;
+  padding: 2%;
+}
+
+mat-card-content{
+  margin-top: 10%;
+  margin-bottom: 20%;
+}
+
+.btns{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 52%;
+  margin-bottom: 10px;
+}
+
+
+/* button */
+.btnProfile {
+  width: 10%;
+  height: 35px;
+  margin-left: 4px;
+}
+.positive{
+background-color: #ffd740;
+}
+.negative{
+background-color: #302e2e;
+}
+.neutral{
+background-color: #c42424;
+}
+
+/* label */
+mat-label{
+font-size: large;
+
+}
+
+.lblTItle{
+font-weight: 100;
+position: fixed;
+left: 22%;
+
+}
+.lblContent{
+font-weight: bolder;
+position: fixed;
+right: 22%;
+}
+
+.e_sig_path{
+ width: auto;
+}
+mat-card-content{
+  padding: 20px;
+}
