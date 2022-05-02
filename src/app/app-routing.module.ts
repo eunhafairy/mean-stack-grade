@@ -30,7 +30,7 @@ const routes: Routes = [
   
   
   //STUDENT GUARDS
-  {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
+ // {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
   {path : 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
   {path : 'myrequest', component: MyrequestComponent ,  canActivate: [AuthGuard, StudentGuard]},
   
@@ -42,7 +42,7 @@ const routes: Routes = [
   {path : 'subject', component: SubjectsComponent ,  canActivate: [AuthGuard, AdminGuard]},
   
   //FACULTY GUARDS
-  {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
+ // {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-profile', component: FacultyProfileComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-request', component: FacultyRequestComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'validity-redirect', component: ValidityRedirectComponent,  canActivate: [AuthGuard] }

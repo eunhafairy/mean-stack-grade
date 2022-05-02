@@ -302,11 +302,11 @@ checkPass(id:string, password: string){
         }
         else if (this.role === 'Student'){
 
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/myrequest']);
         }
         else{
 
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/faculty-request']);
         }
        }},
        catchError(this.handleError)));

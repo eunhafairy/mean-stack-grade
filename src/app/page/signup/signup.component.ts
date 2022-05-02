@@ -20,8 +20,7 @@ export class SignupComponent implements OnInit {
   selectedRole: string;
   public roles: any = [
     {value : "Student"}, 
-    {value: "Faculty"}, 
-    {value: "Admin"}];
+    {value: "Faculty"}];
 
     public years: any = [
       {value : 1},

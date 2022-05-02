@@ -123,6 +123,13 @@ private facultyName: string;
 
   }
 
+  getRequestByUserId(user_id : string){
+    return this.http.get("http://localhost:3000/api/requests/findrequestbyuser/" + user_id)
+    .pipe(catchError(this.handleError));
+
+  }
+
+
   getRequestByStatus(status : string){
     return this.http.get("http://localhost:3000/api/requests/" + status)
     .pipe(catchError(this.handleError));
