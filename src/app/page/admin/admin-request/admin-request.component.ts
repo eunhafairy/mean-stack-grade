@@ -94,7 +94,9 @@ export class AdminRequestComponent implements OnInit {
     this.requests = request;
 
     for(let i = 0; i < request.length; i++){
-
+      
+    
+     this.requestService.autoCompleteStatus(request[i])
 
       this.userService.getUser(request[i].user_id)
       .subscribe(responseData =>{

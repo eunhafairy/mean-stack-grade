@@ -175,7 +175,7 @@ async fillForm() {
       //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       var file = new File([blob], "Request_Form.pdf");
 
-      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, new Date(this.data.dateRequested).toISOString(), new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
+      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, this.data.dateRequested, new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
       subscribe(res =>{
       
           this.isLoading = false;

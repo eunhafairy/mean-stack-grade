@@ -252,6 +252,40 @@ router.put("/:id",  multer({storage: storage}).single('request_form'), (req,res,
 
 })
 
+router.put("/updatestatus/:id", checkAuth, (req, res, next)=>{
+    
+
+    console.log(req.params.id);
+
+
+    Request.updateOne({_id: req.params.id}, {
+
+        status: req.body.status
+
+    })
+    .then(result =>{
+        res.status(200).json({
+            message:'update successful',
+            result: result
+        });
+    })
+    .catch(err =>{
+
+        res.status(500).json({
+            message: 'Something went wrong',
+            error: err
+        });
+    })
+
+
+
+
+
+
+
+
+})
+
 
 
 function getFileExt(fileName){

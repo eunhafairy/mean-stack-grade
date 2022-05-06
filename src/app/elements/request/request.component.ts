@@ -82,6 +82,7 @@ private requestSub: Subscription = new Subscription;
 deleteRequest(requestId: string){
 
     this.isLoading= true;
+
     if(window.confirm("Are you sure you want to delete?")){
       console.log("requestId is :"+ requestId);
       this.requestService.deleteRequest(requestId)
@@ -97,6 +98,7 @@ deleteRequest(requestId: string){
     }
 
     else{
+        this.refreshTable();
 
       return;
 
@@ -156,6 +158,7 @@ deleteRequest(requestId: string){
     for(let i = 0; i < request.length; i++){
 
   
+      this.requestService.autoCompleteStatus(request[i]);
   
       if(this.role !== 'Admin'){
 

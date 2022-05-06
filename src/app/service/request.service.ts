@@ -129,6 +129,57 @@ private facultyName: string;
 
   }
 
+  parseDate(str) {
+    var mdy = str.split('/');
+    return new Date(mdy[2], mdy[0]-1, mdy[1]);
+  }
+
+  autoCompleteStatus(request: any){
+
+    let now = new Date().toLocaleDateString();
+
+    if(request.status !== 'Processing' || !request.dateAccepted){
+
+      return;
+
+    }
+
+    const diffInMs = Math.abs(this.parseDate(now) as any - (this.parseDate(new Date(request.dateAccepted).toLocaleDateString()) as any));
+    const noOfDays = diffInMs / (1000 * 60 * 60 * 24);
+    
+    console.log("no of days : ",noOfDays,"desc", request.desc);
+    if(noOfDays >= 10){
+
+      console.log(request.request_id);
+      this.updateRequestStatus(request.request_id, 'Completed')
+      .subscribe(res=>{
+        console.log('Success!');
+      },
+      err=>{
+        console.log('error!',err);
+      });
+   
+
+    }
+  
+
+
+  }
+
+  updateRequestStatus(id: string, status:string){
+
+    let data = {
+      status: status
+    }
+
+    return this.http
+    .put("http://localhost:3000/api/requests/updatestatus/" + id, data)
+    .pipe(catchError(this.handleError));
+
+}
+
+
+
 
   getRequestByStatus(status : string){
     return this.http.get("http://localhost:3000/api/requests/" + status)
@@ -169,7 +220,7 @@ updateRequest(id:string,
   status: string, 
   creator:string, 
   desc: string, 
-  dateRequested: string, 
+  dateRequested: Date, 
   dateAccepted:Date, 
   semester:string, 
   year: number, 
@@ -192,7 +243,7 @@ updateRequest(id:string,
       requestData.append('status', status);
       requestData.append('desc', desc);
       requestData.append('creator', creator);
-      requestData.append('dateRequested', dateRequested);
+      requestData.append('dateRequested', new Date(dateRequested).toISOString());
       console.log("dto sa service: "+now.toISOString());
       requestData.append('dateAccepted', now.toISOString());
       requestData.append('semester', semester);
