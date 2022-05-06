@@ -112,7 +112,6 @@ export class AdminRequestComponent implements OnInit {
 
         if(i === (request.length-1)){
 
-          console.log("RUN ONCE");
           this.isLoading = false;
           this.dataSource = new MatTableDataSource(this.requests);
           this.totalRequests = this.dataSource.data.length;

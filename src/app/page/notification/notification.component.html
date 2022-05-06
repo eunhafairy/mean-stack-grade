@@ -1,0 +1,20 @@
+
+<app-header-dashboard-user></app-header-dashboard-user>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<main *ngIf="!isLoading"> 
+    <mat-card *ngFor="let notif of notifs" >
+        <mat-card-content matBadge="1" [matBadgeHidden]="notif.isRead" matBadgePosition="before" matBadgeOverlap="false" >
+           {{notif.desc}}
+        </mat-card-content>
+    <mat-divider inset></mat-divider>
+    <p>{{readableDate(notif.dateCreated)}} {{readableTime(notif.dateCreated)}}</p>
+        <mat-card-actions>
+            <button mat-flat-button color="warn" (click)="deleteNotif(notif._id)">Delete</button>
+        </mat-card-actions>
+    </mat-card>
+    
+    <p class="lblNote"></p>
+    <mat-card  *ngIf="notifs.length <= 0 && !isLoading">
+     *Hoot hoot* *Hoot hoot*<bR>Nothing here..
+     </mat-card>
+</main>

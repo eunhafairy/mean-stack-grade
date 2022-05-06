@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { UserService } from 'src/app/service/user.service';
+import { Notif } from 'src/app/models/notif';
+import { RequestService } from 'src/app/service/request.service';
 
 @Component({
   selector: 'app-header-dashboard-user',
@@ -16,7 +18,11 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
   userIsAuthenticated = false;
   role :string;
   status : string;
-  constructor(private userService: UserService, public router: Router) { }
+  desc: string;
+  isLoading = false;
+  noOfUnreadNotif: number;
+  notifs : any =[];
+  constructor(private userService: UserService, public router: Router, private requestService: RequestService) { }
   
   ngOnInit(): void {
 
@@ -35,6 +41,7 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
       if(this.userIsAuthenticated){
 
         this.role = this.userService.getRole();
+
   
         this.userService.getUser(this.userService.getUserId())
         .subscribe(res=>{
@@ -44,6 +51,21 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
         })
 
       }
+
+      if(this.role !== 'Admin'){
+        
+        if(this.role === 'Faculty'){
+
+          this.checkNotifFaculty();
+
+        }
+        else{
+
+          this.checkNotif();
+
+        }
+      }
+        
       
     
 
@@ -59,6 +81,34 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
    
 
   }
+
+  checkNotif(){
+
+    this.requestService.getNotifByUserId(this.userService.getUserId())
+    .subscribe(res=>{
+
+      this.notifs = res['notifs'];
+      console.log("notifs "+ res['notifs']);
+      this.noOfUnreadNotif = res['notifs'].length;
+
+    })
+
+  }
+
+  checkNotifFaculty(){
+
+    this.requestService.getNotifByFacultyId(this.userService.getUserId())
+    .subscribe(res=>{
+
+      this.notifs = res['notifs'];
+      this.noOfUnreadNotif = res['notifs'].length;
+
+    })
+
+  }
+
+
+
 
   
 

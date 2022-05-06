@@ -17,3 +17,6 @@ list-style: none;
     white-space: nowrap;
     background-color: #075773;
   }
+  ::ng-deep.mat-menu-panel {
+    max-width: none !important;
+  }

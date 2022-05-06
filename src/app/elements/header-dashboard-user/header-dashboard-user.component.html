@@ -76,6 +76,11 @@
             <mat-icon>person</mat-icon>
         </button>
 
+        <!-- NOTIFICATIONSW -->
+        <button  matTooltip="Notifications" *ngIf="userIsAuthenticated  &&  role === 'Student'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/notif" routerLinkActive="mat-accent">
+          <mat-icon [matBadge]="noOfUnreadNotif" [matBadgeHidden]="noOfUnreadNotif <= 0">notifications</mat-icon>
+        </button>
+     
 
 
       <!-- LOGOUT -->

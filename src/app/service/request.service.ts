@@ -7,6 +7,7 @@ import { serializeError } from 'serialize-error';
 import { UserService } from './user.service';
 import { User } from '../models/user';
 import { AdminServiceService } from './admin-service.service';
+import { Notif } from '../models/notif';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ private requests: Request[] = [];
 private requestsUpdated = new Subject<{requests: Request [], requestCount: number}>();
 private studentName:string;
 private facultyName: string;
+private notifs: Notif[] = [];
+private notifsUpdated = new Subject<{notifs: Notif[]}>();
 
 
   constructor(private http: HttpClient, private userService: UserService, private adminService: AdminServiceService) { }
@@ -111,9 +114,11 @@ private facultyName: string;
       reqData.append("request_form", request_form);
 
     console.log(reqData);
-    
-    return this.http.post("http://localhost:3000/api/requests", reqData)
-    .pipe(catchError(this.handleError));
+
+  
+      
+      return this.http.post("http://localhost:3000/api/requests", reqData)
+      .pipe(catchError(this.handleError));
 
   }
 
@@ -147,10 +152,10 @@ private facultyName: string;
     const diffInMs = Math.abs(this.parseDate(now) as any - (this.parseDate(new Date(request.dateAccepted).toLocaleDateString()) as any));
     const noOfDays = diffInMs / (1000 * 60 * 60 * 24);
     
-    console.log("no of days : ",noOfDays,"desc", request.desc);
+    
     if(noOfDays >= 10){
 
-      console.log(request.request_id);
+     
       this.updateRequestStatus(request.request_id, 'Completed')
       .subscribe(res=>{
         console.log('Success!');
@@ -166,6 +171,27 @@ private facultyName: string;
 
   }
 
+  deleteNotif(id :string){
+
+    return this.http.delete("http://localhost:3000/api/notifs/" + id)
+    .pipe(catchError(this.handleError));
+
+
+  }
+  
+  readNotif(id:string){
+
+    let data = {
+
+      isRead: false
+
+    }
+    return this.http
+    .put("http://localhost:3000/api/notifs/changeread/" + id, data)
+    .pipe(catchError(this.handleError));
+
+  }
+
   updateRequestStatus(id: string, status:string){
 
     let data = {
@@ -178,6 +204,54 @@ private facultyName: string;
 
 }
 
+  getNotifByUserId(id: string){
+    return this.http.get("http://localhost:3000/api/notifs/checkread/" + id)
+    .pipe(catchError(this.handleError));
+  }
+  getNotifByFacultyId(id: string){
+    return this.http.get("http://localhost:3000/api/notifs/checkreadfaculty/" + id)
+    .pipe(catchError(this.handleError));
+  }
+
+
+  createNotif(type: string, user_id : string, faculty_id: string, subject:string){
+
+
+    let data : Notif =  {
+      type: type,
+      user_id: user_id,
+      faculty_id :faculty_id,
+      subject: subject,
+      desc: "",
+      isRead: false,
+      dateCreated : new Date()
+    }
+    
+    return this.http.post("http://localhost:3000/api/notifs", data)
+    .pipe(catchError(this.handleError));
+
+
+  }
+
+  getNotifs(){
+
+    return this.http
+    .get<{notifs: Notif[]}>("http://localhost:3000/api/notifs")
+    .subscribe((notifData) => {
+
+  
+      this.notifs = notifData.notifs;
+
+      this.notifsUpdated.next({
+        notifs : [...this.notifs]
+      });
+  });
+
+  }
+
+  getNotifsUpdateListener(){
+    return this.notifsUpdated.asObservable();
+  }
 
 
 

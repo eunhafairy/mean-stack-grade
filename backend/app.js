@@ -8,6 +8,7 @@ const app = express();
 const requestsRoutes = require('./routes/requests');
 const userRoutes = require('./routes/user');
 const subjectRoutes = require('./routes/subjects');
+const notifRoutes = require('./routes/notif');
 //const cors = require('cors');
 
 
@@ -36,5 +37,7 @@ app.use("/files", express.static(path.join("backend/files")));
 app.use("/api/requests",requestsRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/subjects", subjectRoutes);
+app.use("/api/notifs", notifRoutes);
+
 //app.use(cors());
 module.exports = app;

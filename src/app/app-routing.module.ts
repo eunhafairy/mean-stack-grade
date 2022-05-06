@@ -21,13 +21,17 @@ import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-
 
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component'
 import { ValidityRedirectComponent } from './page/faculty/validity-redirect/validity-redirect.component';
+import { NotificationComponent } from './page/notification/notification.component';
+import { ReverseAdminGuard } from './service/reverse-admin-guard';
+import { ReverseAuthGuard } from './service/reverse-auth-guard';
 const routes: Routes = [
 
 
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  {path : 'sign-in', component: SignInComponent},
-  {path : 'sign-up', component: SignupComponent},
-  
+  {path : 'sign-in', component: SignInComponent,   canActivate: [ReverseAuthGuard]},
+  {path : 'sign-up', component: SignupComponent,  canActivate: [ReverseAuthGuard]},
+  {path : 'notif', component: NotificationComponent ,  canActivate: [AuthGuard, StudentGuard]},
+
   
   //STUDENT GUARDS
  // {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
@@ -52,6 +56,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[AuthGuard]
+  providers:[AuthGuard, AdminGuard, ReverseAdminGuard, ReverseAuthGuard, StudentGuard, FacultyGuard]
 })
 export class AppRoutingModule { }

@@ -19,7 +19,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,8 +56,10 @@ import { ValidityRedirectComponent } from './page/faculty/validity-redirect/vali
 import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-add-subject.component';
 import { SettingsComponent } from './page/settings/settings.component';
 import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
+import { NotificationComponent } from './page/notification/notification.component';
 @NgModule({
   declarations: [
+  
     AppComponent,
     ButtonComponent,
     InputTextComponent,
@@ -84,9 +88,13 @@ import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-
     ValidityRedirectComponent,
     DialogAddSubjectComponent,
     SettingsComponent,
-    DialogChangePassComponent
+    DialogChangePassComponent,
+    NotificationComponent
   ],
   imports: [
+    MatBadgeModule,
+    MatDividerModule,
+    MatMenuModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
