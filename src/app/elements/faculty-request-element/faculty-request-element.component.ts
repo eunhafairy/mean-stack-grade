@@ -158,6 +158,7 @@ export class FacultyRequestElementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
   
       if(res === "Success"){
+       
         window.location.reload();
       }
      

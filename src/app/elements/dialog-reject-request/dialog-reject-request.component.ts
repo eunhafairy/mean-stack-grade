@@ -60,15 +60,30 @@ export class DialogRejectRequestComponent implements OnInit {
           request.cys,
           null, 
           request.request_form).subscribe(res=>{
-            
+
+            this.requestService.createNotif('Reject',
+            request.user_id,
+            request.faculty_id,
+            request.subject)
+            .subscribe(res=>{
+
               window.alert("Request rejected!");
               this.dialogRef.close("Success");
 
-            });
+            },
+            err=>{
+              window.alert("Error has occurred " +err);
+              this.dialogRef.close();
+
+            })
+            
+
+          });
         },
         err =>{
-
+          
           window.alert("Error has occurred " +err);
+          this.dialogRef.close();
         }
       );
 
