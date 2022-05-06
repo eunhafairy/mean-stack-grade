@@ -105,16 +105,16 @@ export class NotificationComponent implements OnInit {
               
               switch(temp[i].type){
                   case "Create":
-                    temp[i].desc = temp[i].user_id +  " created a completion request form for the subject "+ temp[i].subject +" to "+ temp[i].faculty_id;
+                    temp[i].desc = "You created a completion request form for the subject "+ temp[i].subject +" to "+ temp[i].faculty_id;
                     break;
                   case "Reject":
-                    temp[i].desc = temp[i].faculty_id +  " rejected a completion request form for the subject "+ temp[i].subject +" from "+ temp[i].user_id;
+                    temp[i].desc = temp[i].faculty_id +  " rejected your completion request form for the subject "+ temp[i].subject;
                     break;
                   case "Processing":
-                    temp[i].desc = temp[i].user_id +  "'s completion request form for the subject "+ temp[i].subject +" to "+ temp[i].user_id + " is now processing";
+                    temp[i].desc = "Your completion request form for the subject "+ temp[i].subject +" to "+ temp[i].faculty_id + " is now processing";
                     break;
                   case "Completed":
-                    temp[i].desc = temp[i].user_id +  "'s completion request form for the subject "+ temp[i].subject +" to "+ temp[i].user_id + " is now completed";
+                    temp[i].desc = "Your completion request form for the subject "+ temp[i].subject +" to "+ temp[i].faculty_id + " is now completed. Congrats!";
                     break;
 
               }

@@ -7,7 +7,7 @@ const notifSchema = mongoose.Schema({
     desc: { type: String },
     faculty_id: {type:  mongoose.Schema.Types.ObjectId,  ref: "User", required: true},
     subject: {type: String,  required: true },
-    dateCreated : {type:Date, required: true, default: Date.now()},
+    dateCreated : {type:Date, required: true},
     isRead: {type: Boolean, required: true, default: false}
 });
 

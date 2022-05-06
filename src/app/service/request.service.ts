@@ -217,6 +217,7 @@ private notifsUpdated = new Subject<{notifs: Notif[]}>();
   createNotif(type: string, user_id : string, faculty_id: string, subject:string){
 
 
+    let now = new Date();
     let data : Notif =  {
       type: type,
       user_id: user_id,
@@ -224,7 +225,7 @@ private notifsUpdated = new Subject<{notifs: Notif[]}>();
       subject: subject,
       desc: "",
       isRead: false,
-      dateCreated : new Date()
+      dateCreated : now
     }
     
     return this.http.post("http://localhost:3000/api/notifs", data)

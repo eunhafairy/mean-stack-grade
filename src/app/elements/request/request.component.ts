@@ -35,45 +35,72 @@ private requestSub: Subscription = new Subscription;
   completeRequest(requestId: string){
 
     this.isLoading= true;
-    let request : Request;
-    this.requestService.getRequest(requestId)
-    .subscribe(res=>{
+    let request : any;
 
-    
+    let willComplete = window.confirm("Are you sure you want to complete this request?");
 
-      this.requestService.updateRequest(res['_id'],
-       res['subject'],
-        res['faculty_id'],
-         res['user_id'], 
-         "Completed", 
-         res['creator'],
-         res['desc'],
-         res['dateRequested'],
-         res['dateAccepted'],
-         res['semester'],
-         res['year'],
-         res['note'],
-         res['cys'],
-         res['verdict'],
-         res['request_form'] )
-         .subscribe(res=>{
+    if(willComplete){
 
-          this.isLoading = false;
-          window.alert("Successfully completed request!");
-          window.location.reload();
-
-         },
-         err=>{
-          this.isLoading = false;
-
-          console.log(err);
-
-         })
+      this.requestService.getRequest(requestId)
+      .subscribe(res=>{
+        request = res;
       
-    
+  
+        this.requestService.updateRequest(res['_id'],
+         res['subject'],
+          res['faculty_id'],
+           res['user_id'], 
+           "Completed", 
+           res['creator'],
+           res['desc'],
+           res['dateRequested'],
+           res['dateAccepted'],
+           res['semester'],
+           res['year'],
+           res['note'],
+           res['cys'],
+           res['verdict'],
+           res['request_form'] )
+           .subscribe(res=>{
+  
+  
+  
+            this.isLoading = false;
+            this.requestService.createNotif('Completed'
+            ,request.user_id,
+            request.faculty_id,
+            request.subject)
+            .subscribe(res=>{
+  
+  
+              window.alert("Successfully completed request!");
+              window.location.reload();
+  
+  
+            },
+            err=>{
+  
+              this.isLoading = false;
+  
+              console.log(err);
+            });
+  
+           },
+           err=>{
+            this.isLoading = false;
+  
+            console.log(err);
+  
+           })
+        
+      
+  
+      })
+  
 
-    })
 
+    }
+   
    // this.requestService.updateRequest(request._id, request.subject, request.fac);
 
   }

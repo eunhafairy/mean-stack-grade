@@ -192,7 +192,8 @@ router.post("", (req,res, next) =>{
         type: req.body.type,
         user_id : req.body.user_id,
         faculty_id: req.body.faculty_id,
-        subject: req.body.subject
+        subject: req.body.subject,
+        dateCreated: req.body.dateCreated
         
     });
 
