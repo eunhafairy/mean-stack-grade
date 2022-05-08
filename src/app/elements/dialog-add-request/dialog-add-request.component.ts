@@ -1,6 +1,6 @@
 
 
-// CREATE REQUEST DIALOG 
+// CREATE REQUEST DIALOG
 
 import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
@@ -17,7 +17,7 @@ import { UserService } from "src/app/service/user.service";
 @Component({
   selector: 'dialog-add-request.component',
   templateUrl: 'dialog-add-request.component.html',
-   styleUrls: ['./dialog-add-request.component.css']
+   styleUrls: ['./dialog-add-request.component.css'],
 })
 export class DialogAddRequestComponent implements AfterViewInit{
 
@@ -34,8 +34,8 @@ export class DialogAddRequestComponent implements AfterViewInit{
   professors: User[];
   selectedStatus = '';
   public stats: any = [
-    {value : "Requested"}, 
-    {value: "Accepted"}, 
+    {value : "Requested"},
+    {value: "Accepted"},
     {value: "Revised"}];
   myRole: string;
   mode : string;
@@ -50,8 +50,8 @@ export class DialogAddRequestComponent implements AfterViewInit{
   ) {
 
     this.myRole = userService.getRole();
-   
-   
+
+
     this.form = new FormGroup({
       'subject': new FormControl(null, {validators: [Validators.required]}),
       'faculty' : new FormControl(null, {validators: [Validators.required]}),
@@ -63,15 +63,15 @@ export class DialogAddRequestComponent implements AfterViewInit{
       'student' : new FormControl('student', {validators: [Validators.required]}) });
 
     if(data){
-      
+
     //mode is edit
     this.mode = "edit";
     requestService.getRequest(data)
     .subscribe( (response) => {
 
-      
+
         this.request = response;
-    
+
         //set data
         this.form.patchValue({subject : this.request.subject});
         this.form.patchValue({faculty : this.request.faculty_id});
@@ -81,20 +81,20 @@ export class DialogAddRequestComponent implements AfterViewInit{
         this.form.patchValue({year : this.request.year});
         this.form.patchValue({cys : this.request.cys});
 
-      
+
         if(this.myRole === 'Admin'){
          this.form.patchValue({student : this.request.user_id});
         }
 
-      
+
     }, err=>{
 
 
       window.alert(err);
 
     });
-    
-  
+
+
   }
   else{
 
@@ -104,7 +104,7 @@ export class DialogAddRequestComponent implements AfterViewInit{
 
         console.log(this.userService.getCYS());
         this.form.patchValue({cys : this.userService.getCYS()});
-        
+
 
       }
 
@@ -112,14 +112,14 @@ export class DialogAddRequestComponent implements AfterViewInit{
     }
   }
   ngAfterViewInit(): void {
-    
-    
+
+
     this.getStudentsAndProfs();
     this.getSubjects();
 
 
      }
-  
+
 addOne(year : string){
 
 
@@ -127,50 +127,50 @@ addOne(year : string){
       return '';
   }
   let addedYear = +year +1
-  return 'to 20'+addedYear;
+  return '-\t\t 20'+addedYear;
 }
 
 
   getStudentsAndProfs(){
 
 
-            
+
 
         this.userService.getUserByRole("Student")
         .subscribe(
           response =>{
-    
+
            this.students = response['users'];
            this.students.sort((a,b)=>a.l_name.localeCompare(b.l_name));
-    
-        
-           
-    
+
+
+
+
           },
           err =>{
-    
+
             console.log(err);
-    
+
           }
         );
-    
+
         this.userService.getUserByRole("Faculty")
         .subscribe(
           res =>{
-            
+
            this.professors = res['users'];
            this.professors.sort((a,b)=>a.l_name.localeCompare(b.l_name))
-          
-        
+
+
 
           },
           error =>{
-    
+
             console.log(error);
           }
         );
 
-    
+
       }
 
   getSubjects(){
@@ -182,10 +182,10 @@ addOne(year : string){
 
       this.subjects = subjData.subjects;
       this.subjects.sort((a,b)=>a.subject_name.localeCompare(b.subject_name));
-      
+
 
     })
-      
+
 
   }
 
@@ -205,11 +205,11 @@ addOne(year : string){
 
       studentName = this.userService.getUserId();
     }
-  
+
 
     if(this.form.invalid){
       console.log('form is invalid' +   this.findInvalidControls());
-    
+
       return;
     }
 
@@ -266,10 +266,10 @@ addOne(year : string){
           // break;
           this.dialogRef.close(request);
           break;
-      
+
         case "edit":
           this.requestService.updateRequest(
-            this.request._id, 
+            this.request._id,
             this.form.value.subject,
             this.form.value.faculty,
             this.form.value.student,
@@ -277,7 +277,7 @@ addOne(year : string){
             this.request.creator,
             this.form.value.desc,
             this.request.dateRequested,
-            this.request.dateAccepted, 
+            this.request.dateAccepted,
             this.form.value.semester,
             this.form.value.year,
             this.request.note,
@@ -308,7 +308,7 @@ addOne(year : string){
 
     }
 
-    
+
   }
 
 

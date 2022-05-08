@@ -1,16 +1,39 @@
 li{
-    list-style: none;
-    
-    }
-    
-    .file-img{
-    
-    height: 5rem;
-    margin: 1rem 0;
-    
-    }
-    
-    .file-img img {
+  list-style: none;
+
+  }
+
+  .file-img{
+
+  height: 5rem;
+  margin: 1rem 0;
+
+  }
+
+  .file-img img {
+  height: 100%;
+
+  }
+
+  .lblNote{
+    text-align: center;
+  }
+
+  mat-card{
+    max-height: 500px;
     height: 100%;
-    
-    }
+
+  }
+  mat-card.scrollable-content{
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  mat-card-content {
+    overflow-y: auto;
+  }
+
+  .accordionDiv{
+    max-height: 380px;
+
+  }

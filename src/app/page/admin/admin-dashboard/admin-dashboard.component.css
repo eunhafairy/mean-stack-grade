@@ -1,7 +1,24 @@
 button{
 
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     margin:10px;
+    background-color: #083d8d;
 
+}
+.container{
+  height: fit-content;
+  width: 100%;
+
+      /* center */
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+}
+
+.icon-display {
+  transform: scale(5);
 }

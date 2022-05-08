@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
@@ -18,7 +19,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTabsModule} from '@angular/material/tabs';
-
+import {MatMenuModule} from '@angular/material/menu';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,8 +56,11 @@ import { ValidityRedirectComponent } from './page/faculty/validity-redirect/vali
 import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-add-subject.component';
 import { SettingsComponent } from './page/settings/settings.component';
 import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
+import { NotificationComponent } from './page/notification/notification.component';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 @NgModule({
   declarations: [
+  
     AppComponent,
     ButtonComponent,
     InputTextComponent,
@@ -83,9 +89,14 @@ import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-
     ValidityRedirectComponent,
     DialogAddSubjectComponent,
     SettingsComponent,
-    DialogChangePassComponent
+    DialogChangePassComponent,
+    NotificationComponent,
+    PagenotfoundComponent
   ],
   imports: [
+    MatBadgeModule,
+    MatDividerModule,
+    MatMenuModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

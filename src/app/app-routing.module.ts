@@ -21,16 +21,25 @@ import { FacultyRequestComponent } from './page/faculty/faculty-request/faculty-
 
 import { FacultyProfileComponent } from './page/faculty/faculty-profile/faculty-profile.component'
 import { ValidityRedirectComponent } from './page/faculty/validity-redirect/validity-redirect.component';
+import { NotificationComponent } from './page/notification/notification.component';
+import { ReverseAdminGuard } from './service/reverse-admin-guard';
+import { ReverseAuthGuard } from './service/reverse-auth-guard';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 const routes: Routes = [
 
 
   {path: '', redirectTo: '/sign-in', pathMatch: 'full' },
-  {path : 'sign-in', component: SignInComponent},
-  {path : 'sign-up', component: SignupComponent},
-  
+  {path : 'sign-in', component: SignInComponent,   canActivate: [ReverseAuthGuard]},
+  {path : 'sign-up', component: SignupComponent,  canActivate: [ReverseAuthGuard]},
+  {path : 'notif', component: NotificationComponent ,  canActivate: [AuthGuard, StudentGuard]},
+
+  //Wild Card Route for 404 request
+    // { path: '**', pathMatch: 'full', 
+    //     component: PagenotfoundComponent },
+
   
   //STUDENT GUARDS
-  {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
+ // {path : 'dashboard', component: DashboardComponent, canActivate: [AuthGuard, StudentGuard]},
   {path : 'profile', component: ProfileComponent ,  canActivate: [AuthGuard]},
   {path : 'myrequest', component: MyrequestComponent ,  canActivate: [AuthGuard, StudentGuard]},
   
@@ -42,7 +51,7 @@ const routes: Routes = [
   {path : 'subject', component: SubjectsComponent ,  canActivate: [AuthGuard, AdminGuard]},
   
   //FACULTY GUARDS
-  {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
+ // {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-profile', component: FacultyProfileComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'faculty-request', component: FacultyRequestComponent,  canActivate: [AuthGuard, FacultyGuard] },
   {path : 'validity-redirect', component: ValidityRedirectComponent,  canActivate: [AuthGuard] }
@@ -52,6 +61,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[AuthGuard]
+  providers:[AuthGuard, AdminGuard, ReverseAdminGuard, ReverseAuthGuard, StudentGuard, FacultyGuard]
 })
 export class AppRoutingModule { }

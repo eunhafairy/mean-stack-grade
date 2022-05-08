@@ -2,9 +2,9 @@ const express = require('express');
 const User = require('../models/user');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { restart } = require('nodemon');
 const jwt = require('jsonwebtoken');
 const checkAuth = require('../middleware/check-auth');
+
 const multer = require('multer');
 
 

@@ -3,12 +3,12 @@
     position: relative;
   }
 
-  
+
   .pfp-div{
     width: 100%;
 
     display:block;
-    margin: 30px auto;
+    margin: 4px auto;
 
   }
 
@@ -19,28 +19,35 @@ width:100px;
  }
 
 .example-table-container {
-  
+
   position: relative;
   min-height: 200px;
-  max-height: 400px;
+  max-height: 300px;
   overflow: auto;
 }
 
 
-  
+
   table {
     width: 100%;
 
   }
- 
+
 mat-form-field{
   display: block;
 }
-  
+
   td, th {
-    width: 10%;
+    width: 4%;
   }
- 
+  td{
+    font-size: x-small;
+  }
+  th{
+    font-size: small;
+    font-weight: bold;
+  }
+
   .example-loading-shade {
     position: absolute;
     top: 0;
@@ -53,24 +60,117 @@ mat-form-field{
     align-items: center;
     justify-content: center;
   }
-  
+
   .example-rate-limit-reached {
     max-width: 360px;
     text-align: center;
   }
-  
+
   /* Column Widths */
   .mat-column-number,
   .mat-column-state {
     max-width: 64px;
   }
-  
+
   .mat-column-created {
-    max-width: 124px;
+    max-width: 84px;
   }
 
   .sig-preview img{
     height: 100px;
 
      }
-  
+
+
+
+mat-card{
+
+  margin: auto;
+  padding: 10px;
+max-height: 560px;
+
+
+}
+.signin-form {
+  min-width: 150px;
+  max-width: 400px;
+  width: 100%;
+}
+
+.full-width {
+
+  width: 100%;
+  padding: 0px;
+  font-size: small;
+  margin-top: 30px;
+
+}
+
+
+
+
+.btnSignInForm {
+  font-size: small;
+ width: 120px;
+ height: 45px;
+ margin-bottom: 10px;
+ margin-top: 30px;
+}
+.positive{
+background-color: #ffd740;
+}
+.negative{
+background-color: #2b79c8;
+}
+.btnTable {
+  width: 45px;
+  height: 45px;
+  font-size: small;
+ }
+
+.demo-button{
+  margin-right: 10px;
+}
+
+.txtTitle{
+font-weight: bold;
+padding-top: 1em;
+margin-bottom: 1em;
+font-size: xx-large;
+text-align: center;
+}
+.signUpLink{
+font-weight: bold;
+color: #2ba9c8;
+cursor: pointer;
+
+}
+p {
+text-align: center;
+}
+
+.container {
+max-width: 800px;
+min-height: 300px;
+padding: 30px;
+border-radius: 5px;
+
+/* center */
+margin: 0;
+position: absolute;
+top: 50%;
+left: 50%;
+-ms-transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
+}
+
+mat-spinner {
+zoom: 0.2
+}
+
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+background-color: rgb(255, 255, 255);
+border-radius: 5px;
+}
+

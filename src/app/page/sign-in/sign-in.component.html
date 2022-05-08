@@ -6,7 +6,7 @@
         <mat-card-content>
             <h1 class="txtTitle">Sign in</h1>
             <form (submit) ="signIn(signInForm)" #signInForm = "ngForm" >
-            
+
             <mat-form-field class="full-width" appearance="outline" >
                 <mat-label>Email</mat-label>
                 <input name="email" matInput type="email" ngModel #email="ngModel" required email >
@@ -18,13 +18,13 @@
                 <input name="password" matInput type="password" ngModel #password="ngModel" required [type]="hidePass ? 'password' : 'text'">
                 <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
                     <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </button>
+                </button>
                 <mat-error *ngIf = "password.invalid">Please enter a valid password.</mat-error>
             </mat-form-field>
-            
 
-                <button class="btnSignInForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Sign in</button><br><br><br>
-                
+
+                <button class="btnSignInForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Sign in</button><br>
+
                 <p>Need an Account?</p>
                 <p class="signUpLink" color="primary" routerLink = '/sign-up' *ngIf="!isLoading">Sign up</p>
                 <mat-spinner *ngIf="isLoading"></mat-spinner>

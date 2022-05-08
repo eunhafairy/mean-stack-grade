@@ -1,0 +1,42 @@
+li{
+  list-style: none;
+
+  }
+
+.file-img{
+
+height: 5rem;
+margin: 1rem 0;
+
+}
+
+.file-img img {
+height: 100%;
+
+}
+
+.btn {
+width: fit-content;
+height: 35px;
+margin-bottom: 10px;
+}
+.positive{
+background-color: #ffd740;
+}
+.negative{
+background-color: #302e2e;
+}
+.neutral{
+background-color: rgb(196, 36, 36);
+}
+
+mat-tab-group{
+background-color: rgb(255, 255, 255);
+}
+
+mat-card{
+max-height: 500px;
+height: 100%;
+
+}
+

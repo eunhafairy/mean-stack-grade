@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminRequestComponent } from './admin-request.component';
+import { PagenotfoundComponent } from './pagenotfound.component';
 
-describe('AdminRequestComponent', () => {
-  let component: AdminRequestComponent;
-  let fixture: ComponentFixture<AdminRequestComponent>;
+describe('PagenotfoundComponent', () => {
+  let component: PagenotfoundComponent;
+  let fixture: ComponentFixture<PagenotfoundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AdminRequestComponent ]
+      declarations: [ PagenotfoundComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminRequestComponent);
+    fixture = TestBed.createComponent(PagenotfoundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

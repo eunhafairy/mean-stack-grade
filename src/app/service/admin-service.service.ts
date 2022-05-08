@@ -57,7 +57,7 @@ export class AdminServiceService {
 
 
   }
-  getSubjects(){
+ getSubjects(){
 
     return this.http
     .get<{subjects: Subjects[], message: string}>("http://localhost:3000/api/subjects")

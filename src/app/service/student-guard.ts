@@ -19,7 +19,7 @@ export class StudentGuard implements CanActivate {
       return false;
     }
     else{
-        this.router.navigate(['/faculty-dashboard']);
+        this.router.navigate(['/faculty-request']);
         return false;
     }
 

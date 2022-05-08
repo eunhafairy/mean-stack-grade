@@ -1,52 +1,80 @@
-<h1 mat-dialog-title>Create Request Manually</h1>
 
 
 <div mat-dialog-content>
 
-<main>
-<form [formGroup] = "form" (submit) ="onChangePass()" >
+
+  <div class="container">
+    <mat-card class="signup-form">
+
+        <mat-card-header>
+          <h1 class="txtTitle">Change Password</h1>
+        </mat-card-header>
+
+        <form [formGroup] = "form" (submit) ="onChangePass()" >
 
 
-   
-    
+
+          <!-- CURRENT PASSWORD -->
+          <mat-form-field  appearance="outline" class="full-width">
+           <mat-label>Current password</mat-label>
+           <input matInput
+           formControlName="current_password"
+           type="password"
+           required
+
+           [type]="hidePass ? 'password' : 'text'">
+
+           <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
+            <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+           </button>
+
+           <mat-error *ngIf = "form.get('current_password').invalid">Please enter your current password</mat-error>
+         </mat-form-field><br>
+
+         <!-- NEW PASSWORD -->
+         <mat-form-field  appearance="outline" class="full-width">
+           <mat-label>New password</mat-label>
+           <input matInput
+           formControlName="new_password"
+           type="password"
+           required
+
+           [type]="hideNewPass ? 'password' : 'text'">
+
+           <button mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPass">
+            <mat-icon>{{hideNewPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+           </button>
+
+           <mat-error *ngIf = "form.get('new_password').invalid">Please enter your new password</mat-error>
+         </mat-form-field><br>
+
+         <!-- CONFIRM NEW PASSWORD -->
+            <mat-form-field  appearance="outline" class="full-width">
+             <mat-label>Confirm new password</mat-label>
+             <input matInput
+             formControlName="confirm_password"
+             type="password"
+             required
+
+             [type]="hideReEnterNewPass ? 'password' : 'text'">
+
+             <button mat-icon-button matSuffix (click)="hideReEnterNewPass = !hideReEnterNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideReEnterNewPass">
+              <mat-icon>{{hideReEnterNewPass ? 'visibility_off' : 'visibility'}}</mat-icon>
+             </button>
+
+             <mat-error *ngIf = "form.get('confirm_password').invalid">Please enter your new password again.</mat-error>
+           </mat-form-field><br>
 
 
-     <!-- CURRENT PASSWORD -->
-     <mat-form-field  class="full-width">
-      <mat-label>Current password</mat-label>
-      <input matInput 
-      formControlName="current_password"
-      type="password" 
-      required>
-      <mat-error *ngIf = "form.get('current_password').invalid">Please enter your current password</mat-error>
-    </mat-form-field><br>
-
-    <!-- NEW PASSWORD -->
-    <mat-form-field  class="full-width">
-      <mat-label>New password</mat-label>
-      <input matInput 
-      formControlName="new_password"
-      type="password" 
-      required>
-      <mat-error *ngIf = "form.get('new_password').invalid">Please enter your new password</mat-error>
-    </mat-form-field><br>
-    
-    <!-- CONFIRM NEW PASSWORD -->
-       <mat-form-field  class="full-width">
-        <mat-label>Confirm new password</mat-label>
-        <input matInput 
-        formControlName="confirm_password"
-        type="password" 
-        required>
-        <mat-error *ngIf = "form.get('confirm_password').invalid">Please enter your new password again.</mat-error>
-      </mat-form-field><br>
+       <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Change Password</button>
+       <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 
-  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Change Password</button>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
- 
+     </form>
 
-</form>
-<button  *ngIf="!isLoading" mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
-</main>
+
+            <button class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
+      </mat-card>
+</div>
+
 </div>

@@ -175,13 +175,27 @@ async fillForm() {
       //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       var file = new File([blob], "Request_Form.pdf");
 
-      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, new Date(this.data.dateRequested).toISOString(), new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
+      this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, this.data.dateRequested, new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
       subscribe(res =>{
       
-          this.isLoading = false;
+        
+        this.requestService.createNotif('Processing',this.data.user_id, this.data.faculty_id, this.data.subject)
+        .subscribe(
+          res=>{
+            
+            window.alert("Success!");
+            this.dialogRef.close("Success");
+            this.isLoading = false;
+          },
+          err=>{
+            this.isLoading = false;
 
-        window.alert("Success!");
-        this.dialogRef.close("Success");
+            window.alert("Error! "+err);    
+      
+            this.dialogRef.close();
+          }
+        )
+   
       },
       err=>{
         window.alert("Error! "+err);    
@@ -261,9 +275,23 @@ async fillForm() {
       this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, "Requested", this.data.desc,this.data.creator, this.data.semester, this.data.year, this.data.cys, null, file).
       subscribe(res =>{
         this.isLoading = false;
-    
-        window.alert("Success!");
-        this.dialogRef.close("Success");
+        this.requestService.createNotif( 'Create',   this.data.user_id, this.data.faculty_id, this.data.subject)
+        .subscribe(res=>{
+
+          window.alert("Success!");
+          this.dialogRef.close("Success");
+
+        },
+        err=>{
+
+          window.alert("Error! "+err);
+          this.dialogRef.close();
+
+        })
+        
+        //   window.alert("Success!");
+        //   this.dialogRef.close("Success");
+
 
       },
       err=>{

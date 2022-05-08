@@ -1,116 +1,151 @@
-<h1 mat-dialog-title>Create Request Manually</h1>
+
 <div mat-dialog-content>
 
-<main>
-<form [formGroup] = "form" (submit) ="onAddRequest()" class ="example-form">
+
+  <div class="container">
+    <mat-card class="signup-form">
+
+        <mat-card-header>
+          <h1 class="txtTitle">Create Request</h1>
+        </mat-card-header>
 
 
-     <!--STUDENT-->
-  <mat-form-field class="full-width" *ngIf="myRole === 'Admin'">
-    <mat-label>Choose a student</mat-label>
-    <mat-select 
-    name = "student"
-    formControlName="student"
-    required
-    >
-    <mat-option *ngFor="let student of students" [value] = "student['_id']">
-        {{ student.l_name + ", " + student.f_name}}
-    </mat-option>
-    </mat-select>
-    <mat-error *ngIf = "form.get('student').invalid">Please choose a student.</mat-error>
-    </mat-form-field><br>
-    
-
-    <!--SUBJECT-->
-    <mat-form-field  class="full-width">
-      <mat-label>Subject</mat-label>
-      <mat-select 
-    formControlName="subject"
-    required
-    >
-    <mat-option *ngFor="let subject of subjects" [value] = "subject['subject_name']">
-        {{subject.subject_name }}
-    </mat-option>
-    </mat-select>
-      <mat-error *ngIf = "form.get('subject').invalid">Please enter a title.</mat-error>
-    </mat-form-field><br>
+        <form [formGroup] = "form" (submit) ="onAddRequest()" class ="example-form">
 
 
-    <!-- FACULTY -->
-   <mat-form-field class="full-width">
-    <mat-label>Choose a professor.</mat-label>
-    <mat-select 
- 
-    [(value)]="selectedProfessor"
-    formControlName="faculty"
-    required
-  
-    >
-        <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
-            {{professor.l_name + ", "+professor.f_name }}
-        </mat-option>
-    </mat-select>
-    <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
-    </mat-form-field><br>
+        <div class="row">
+          <div class="col">
+
+          <!--STUDENT-->
+            <mat-form-field appearance="outline" class="full-width" *ngIf="myRole === 'Admin'">
+              <mat-label>Choose a student</mat-label>
+                <mat-select
+                  name = "student"
+                  formControlName="student"
+                  required
+                >
+                <mat-option *ngFor="let student of students" [value] = "student['_id']">
+                      {{ student.l_name + ", " + student.f_name}}
+                </mat-option>
+                </mat-select>
+                <mat-error *ngIf = "form.get('student').invalid">Please choose a student.</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
 
 
-  
-  <!-- SEMESTER -->
+        <div class="row">
+          <div class="col">
 
-    
-    <mat-form-field  class="full-width">
-      <mat-label>Semester/Tri-semester/Summer</mat-label>
-      <input matInput 
-      formControlName="semester"
-      type="text" 
-      placeholder="e.g. '1st/2nd'"
-      required>
-      <mat-error *ngIf = "form.get('semester').invalid">Please enter the semester which you took the subject.</mat-error>
-    </mat-form-field><br>
-    
- 
-    
-    <!-- YEAR -->
-    <mat-form-field>
-      <mat-label>Academic Year</mat-label>
-      <span matPrefix>20 &nbsp;</span>
-      <input matInput 
-      formControlName="year"
-      type="text" 
-      #year
-      class ="year_input"
-      maxlength="2"
-      required> <span matSuffix>{{addOne(year.value)}}</span>
-      <mat-error *ngIf = "form.get('year').invalid">Please enter the academic year.</mat-error>
-    </mat-form-field><br>
-    
-  
-    <!-- CYS -->
-    <mat-form-field  class="full-width">
-        <mat-label>Course/Year/Section</mat-label>
-        <input matInput 
-        formControlName="cys"
-        type="text"
-        placeholder="e.g. 'BSIT 4O'"
-        required>
-        <mat-error *ngIf = "form.get('cys').invalid">Please enter the semester which you took the subject.</mat-error>
+            <!--SUBJECT-->
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Subject</mat-label>
+            <mat-select formControlName="subject" required>
+            <mat-option *ngFor="let subject of subjects" [value] = "subject['subject_name']">
+              {{subject.subject_name }}
+            </mat-option>
+            </mat-select>
+            <mat-error *ngIf = "form.get('subject').invalid">Please enter a title.</mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="div">
+
+            <!-- FACULTY -->
+            <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Choose a professor.</mat-label>
+            <mat-select [(value)]="selectedProfessor" formControlName="faculty" required>
+              <mat-option *ngFor="let professor of professors" [value] = "professor['_id']">
+                  {{professor.l_name + ", "+professor.f_name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf = "form.get('faculty').invalid">Please choose a professor.</mat-error>
+            </mat-form-field>
+
+          </div>
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+                   <!-- SEMESTER -->
+
+
+         <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Semester/Tri-semester/Summer</mat-label>
+          <input matInput
+          formControlName="semester"
+          type="text"
+          placeholder="e.g. '1st/2nd'"
+          required>
+          <mat-error *ngIf = "form.get('semester').invalid">Please enter the semester which you took the subject.</mat-error>
         </mat-form-field><br>
+          </div>
 
-    <!-- ADDITIONAL DESCRIPTION -->
+          <div class="col">
 
-    <mat-form-field class="full-width">
-      <mat-label>Reason for completion request</mat-label>
-      <textarea matInput
-       type="input"
-       formControlName="desc"
-      ></textarea>
-    </mat-form-field>
+            <!-- YEAR -->
+            <!-- style="width:100px !important" -->
+            <mat-form-field  appearance="outline" class="full-width year">
+          <mat-label>A.Y.</mat-label>
+          <div matPrefix style="position: relative; bottom: 3px;">20</div>
+          <!-- <span matPrefix>20 &nbsp;</span> -->
+          <input class="year" matInput
+          formControlName="year"
+          type="text"
+          #year
+          class ="year_input"
+          maxlength="2"
+          required>
+          <div matSuffix style="position: relative; bottom: 3px;">{{addOne(year.value)}}</div>
+          <mat-error *ngIf = "form.get('year').invalid">Please enter the academic year.</mat-error>
+            </mat-form-field>
 
-  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Save Request</button>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
- 
+          </div>
 
-</form>
-<button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
-</main>
+          <div class="col">
+
+         <!-- CYS -->
+         <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Course/Year/Section</mat-label>
+          <input matInput
+          formControlName="cys"
+          type="text"
+          placeholder="e.g. 'BSIT 4O'"
+          required>
+          <mat-error *ngIf = "form.get('cys').invalid">Please enter the semester which you took the subject.</mat-error>
+          </mat-form-field>
+          </div>
+
+        </div>
+
+
+
+
+         <!-- ADDITIONAL DESCRIPTION -->
+
+         <mat-form-field appearance="outline" class="full-width">
+           <mat-label>Reason for completion request</mat-label>
+           <textarea matInput
+            type="input"
+            formControlName="desc"
+            required
+           ></textarea>
+         </mat-form-field>
+
+         <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Confirm</button>
+
+         <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+
+        </form>
+
+            <button class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
+      </mat-card>
+</div>
+
 </div>

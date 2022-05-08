@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
 import { DialogChangePassComponent } from 'src/app/elements/dialog-change-pass/dialog-change-pass.component';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -18,7 +19,12 @@ export class FacultyProfileComponent implements OnInit {
   user: any;
   email: string;
 
+  requestNo : number = 0;
+  pendingNo: number  = 0;
+  completedNo: number  = 0;
+
   constructor(private userService: UserService,
+    private requestService: RequestService,
      private adminService: AdminServiceService,
      private dialog : MatDialog) { }
 
@@ -34,6 +40,39 @@ export class FacultyProfileComponent implements OnInit {
       this.fullname = this.user.l_name + ", "+this.user.f_name;
       this.e_sig_path = this.user.e_sig;
       this.email = this.user.email;
+
+      this.requestService.getRequestByFacultyId(this.userService.getUserId())
+      .subscribe(
+        res=>{
+          console.log(res['posts']);
+          for(let i = 0; i <  res['posts'].length; i++){
+
+            switch(res['posts'][i].status){
+
+              case 'Processing':
+              this.pendingNo+=1;
+              break;
+              case 'Requested':
+              this.requestNo+=1;
+              break;
+              case 'Completed':
+              this.completedNo+=1;
+              break;
+            }
+
+          }
+          this.isLoading = false;
+
+          
+        },
+        err=>{
+          this.isLoading = false;
+          console.log(err);
+          window.alert(err);
+
+
+        }
+      )
     },
     err =>{
       this.isLoading = false;
@@ -41,6 +80,11 @@ export class FacultyProfileComponent implements OnInit {
       console.log(err.error['message']);
 
     });
+
+
+
+
+    
 
   }
 
@@ -72,7 +116,6 @@ export class FacultyProfileComponent implements OnInit {
 
      //open dialog
       const dialogRef = this.dialog.open(DialogChangePassComponent, {
-      width: '80%'
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -95,7 +138,6 @@ export class FacultyProfileComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
       data: this.user
     });
 

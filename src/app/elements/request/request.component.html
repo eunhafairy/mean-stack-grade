@@ -1,48 +1,55 @@
 <!--SHOW THIS IF LOADING-->
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
+
+<mat-card class="scrollable-content">
+  <mat-card-content>
 <!--ELSE SHOW THIS-->
-<mat-accordion multi=true *ngIf="requests.length > 0 && !isLoading" >
-    <mat-expansion-panel  *ngFor = "let request of requests" >
-        
-        <!-- TITLE -->
-        <mat-expansion-panel-header>
-            <b style= "color: #673AB7;"><b>Subject: </b>{{request.subject}}</b>
-        </mat-expansion-panel-header>
-           
-        <!-- INFORMATION -->
-        <li><b>Student: </b>{{request.user_id}}</li>
-        <li><b>Section: </b>{{request.cys}}</li>
+<mat-accordion  *ngIf="requests.length > 0 && !isLoading" >
 
-        <li><b>Professor: </b>{{request.faculty_id}}</li>
-        <li><b>Reason: </b>{{request.desc}}</li>
-        <li><b>Semester/Tri-semester/Summer: </b>{{request.semester}}</li>
-        <li><b>Academic Year: </b>{{transformAcadYear(request.year)}}</li>
-        <li><b>Status: </b>{{request.status}}</li>
-    
-        <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
-        <li *ngIf="request.status==='Completed' || request.status ==='Processing'"><b>Date accepted: </b>{{readableDate(request.dateAccepted)}}</li>
-        <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
-        <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
-        <li *ngIf="request.status === 'Processing'" style="color:red"><b>Note: </b>Processing can take up to 10 days!</li>
+  <div class="accordionDiv">
+  <mat-expansion-panel  *ngFor = "let request of requests" >
 
-        <!-- ACTION ROW -->
-        <mat-action-row *ngIf = "request.status === 'Requested'">
-            <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
-          
-            <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
+      <!-- TITLE -->
+      <mat-expansion-panel-header>
+          <b style= "color: #302e2e;"><b>Subject: </b>{{request.subject}}</b>
+      </mat-expansion-panel-header>
 
-        </mat-action-row>
+      <!-- INFORMATION -->
+      <li><b>Student: </b>{{request.user_id}}</li>
+      <li><b>Section: </b>{{request.cys}}</li>
 
-        <mat-action-row *ngIf="role ==='Admin' && request.status === 'Processing'">
-            <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
-            <button  mat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
-        </mat-action-row>
+      <li><b>Professor: </b>{{request.faculty_id}}</li>
+      <li><b>Reason: </b>{{request.desc}}</li>
+      <li><b>Semester/Tri-semester/Summer: </b>{{request.semester}}</li>
+      <li><b>Academic Year: </b>{{transformAcadYear(request.year)}}</li>
+      <li><b>Status: </b>{{request.status}}</li>
 
-    
-    </mat-expansion-panel>
-    
-</mat-accordion>
-<br><br>
-<p *ngIf="requests.length <= 0 && !isLoading"><b>*Hoot hoot* *Hoot hoot*</b> <bR>Nothing here..</p>
-  
+      <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
+      <li *ngIf="request.status==='Completed' || request.status ==='Processing'"><b>Date accepted: </b>{{readableDate(request.dateAccepted)}}</li>
+      <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
+      <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
+      <li *ngIf="request.status === 'Processing'" style="color:red"><b>Note: </b>Processing can take up to 10 days!</li>
+
+      <!-- ACTION ROW -->
+      <mat-action-row *ngIf = "request.status === 'Requested'">
+          <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
+
+          <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
+
+      </mat-action-row>
+
+      <mat-action-row *ngIf="role ==='Admin' && request.status === 'Processing'">
+          <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
+          <button  mat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
+      </mat-action-row>
+
+
+  </mat-expansion-panel>
+  </div>
+  </mat-accordion>
+    <p class="lblNote" *ngIf="requests.length <= 0 && !isLoading"><b>*Hoot hoot* *Hoot hoot*</b> <bR>Nothing here..</p>
+  </mat-card-content>
+</mat-card>
+
+

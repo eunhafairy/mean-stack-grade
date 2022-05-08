@@ -41,10 +41,10 @@ export class AdminRequestComponent implements OnInit {
   ngOnInit(): void {
 
     this.refreshTable();
- 
+
   }
 
-  
+
 
   showAll(){
 
@@ -56,18 +56,18 @@ export class AdminRequestComponent implements OnInit {
 
   }
 
-  
+
 
   refreshTable(){
 
     this.isLoading = true;
-  
+
     this.requestService.getRequests();
     this.requestService.getRequestUpdateListener()
      .subscribe((requestsData: { requests: Request[], requestCount : number }) => {
-      
+
       this.transformRequests(requestsData.requests);
-    
+
      },
         error=>{
 
@@ -94,8 +94,10 @@ export class AdminRequestComponent implements OnInit {
     this.requests = request;
 
     for(let i = 0; i < request.length; i++){
-
+      
     
+     this.requestService.autoCompleteStatus(request[i])
+
       this.userService.getUser(request[i].user_id)
       .subscribe(responseData =>{
 
@@ -110,27 +112,26 @@ export class AdminRequestComponent implements OnInit {
 
         if(i === (request.length-1)){
 
-          console.log("RUN ONCE");
           this.isLoading = false;
           this.dataSource = new MatTableDataSource(this.requests);
           this.totalRequests = this.dataSource.data.length;
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
           this.setPageSizeOption();
-          
+
         }
-     
-        
+
+
       });
-      
-      
-   
-     
+
+
+
+
 
     }
 
-  
-  
+
+
 
   }
 
@@ -141,7 +142,6 @@ export class AdminRequestComponent implements OnInit {
 
 
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
-      width: '80%',
       data: null
     });
 
@@ -163,9 +163,9 @@ export class AdminRequestComponent implements OnInit {
 
   }
 
-  
 
- 
+
+
 
   editRequest(id: string){
 
@@ -192,9 +192,9 @@ export class AdminRequestComponent implements OnInit {
     if(window.confirm("Are you sure you want to delete?")){
 
       this.requestService.deleteRequest(request.request_id)
-      .subscribe( 
+      .subscribe(
         (response) =>{
-        
+
           console.log(response);
           window.alert("Successfully deleted request!");
           this.isLoading = true;
@@ -208,7 +208,7 @@ export class AdminRequestComponent implements OnInit {
     else{
       return;
     }
-    
+
 
 
   }
@@ -230,8 +230,8 @@ export class AdminRequestComponent implements OnInit {
 //   form: FormGroup;
 //   selectedStatus = '';
 //   public stats: any = [
-//     {value : "Requested"}, 
-//     {value: "Accepted"}, 
+//     {value : "Requested"},
+//     {value: "Accepted"},
 //     {value: "Revised"}];
 
 
@@ -250,8 +250,8 @@ export class AdminRequestComponent implements OnInit {
 
 
 //   ngOnInit(): void {
-    
-    
+
+
 //     this.getStudents();
 
 //     this.form = new FormGroup({
@@ -262,7 +262,7 @@ export class AdminRequestComponent implements OnInit {
 //       'desc' : new FormControl(null)
 
 //   });
-    
+
 //   }
 
 //   getStudents(){
@@ -287,7 +287,7 @@ export class AdminRequestComponent implements OnInit {
 //     this.userService.getUserByRole("Faculty")
 //     .subscribe(
 //       res =>{
-        
+
 //        this.professors = res['users'];
 //        this.professors.sort((a,b)=>a.l_name.localeCompare(b.l_name))
 
@@ -308,7 +308,7 @@ export class AdminRequestComponent implements OnInit {
 
 
 //     if(this.form.invalid){
-        
+
 //         return;
 //     }
 //     else{
@@ -317,14 +317,14 @@ export class AdminRequestComponent implements OnInit {
 //       this.requestService.addRequest(this.form.value.title,this.form.value.student, this.form.value.faculty, this.form.value.status, this.form.value.desc, this.userService.getUserId())
 //       .subscribe(
 //         res=>{
-          
+
 //           //success
 //           console.log("Success!", res);
 //           window.alert("Success!");
 //           this.dialogRef.close();
 
 //         },
-        
+
 //         err => {
 //             //error
 //             window.alert("Something went wrong. " + err);
@@ -335,7 +335,7 @@ export class AdminRequestComponent implements OnInit {
 
 //     }
 
-    
+
 //   }
 
 

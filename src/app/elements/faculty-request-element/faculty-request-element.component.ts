@@ -73,6 +73,10 @@ export class FacultyRequestElementComponent implements OnInit {
     this.requests = [];
     for(let i = 0; i < request.length; i++){
 
+      //auto update status 
+      this.requestService.autoCompleteStatus(request[i]);
+
+
       console.log(request[i].faculty_id + " and " + this.userService.getUserId() );
       if(request[i].faculty_id === this.userService.getUserId()){
 
@@ -154,6 +158,7 @@ export class FacultyRequestElementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((res) => {
   
       if(res === "Success"){
+       
         window.location.reload();
       }
      

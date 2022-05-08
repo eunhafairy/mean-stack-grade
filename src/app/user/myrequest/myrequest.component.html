@@ -2,31 +2,44 @@
 
 <main>
 
-<button mat-raised-button color="primary" (click)="openCreateRequestDialog()">Create Request</button>
+<button mat-raised-button color="primary" class="btn positive" (click)="openCreateRequestDialog()">Create Request</button>
 
-<mat-tab-group animationDuration="1000ms">
+<mat-card class="scrollable-content">
+  <mat-card-header>
+
+  </mat-card-header>
+
+  <mat-card-content>
+
+    <mat-tab-group mat-stretch-tabs class="mat-elevation-z4" animationDuration="1000ms">
 
     <!-- TAB 1 REQUESTED -->
-  <mat-tab label="Requested">
-    <app-request status = "Requested"></app-request>
-  </mat-tab>
+    <mat-tab label="Requested">
+      <app-request status = "Requested"></app-request>
+    </mat-tab>
 
-  <!-- TAB 2 ACCEPTED -->
-  <mat-tab label="Processing">
+    <!-- TAB 2 ACCEPTED -->
+    <mat-tab label="Processing">
 
-    <app-request status = "Processing"></app-request>
-  </mat-tab>
-
-<!-- TAB 3 REVISION -->
-  <mat-tab label="Completed">
-    <app-request status = "Completed"></app-request>
-  </mat-tab>
+      <app-request status = "Processing"></app-request>
+    </mat-tab>
 
   <!-- TAB 3 REVISION -->
-  <mat-tab label="Rejected">
-    <app-request status = "Rejected"></app-request>
-  </mat-tab>
+    <mat-tab label="Completed">
+      <app-request status = "Completed"></app-request>
+    </mat-tab>
+
+    <!-- TAB 3 REVISION -->
+    <mat-tab label="Rejected">
+      <app-request status = "Rejected"></app-request>
+    </mat-tab>
 
 
-</mat-tab-group>
+    </mat-tab-group>
+
+
+  </mat-card-content>
+</mat-card>
+
+
 </main>

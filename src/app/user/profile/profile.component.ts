@@ -4,6 +4,7 @@ import { AddAccountComponent } from 'src/app/elements/add-account/add-account.co
 import { DialogChangePassComponent } from 'src/app/elements/dialog-change-pass/dialog-change-pass.component';
 import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -13,18 +14,23 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class ProfileComponent implements OnInit {
 
+  isLoading = false;
   user : any;
   fullname: string;
   cys: string;
   e_sig_path:string;
- 
-
-  constructor(private userService: UserService, 
+  requestNo : number = 0;
+  pendingNo: number  = 0;
+  completedNo: number  = 0;
+requests:any[] =[];
+  constructor(private userService: UserService,
     private adminService: AdminServiceService,
+    private requestService: RequestService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
+    this.isLoading=true;
    this.userService.getUser(this.userService.getUserId())
     .subscribe(user => {
 
@@ -32,6 +38,38 @@ export class ProfileComponent implements OnInit {
       this.cys = this.user.course + " " + this.user.year+"-"+this.user.section;
       this.fullname = this.user.l_name + ", "+this.user.f_name;
       this.e_sig_path = this.user.e_sig;
+      this.requestService.getRequestByUserId(this.userService.getUserId())
+      .subscribe(
+        res=>{
+          console.log(res['posts']);
+          for(let i = 0; i <  res['posts'].length; i++){
+
+            switch(res['posts'][i].status){
+
+              case 'Processing':
+              this.pendingNo+=1;
+              break;
+              case 'Requested':
+              this.requestNo+=1;
+              break;
+              case 'Completed':
+              this.completedNo+=1;
+              break;
+            }
+
+          }
+          this.isLoading = false;
+
+          
+        },
+        err=>{
+          this.isLoading = false;
+          console.log(err);
+          window.alert(err);
+
+
+        }
+      )
     },
     err =>{
 
@@ -40,7 +78,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  
+
   deleteMyAccount(){
 
     let u_id : string = this.user._id;
@@ -54,26 +92,26 @@ export class ProfileComponent implements OnInit {
 
         window.alert("Your account was successfully deleted!");
         this.userService.logout();
-       
+
 
       });
     }
 
-    
+
   }
 
   changePassword(){
 
     //open dialog
     const dialogRef = this.dialog.open(DialogChangePassComponent, {
-      width: '80%'
+
     });
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //realod 
+      //realod
       if(res){
-        
+
         window.location.reload();
 
       }
@@ -84,19 +122,19 @@ export class ProfileComponent implements OnInit {
 
 
   }
-  
+
   editMyAccount(){
 
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
+
       data: this.user
     });
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //realod 
+      //realod
       if(res){
-        
+
         window.location.reload();
 
       }

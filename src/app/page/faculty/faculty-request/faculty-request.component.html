@@ -1,28 +1,41 @@
 
 <app-header-dashboard-user></app-header-dashboard-user>
-<h1>Faculty request</h1>
+
 
 <main>
 
-    <mat-tab-group animationDuration="1000ms">
-    <!-- TAB 1 REQUESTED -->
-    <mat-tab label="Requested">
-        <app-faculty-request-element status = "Requested"></app-faculty-request-element>
-    </mat-tab>
 
-    <!-- TAB 2 PROCESSING -->
-    <mat-tab label="Processing">
-        <app-faculty-request-element status = "Processing"></app-faculty-request-element>
-    </mat-tab>
 
-    <mat-tab label="Completed">
-        <app-faculty-request-element status = "Completed"></app-faculty-request-element>
-    </mat-tab>
+    <mat-card class="scrollable-content">
+      <mat-card-header>
 
-    <mat-tab label="Rejected">
-        <app-faculty-request-element status = "Rejected"></app-faculty-request-element>
-    </mat-tab>
+      </mat-card-header>
 
-    </mat-tab-group>
+      <mat-card-content>
+
+        <mat-tab-group mat-stretch-tabs class="mat-elevation-z4" animationDuration="1000ms">
+          <!-- TAB 1 REQUESTED -->
+          <mat-tab label="Requested">
+              <app-faculty-request-element status = "Requested"></app-faculty-request-element>
+          </mat-tab>
+
+          <!-- TAB 2 PROCESSING -->
+          <mat-tab label="Processing">
+              <app-faculty-request-element status = "Processing"></app-faculty-request-element>
+          </mat-tab>
+
+          <mat-tab label="Completed">
+              <app-faculty-request-element status = "Completed"></app-faculty-request-element>
+          </mat-tab>
+
+          <mat-tab label="Rejected">
+              <app-faculty-request-element status = "Rejected"></app-faculty-request-element>
+          </mat-tab>
+
+          </mat-tab-group>
+
+      </mat-card-content>
+    </mat-card>
+
 
 </main>
