@@ -24,6 +24,7 @@ import { ValidityRedirectComponent } from './page/faculty/validity-redirect/vali
 import { NotificationComponent } from './page/notification/notification.component';
 import { ReverseAdminGuard } from './service/reverse-admin-guard';
 import { ReverseAuthGuard } from './service/reverse-auth-guard';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 const routes: Routes = [
 
 
@@ -31,6 +32,10 @@ const routes: Routes = [
   {path : 'sign-in', component: SignInComponent,   canActivate: [ReverseAuthGuard]},
   {path : 'sign-up', component: SignupComponent,  canActivate: [ReverseAuthGuard]},
   {path : 'notif', component: NotificationComponent ,  canActivate: [AuthGuard, StudentGuard]},
+
+  //Wild Card Route for 404 request
+    // { path: '**', pathMatch: 'full', 
+    //     component: PagenotfoundComponent },
 
   
   //STUDENT GUARDS

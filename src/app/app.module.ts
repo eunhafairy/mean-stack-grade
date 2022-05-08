@@ -57,6 +57,7 @@ import { DialogAddSubjectComponent } from './elements/dialog-add-subject/dialog-
 import { SettingsComponent } from './page/settings/settings.component';
 import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
 import { NotificationComponent } from './page/notification/notification.component';
+import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
 @NgModule({
   declarations: [
   
@@ -89,7 +90,8 @@ import { NotificationComponent } from './page/notification/notification.componen
     DialogAddSubjectComponent,
     SettingsComponent,
     DialogChangePassComponent,
-    NotificationComponent
+    NotificationComponent,
+    PagenotfoundComponent
   ],
   imports: [
     MatBadgeModule,

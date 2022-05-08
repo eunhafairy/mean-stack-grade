@@ -25,7 +25,7 @@
 mat-card{
 
   margin: auto;
-  padding: 2%;
+  padding: 5%;
 }
 
 mat-card-content{
@@ -37,14 +37,13 @@ mat-card-content{
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 52%;
-  margin-bottom: 10px;
+  width: 50%;
 }
 
 
 /* button */
 .btnProfile {
-  width: 10%;
+  width: 8%;
   height: 35px;
   margin-left: 4px;
 }
@@ -76,9 +75,3 @@ position: fixed;
 right: 22%;
 }
 
-.e_sig_path{
- width: auto;
-}
-mat-card-content{
-  padding: 20px;
-}

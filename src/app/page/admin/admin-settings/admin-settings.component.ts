@@ -87,7 +87,6 @@ export class AdminSettingsComponent implements OnInit {
 
     //open dialog
     const dialogRef = this.dialog.open(DialogChangePassComponent, {
-      width: '80%'
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -109,7 +108,6 @@ export class AdminSettingsComponent implements OnInit {
   editMyAccount(){
 
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
       data: this.user
     });
 

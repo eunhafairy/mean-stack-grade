@@ -1,21 +1,26 @@
 <app-header-dashboard-user></app-header-dashboard-user>
-
-<mat-spinner *ngIf="isLoading"></mat-spinner>
-<main *ngIf="!isLoading">
-
+<main>
   <div class="container">
-    <mat-card class="example-card">
+    <mat-spinner *ngIf="isLoading"></mat-spinner>
+    
+    <mat-card  class="profile-form" *ngIf="!isLoading">
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title>{{fullname}}</mat-card-title>
           <mat-card-subtitle>{{email}}</mat-card-subtitle>
         </mat-card-header>
-        <mat-label>Signature</mat-label>
+
+        <!-- <mat-label>Signature</mat-label>
 
         <mat-card-content>
           <img mat-card-image [src]="e_sig_path">
-        </mat-card-content>
+        </mat-card-content> -->
 
+          <mat-card-content>
+          <mat-label class="lblTItle">Request:</mat-label><mat-label class="lblContent">{{requestNo}}</mat-label><br><br>
+          <mat-label class="lblTItle">Processing:</mat-label><mat-label class="lblContent">{{pendingNo}}</mat-label><br><br>
+          <mat-label class="lblTItle">Completed:</mat-label><mat-label class="lblContent">{{completedNo}}</mat-label>
+        </mat-card-content>
 
 
         <mat-card-actions>
@@ -33,5 +38,6 @@
         </mat-card-actions>
       </mat-card>
   </div>
+
 
 </main>

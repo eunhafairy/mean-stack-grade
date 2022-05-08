@@ -133,6 +133,12 @@ private notifsUpdated = new Subject<{notifs: Notif[]}>();
     .pipe(catchError(this.handleError));
 
   }
+  
+  getRequestByFacultyId(user_id : string){
+    return this.http.get("http://localhost:3000/api/requests/findrequestbyfaculty/" + user_id)
+    .pipe(catchError(this.handleError));
+
+  }
 
   parseDate(str) {
     var mdy = str.split('/');

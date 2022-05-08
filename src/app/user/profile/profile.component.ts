@@ -41,11 +41,6 @@ requests:any[] =[];
       this.requestService.getRequestByUserId(this.userService.getUserId())
       .subscribe(
         res=>{
-
-
-     
-   
-
           console.log(res['posts']);
           for(let i = 0; i <  res['posts'].length; i++){
 

@@ -179,6 +179,37 @@ router.get("/findrequestbyuser/:user_id",checkAuth, (req, res, next) =>{
 })
 
 
+
+
+router.get("/findrequestbyfaculty/:user_id",checkAuth, (req, res, next) =>{
+
+    Request.find({ faculty_id : req.params.user_id}).then( post =>{
+        if(post){
+            res.status(200).json({posts: post});
+        }
+        else{
+
+            res.status(404).json({
+
+                message: "not found"
+
+            });
+        }
+
+    })
+    .catch(err=>{
+
+        res.status(500).json({
+
+            message:"An error occured",
+            error: err
+
+        })
+
+    });
+})
+
+
 router.delete("/:id",checkAuth, (req,res,next) => {
 
     Request.deleteOne({_id: req.params.id})
