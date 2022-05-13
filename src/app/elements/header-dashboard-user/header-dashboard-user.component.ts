@@ -75,6 +75,8 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
     this.authListenerSubs.unsubscribe();
   }
 
+
+
   onLogout(){
       
     this.userService.logout();

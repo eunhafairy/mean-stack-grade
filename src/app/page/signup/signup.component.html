@@ -212,16 +212,16 @@
                     </div>
                 </div>
 
-        </form>
+            </form>
         </mat-card-content>
-        <mat-card-actions>
-
-          <div class="row">
-            <div class="col">
-                <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Register</button>
-                <mat-spinner *ngIf="isLoading"></mat-spinner>
-            </div>
+        
+        
+        <div class="row">
+          <div class="col">
+              <button class="btnSignUpForm positive" mat-flat-button color="primary" (click)="onSignUp()" *ngIf="!isLoading">Register</button>
+              <mat-spinner *ngIf="isLoading"></mat-spinner>
           </div>
+        </div>
 
           <div class="row">
             <div class="col">
@@ -229,7 +229,6 @@
             </div>
           </div>
 
-        </mat-card-actions>
 
       </mat-card>
 </div>

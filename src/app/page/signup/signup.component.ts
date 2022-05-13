@@ -100,6 +100,8 @@ export class SignupComponent implements OnInit {
   
   if(this.form.value.__role === 'Student' && (this.form.value.__student_no === null || this.form.value.__student_no === '' )){
 
+    window.alert("Make sure the student number is not empty.");
+
       return;
 
     }
@@ -115,7 +117,9 @@ export class SignupComponent implements OnInit {
     return;
   }
 
-    console.log(this.form.value.__student_no);
+  
+
+    console.log(this.findInvalidControls());
     this.isLoading = true;
     
     this.userService.createUserFromAdmin(this.form.value.__first_name,
