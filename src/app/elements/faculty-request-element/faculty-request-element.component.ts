@@ -122,7 +122,6 @@ export class FacultyRequestElementComponent implements OnInit {
 
   acceptRequest(id: string) : void{
     const dialogRef = this.dialog.open(DialogRequestVerdictComponent, {
-      width: '80%',
       data: id
     });
 
@@ -151,7 +150,6 @@ export class FacultyRequestElementComponent implements OnInit {
   rejectRequest(id: string){
 
     const dialogRef = this.dialog.open(DialogRejectRequestComponent, {
-      width: '80%',
       data: id
     });
 

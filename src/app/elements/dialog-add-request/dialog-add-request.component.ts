@@ -154,7 +154,7 @@ addOne(year : string){
           }
         );
 
-        this.userService.getUserByRole("Faculty")
+        this.adminService.getFacultyByStatus("Accepted")
         .subscribe(
           res =>{
 

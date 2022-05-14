@@ -14,7 +14,7 @@ import { AdminServiceService } from './admin-service.service';
 })
 export class UserService {
 
-
+  private admin_passcode = 'CzK3b9&*BQek@UM5';
   private status: string;
   private cys: string;
   private isAuthenticated = false;
@@ -86,7 +86,34 @@ export class UserService {
   //     })  ;
 
   // }
+  getAdminPasscode(){
 
+    return this.admin_passcode;
+
+  }
+
+  
+  createAdmin(
+    l_name: string,
+    f_name: string,
+    email: string,
+    password: string){
+      console.log("service: " + password);
+      const adminDataform = {
+
+        l_name: l_name,
+        f_name: f_name,
+        email: email,
+        password: password,
+        role: 'Admin'
+
+      };
+
+      return this.http.post("http://localhost:3000/api/users/createadmin", adminDataform)
+      .pipe(
+        catchError(this.handleError)
+        );
+  }
  
 
   getCYS(){
@@ -441,6 +468,12 @@ checkPass(id:string, password: string){
   getUserByRole(role:string){
     
     return this.http.get("http://localhost:3000/api/users/"+ role)
+    .pipe(catchError(this.handleError));
+   
+  }
+  getAcceptedFaculty(){
+    
+    return this.http.get("http://localhost:3000/api/users/acceptedfaculty")
     .pipe(catchError(this.handleError));
    
   }

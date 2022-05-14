@@ -4,4 +4,11 @@ mat-card{
 
 }
 
+.parent-card{
+
+    overflow-y: auto;
+    max-height: 80vh;
+
+}
+
 

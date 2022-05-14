@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Create Account</h1>
+<h1 mat-dialog-title>Accept Request</h1>
 <div mat-dialog-content>
 
 <main>
@@ -38,11 +38,11 @@
   
 
 
-  <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Submit</button>
+  <button class="btnSignUpForm positive" mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Submit</button>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 
 </form>
-<button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
+<button class="btnSignUpForm negative" mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
 </main>
 </div>

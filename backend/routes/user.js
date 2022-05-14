@@ -128,6 +128,45 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
 
 });
 
+router.post("/createadmin", (req,res, next) =>{
+
+    console.log(req.body.password);
+    bcrypt.hash(req.body.password, 10)
+    .then(hash =>{
+
+        const faculty = new User({
+
+           f_name: req.body.f_name,
+           l_name: req.body.l_name,
+           email: req.body.email,
+           password: hash,
+           role: req.body.role
+
+         });
+
+
+        //save user
+        faculty.save()
+        .then(result => {
+
+            res.status(201).json({
+                message: 'User created',
+                result: result
+            });
+
+        })
+        .catch(err => {
+            res.status(500).json({
+                error:err,
+                message: "Error occurred."
+            });
+        })
+
+    });
+
+
+});
+
 router.get('/faculty/:status', checkAuth ,(req,res,next) =>{
 
   
@@ -399,6 +438,7 @@ router.get('/:role', checkAuth, (req, res, next) =>{
 
 
 });
+
 
 router.get('/find/:id', checkAuth ,(req, res, next) =>{
 

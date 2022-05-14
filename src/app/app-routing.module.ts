@@ -25,6 +25,7 @@ import { NotificationComponent } from './page/notification/notification.componen
 import { ReverseAdminGuard } from './service/reverse-admin-guard';
 import { ReverseAuthGuard } from './service/reverse-auth-guard';
 import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
+import { CreateAdminComponent } from './page/admin/create-admin/create-admin.component';
 const routes: Routes = [
 
 
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path : 'admin-request', component: AdminRequestComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'admin-settings', component: AdminSettingsComponent,  canActivate: [AuthGuard, AdminGuard] },
   {path : 'subject', component: SubjectsComponent ,  canActivate: [AuthGuard, AdminGuard]},
+  {path: 'create-admin', component: CreateAdminComponent, canActivate: [ReverseAuthGuard]},
   
   //FACULTY GUARDS
  // {path : 'faculty-dashboard', component: FacultyDashboardComponent,  canActivate: [AuthGuard, FacultyGuard] },

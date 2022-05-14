@@ -1,0 +1,77 @@
+
+
+<form [formGroup] = "form" (submit) = "onRegister()">
+
+    <mat-card>
+
+      <mat-card-content>
+
+        <!-- pfp -->
+     
+        <mat-form-field class="txtField"  appearance="outline">
+          <mat-label>First Name</mat-label>
+
+          <input class="txtInput" type="text" matInput
+                formControlName="f_name" name="f_name"
+                placeholder="e.g. Juan"
+                required >
+
+        </mat-form-field>
+
+        <mat-form-field class="txtField"  appearance="outline">
+          <mat-label>Last Name</mat-label>
+
+          <input class="txtInput" type="text" matInput
+                formControlName="l_name" name="l_name"
+                placeholder="e.g. Dela Cruz"
+                 required >
+
+        </mat-form-field>
+
+        <mat-form-field class="txtField"  appearance="outline">
+            <mat-label>Email</mat-label>
+
+            <input class="txtInput" type="text" matInput
+                  formControlName="email" name="email"
+                  placeholder="e.g. juandelacruz@email.com"
+                  required email >
+
+          </mat-form-field>
+
+          <mat-form-field class="txtField"  appearance="outline">
+            <mat-label>Password</mat-label>
+
+            <input class="txtInput" type="text" matInput
+                  formControlName="password" name="password"
+                  type='password'
+                  required >
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+
+          </mat-form-field>
+
+          <mat-form-field class="txtField"  appearance="outline">
+            <mat-label>Confirm Password</mat-label>
+
+            <input class="txtInput" type="text" matInput
+                  formControlName="confirm_password" name="confirm_password"
+                  type='password'
+                  required >
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+
+          </mat-form-field>
+
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+          <button  *ngIf="!isLoading" class="btn positive" mat-flat-button color="primary"  type="submit">Register as Admin</button>
+          <button  *ngIf="!isLoading" class="btn negative" mat-flat-button color="primary"   routerLink="/sign-in">Back</button>
+
+
+
+      </mat-card-content>
+
+    </mat-card>
+
+  </form>

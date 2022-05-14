@@ -58,6 +58,7 @@ import { SettingsComponent } from './page/settings/settings.component';
 import { DialogChangePassComponent } from './elements/dialog-change-pass/dialog-change-pass.component';
 import { NotificationComponent } from './page/notification/notification.component';
 import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.component';
+import { CreateAdminComponent } from './page/admin/create-admin/create-admin.component';
 @NgModule({
   declarations: [
   
@@ -91,7 +92,8 @@ import { PagenotfoundComponent } from './page/pagenotfound/pagenotfound.componen
     SettingsComponent,
     DialogChangePassComponent,
     NotificationComponent,
-    PagenotfoundComponent
+    PagenotfoundComponent,
+    CreateAdminComponent
   ],
   imports: [
     MatBadgeModule,
