@@ -73,9 +73,9 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
 
             user = new User({
 
-                f_name: req.body.f_name,
-                l_name: req.body.l_name,
-                email:req.body.email,
+                f_name: capitalizeName(req.body.f_name),
+                l_name: capitalizeName(req.body.l_name),
+                email: req.body.email,
                 password: hash,
                 role: req.body.role,
                 e_sig: url+ '/files/' + req.file.filename,
@@ -89,8 +89,8 @@ router.post("/signup", multer({storage: storage}).single('e_sig'), (req,res, nex
             
             user = new User({
 
-                f_name: req.body.f_name,
-                l_name: req.body.l_name,
+                f_name: capitalizeName(req.body.f_name),
+                l_name: capitalizeName(req.body.l_name),
                 email:req.body.email,
                 password: hash,
                 role: req.body.role,
@@ -136,8 +136,8 @@ router.post("/createadmin", (req,res, next) =>{
 
         const faculty = new User({
 
-           f_name: req.body.f_name,
-           l_name: req.body.l_name,
+           f_name: capitalizeName(req.body.f_name),
+           l_name: capitalizeName(req.body.l_name),
            email: req.body.email,
            password: hash,
            role: req.body.role
@@ -373,8 +373,8 @@ router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,r
     const user = new User({
 
     _id: req.body.u_id,
-    f_name: req.body.f_name,
-    l_name: req.body.l_name,
+    f_name: capitalizeName(req.body.f_name),
+    l_name: capitalizeName(req.body.l_name),
     role: req.body.role,
     email: req.body.email,
     student_no: req.body.student_no,
@@ -512,35 +512,16 @@ function getFileExt(fileName){
     return fileName.split('.').pop();
 }
 
-// router.get('/findnames',checkAuth ,(req,res,next) =>{
 
-//     const u_id = +req.query.user_id;
-//     const f_id = +req.query.faculty_id;
-//     const postQuery = Request.find();
-//     let fetchedRequests;
+function capitalizeName(name){
+    const words = name.split(" ");
 
-//     if(pageSize && currentPage){
-//         postQuery
-//         .skip(pageSize * (currentPage - 1))
-//         .limit(pageSize);
-//     }
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
 
-//     postQuery
-//     .then((documents) =>{
-//         fetchedRequests = documents;
-//       return Request.count();  
-//     })
-//     .then(count => {
-//         res.status(200).json({
-//             message: 'Request fetched successfully',
-//             requests: fetchedRequests,
-//             maxRequests: count
-//         });
-//     });
-
-
-
-
-// });
+    return words.join(" ");
+        
+}
 
 module.exports = router;
