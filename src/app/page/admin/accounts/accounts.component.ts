@@ -117,6 +117,18 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
   }
 
+   formatCYS(course: string, year: string, section: string) : string{
+
+    if (course === undefined || course === null || course === '' || course === 'null') {
+
+     return "";
+     }
+    else{
+      return course + " "+year+section;
+    }
+
+  }
+
   ngOnDestroy(){
 
     this.userSub.unsubscribe();

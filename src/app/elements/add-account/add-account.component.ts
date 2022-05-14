@@ -181,7 +181,7 @@ role : string;
           this.form.value.__role,
           this.form.value.__fileESig,
           this.form.value.__student_no,
-          this.form.value.__status,
+          this.data.status,
           this.form.value.__course,
           this.form.value.__year,
           this.form.value.__section)
