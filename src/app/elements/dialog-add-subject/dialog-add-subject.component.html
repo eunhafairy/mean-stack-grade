@@ -52,7 +52,7 @@
 
 <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Create Subject</button>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<button class="btnSignUpForm negative" mat-flat-button color="primary"  (click)="onNoClick()"  >Cancel</button>
+<button type="button"  class="btnSignUpForm negative" mat-flat-button color="primary"  (click)="onNoClick()"  >Cancel</button>
 
 </form>
 

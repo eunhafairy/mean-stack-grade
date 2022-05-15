@@ -65,7 +65,7 @@
                         type="password"
                         formControlName="__password"
                         required>
-                        <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password</mat-error>
+                        <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password. Minimum characters: 6</mat-error>
                     </mat-form-field>
                     </div>
 
@@ -216,10 +216,10 @@
                 <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Confirm</button>
                 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
+                <button type="button" class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
 
             </form>
 
-            <button class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
       </mat-card>
 </div>
 

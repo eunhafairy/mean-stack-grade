@@ -294,6 +294,10 @@ router.post("/login", (req,res,next) => {
             haveAccount = false;
             return res.status(401).json({message: 'No account found'});
         }
+        else if(user.status === 'Archive'){
+            haveAccount = false;
+            return res.status(401).json({message: 'Your account is archived. Contact admin to restore your account!'});
+        }
         else{
             console.log("FETCHING USER");
             haveAccount = true;
@@ -407,6 +411,66 @@ router.put("/:id", checkAuth, multer({storage: storage}).single('e_sig'), (req,r
 
 })
 
+router.put('/changestatus/:id', checkAuth ,(req,res,next) =>{
+
+  
+    User.updateOne({_id: req.params.id}, {
+
+        status: req.body.status
+
+    })
+    .then(result =>{
+        res.status(200).json({
+            message:'update successful',
+            result: result
+        });
+    })
+    .catch(err =>{
+
+        res.status(500).json({
+            message: 'Something went wrong',
+            error: err
+        });
+    })
+
+
+});
+
+
+
+router.get('/:status', checkAuth, (req, res, next) =>{
+
+   
+   User.find().where('status').equals(req.params.status)
+   .then(documents =>{
+
+    res.status(200).json({
+
+        message: "Success!",
+        users: documents
+
+    });
+
+   })
+   .catch(err=>{
+
+    res.status(500).json({
+
+        message:"error occurred",
+        error:err
+
+    });
+
+   });
+
+
+
+
+
+});
+
+
+
 
 router.get('/:role', checkAuth, (req, res, next) =>{
 
@@ -475,7 +539,7 @@ router.get('/find/:id', checkAuth ,(req, res, next) =>{
 router.get('',checkAuth ,(req,res,next) =>{
 
   
-    const userQuery = User.find();
+    const userQuery = User.find({status : {$ne: 'Archive'}});
 
    
     userQuery

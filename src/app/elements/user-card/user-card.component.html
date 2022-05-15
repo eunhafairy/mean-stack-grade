@@ -11,13 +11,11 @@
         </mat-expansion-panel-header>
            
         <!-- INFORMATION -->
-        <li><b>email: </b>{{user.email}}</li>
-        <li><b>status: </b>{{user.status}}</li>
+        <li><b>Email: </b>{{user.email}}</li>
+        <li><b>Status: </b>{{user.status}}</li>
         <!-- ACTION ROW -->
         <mat-action-row *ngIf="user.status !== 'Accepted'">
-            <button  *ngIf = "user.status === 'Pending'"  mat-button color="primary" (click) = "acceptFaculty(user, 'Accept')">Accept</button>
-            <button  *ngIf = "user.status === 'Pending'"  mat-button color="warn" (click)= "acceptFaculty(user, 'Reject')">Reject</button>
-            <button *ngIf = "user.status === 'Rejected'"  mat-button color="warn" (click)= "acceptFaculty(user, 'Appeal')" >Re-appeal</button>
+    
             <button *ngIf = "user.status === 'Archive'"  mat-button color="warn" (click)= "restoreAccount(user)" >Restore</button>
 
         </mat-action-row>

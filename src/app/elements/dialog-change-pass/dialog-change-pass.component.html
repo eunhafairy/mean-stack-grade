@@ -69,11 +69,11 @@
        <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Change Password</button>
        <mat-spinner *ngIf="isLoading"></mat-spinner>
 
+       <button type="button"  class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
 
      </form>
 
 
-            <button class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
       </mat-card>
 </div>
 

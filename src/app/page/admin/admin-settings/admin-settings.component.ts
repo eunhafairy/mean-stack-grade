@@ -63,7 +63,7 @@ export class AdminSettingsComponent implements OnInit {
     
         if(willDelete){
           console.log("will delete: "+ u_id);
-          this.adminService.deleteUser(u_id)
+          this.userService.updateUserStatus('Archive',u_id)
           .subscribe(result =>{
     
     

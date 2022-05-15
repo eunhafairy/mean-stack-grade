@@ -149,6 +149,8 @@ export class UserService {
       authData.append("course", course);
       authData.append("year", year);
       authData.append("section", section);
+      authData.append("status", "Accepted");
+      
     }
 
     if(role === 'Faculty'){
@@ -191,6 +193,8 @@ export class UserService {
     return this.role;
 
   }
+
+
 
   
   getRequestFacultyStudentName(user_id:string, faculty_id:string){
@@ -318,7 +322,7 @@ checkPass(id:string, password: string){
         this.setAuthTimer(expiresInDuration);
         const now = new Date();
         const expirationDate = new Date(now.getTime() + expiresInDuration *1000);
-        this.saveAuthData(token, expirationDate, this.u_id, this.role, this.status);
+        this.saveAuthData(token, expirationDate, this.u_id, this.role, this.status, this.cys);
         this.isAuthenticated = true;
         this.authStatusListener.next(true);
     
@@ -382,13 +386,14 @@ checkPass(id:string, password: string){
     return this.authStatusListener.asObservable();
   }
 
-  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string, status: string){
+  saveAuthData(token: string, expirationDate: Date, u_id: string, role:string, status: string, cys: string){
 
     localStorage.setItem('token', token);
     localStorage.setItem('expirationDate', expirationDate.toISOString()); 
     localStorage.setItem('u_id', u_id);
     localStorage.setItem('role', role);
     localStorage.setItem('status', status);
+    localStorage.setItem('cys', cys);
 
   }
 
@@ -399,6 +404,8 @@ checkPass(id:string, password: string){
     localStorage.removeItem("u_id");
     localStorage.removeItem("role");
     localStorage.removeItem('status');
+    localStorage.removeItem('cys');
+
 
   }
 
@@ -416,6 +423,7 @@ checkPass(id:string, password: string){
       this.u_id = authInformation.u_id;
       this.role = authInformation.role;
       this.status = authInformation.status;
+      this.cys = authInformation.cys;
       this.setAuthTimer(expiresIn/1000);
       this.isAuthenticated = true;
       this.authStatusListener.next(true);
@@ -433,6 +441,8 @@ checkPass(id:string, password: string){
     const u_id = localStorage.getItem('u_id');
     const role = localStorage.getItem('role');
     const status = localStorage.getItem('status');
+    const cys = localStorage.getItem('cys');
+
     
     if(!token || !expirationDate){
       return null;
@@ -444,7 +454,8 @@ checkPass(id:string, password: string){
         expirationDate : new Date(expirationDate),
         u_id: u_id,
         role: role,
-        status: status
+        status: status,
+        cys: cys
 
       };
 
@@ -471,6 +482,13 @@ checkPass(id:string, password: string){
     .pipe(catchError(this.handleError));
    
   }
+  getUserByStatus(status:string){
+    
+    return this.http.get("http://localhost:3000/api/users/"+ status)
+    .pipe(catchError(this.handleError));
+   
+  }
+
   getAcceptedFaculty(){
     
     return this.http.get("http://localhost:3000/api/users/acceptedfaculty")
@@ -483,6 +501,20 @@ checkPass(id:string, password: string){
  
     return this.http.get("http://localhost:3000/api/users/find/" + id)
     .pipe(catchError(this.handleError));
+
+  }
+
+  updateUserStatus(status: string, id:string){
+
+    let data = {
+
+      status: status
+
+    }
+    return this.http
+    .put("http://localhost:3000/api/users/changestatus/" + id, data)
+    .pipe(catchError(this.handleError));
+
 
   }
 

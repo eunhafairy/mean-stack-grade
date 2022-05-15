@@ -76,8 +76,8 @@ export class SignupComponent implements OnInit {
       '__last_name' : new FormControl(null, {validators: [Validators.required]}),
       '__role' : new FormControl(null, {validators: [Validators.required]}),
       '__email' : new FormControl(null, {validators: [Validators.required]}),
-      '__password' : new FormControl(null, {validators: [Validators.required]}),
-      '__confirm_password' : new FormControl(null, {validators: [Validators.required]}),
+      '__password' : new FormControl(null, {validators: [Validators.required, Validators.minLength(6)]}),
+      '__confirm_password' : new FormControl(null, {validators: [Validators.required, Validators.minLength(6)]}),
       '__fileESig' : new FormControl(null, {validators: [Validators.required]}),
       '__student_no' : new FormControl(null, {validators: [Validators.required]}),
       '__course' : new FormControl(null, {validators: [Validators.required]}),
@@ -111,6 +111,12 @@ export class SignupComponent implements OnInit {
 
     }
 
+    
+      if(this.form.value.__password.length < 6){
+        window.alert('Minimum password length is 6');
+        return;
+    
+      }
   if(!this.form.value.__fileESig ){
 
     window.alert('Please upload a signatures');

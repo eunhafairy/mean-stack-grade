@@ -65,7 +65,7 @@
                         type="password"
                         formControlName="__password"
                         required>
-                        <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password</mat-error>
+                        <mat-error *ngIf = "form.get('__password').invalid">Please enter a valid password. Minimum characters: 6</mat-error>
                     </mat-form-field>
                     </div>
 

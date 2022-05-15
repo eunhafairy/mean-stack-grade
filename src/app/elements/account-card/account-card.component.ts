@@ -88,4 +88,35 @@ export class AccountCardComponent implements OnInit {
 
   }
 
+  restoreAccount(user: any){
+
+    let id = user._id;
+    let status: string;
+
+    if(user.role === 'Faculty'){
+      status = 'Accepted';
+    }
+    else{
+      status = 'Pending';
+      
+    }
+
+    this.userService.updateUserStatus(status, id)
+    .subscribe(
+      res =>{
+
+        window.alert("User successfully restored!");
+        window.location.reload();
+
+      },
+      err=>{
+
+        window.alert("Error occured. "+err);
+        console.log('update status failed '+ err);
+
+      }
+    );
+
+  }
+
 }

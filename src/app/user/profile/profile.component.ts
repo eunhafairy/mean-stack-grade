@@ -1,5 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { error } from 'pdf-lib';
 import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
 import { DialogChangePassComponent } from 'src/app/elements/dialog-change-pass/dialog-change-pass.component';
 import { User } from 'src/app/models/user';
@@ -82,18 +83,22 @@ requests:any[] =[];
   deleteMyAccount(){
 
     let u_id : string = this.user._id;
-    var willDelete = window.confirm('Are you sure you want to delete?');
+    var willDelete = window.confirm('Are you sure you want to archive your account?');
 
     if(willDelete){
       console.log("will delete: "+ u_id);
-      this.adminService.deleteUser(u_id)
+      this.userService.updateUserStatus('Archive',u_id)
       .subscribe(result =>{
 
 
-        window.alert("Your account was successfully deleted!");
+        window.alert("Your account was successfully archive!");
         this.userService.logout();
 
 
+      },
+      err=>{
+        window.alert("Error: "+ err);
+        console.log("archive error: " + error);
       });
     }
 

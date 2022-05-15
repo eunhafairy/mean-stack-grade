@@ -11,8 +11,8 @@ const userSchema = mongoose.Schema({
     course: {type: String, enum: ['BSIT', 'BLIS'], required: false},
     year: {type: Number, enum: [1,2,3,4], required: false},
     section : {type: String, enum : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H','I','J','K','L','M', 'N','O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W','X','Y','Z'], required: false},
-    password: {type: String, required: true},
-    status: {type: String, enum: ['Pending', 'Rejected', 'Accepted'], required: false, default:"Pending"},
+    password: {type: String, required: true, min:[6, 'Password too short']},
+    status: {type: String, enum: ['Pending', 'Rejected', 'Accepted', 'Archive'], required: false, default:"Pending"},
     rejectedReason  : {type: String, required: false, default: null}
    
     
