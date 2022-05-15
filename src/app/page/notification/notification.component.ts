@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { Notif } from 'src/app/models/notif';
 import { RequestService } from 'src/app/service/request.service';
@@ -11,8 +12,10 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class NotificationComponent implements OnInit {
 
+  dataSource : any;
   isLoading = false;
   notifs: any[]=[];
+  displayedColumns: string[] = [ 'notif', 'action'];
   constructor(private requestService: RequestService, private userService: UserService) { }
 
 
@@ -146,6 +149,7 @@ export class NotificationComponent implements OnInit {
 
                 }
 
+                this.dataSource = new MatTableDataSource(this.notifs);
                 this.isLoading = false;
 
               }
