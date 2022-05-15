@@ -251,17 +251,17 @@ async fillForm() {
       const studentSignatureImageField = form.getButton('student_sig')
       
 
-      studentNameField.setText(this.student_name)
-      professorNameField.setText(this.prof_name)
-      professorNameField2.setText(this.prof_name)
+      studentNameField.setText(this.student_name.toUpperCase())
+      professorNameField.setText(this.prof_name.toUpperCase())
+      professorNameField2.setText(this.prof_name.toUpperCase())
       dateRequestedField.setText(this.readableDate(new Date()))
       studIdField.setText(this.student_no)
-      cysField.setText(this.data.cys)
-      subjectField.setText(this.data.subject)
-      semesterField.setText(this.data.semester)
+      cysField.setText(this.data.cys.toUpperCase())
+      subjectField.setText(this.data.subject.toUpperCase())
+      semesterField.setText(this.data.semester.toUpperCase())
       year1Field.setText(this.data.year.toString())
       year2Field.setText((this.acad_year2).toString())
-      reasonField.setText(this.data.desc)
+      reasonField.setText(this.data.desc.toUpperCase())
       
       studentSignatureImageField.setImage(sigImage)
       const pdfBytes = await pdfDoc.save();
