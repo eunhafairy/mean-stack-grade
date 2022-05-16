@@ -1,5 +1,9 @@
 <!--SHOW THIS IF LOADING-->
-<mat-spinner *ngIf="isLoading"></mat-spinner>
+<mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
 
 
 <mat-card class="scrollable-content">
@@ -15,6 +19,7 @@
           <b style= "color: #302e2e;"><b>Subject: </b>{{request.subject}}</b>
       </mat-expansion-panel-header>
 
+      <div class="content">
       <!-- INFORMATION -->
       <li><b>Student: </b>{{request.user_id}}</li>
       <li><b>Section: </b>{{request.cys}}</li>
@@ -35,14 +40,15 @@
       <mat-action-row *ngIf = "request.status === 'Requested'">
           <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
 
-          <button  mat-button color="warn" (click)="deleteRequest(request._id)">DELETE</button>
+          <button class="deleteBtn" mat-flat-button color="primary" (click)="deleteRequest(request._id)">DELETE</button>
 
       </mat-action-row>
 
       <mat-action-row *ngIf="role ==='Admin' && request.status === 'Processing'">
           <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
-          <button  mat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
+          <button  mat-flat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
       </mat-action-row>
+      </div>
 
 
   </mat-expansion-panel>

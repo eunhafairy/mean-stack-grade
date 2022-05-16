@@ -2,12 +2,21 @@ mat-card{
 
     margin-bottom : 1rem;
 
+
+
 }
 
 .parent-card{
 
     overflow-y: auto;
     max-height: 80vh;
+    background-color: hsl(196, 89%, 24%, 0);
+
+
+}
+
+.deleteBtn{
+  background-color: brown;
 
 }
 

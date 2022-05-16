@@ -7,7 +7,7 @@
       <mat-card-content>
 
         <!-- pfp -->
-     
+
         <mat-form-field class="txtField"  appearance="outline">
           <mat-label>First Name</mat-label>
 
@@ -64,7 +64,11 @@
 
           </mat-form-field>
 
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
+          <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
           <button  *ngIf="!isLoading" class="btn positive" mat-flat-button color="primary"  type="submit">Register as Admin</button>
           <button  *ngIf="!isLoading" class="btn negative" mat-flat-button color="primary"   routerLink="/sign-in">Back</button>
 

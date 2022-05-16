@@ -5,7 +5,7 @@
     <main>
         <form (submit) ="onCreateSubject(signUpForm)" #signUpForm = "ngForm">
 
-                
+
             <!--SUBJECT CODE-->
         <mat-form-field  class="full-width">
             <mat-label>Subject Code</mat-label>
@@ -13,7 +13,7 @@
             <mat-error *ngIf = "subjectCode.invalid">Please enter a unique subject code.</mat-error>
         </mat-form-field>
 
-        
+
             <!--SUBJECT NAME-->
         <mat-form-field  class="full-width">
             <mat-label>Subject Name</mat-label>
@@ -30,7 +30,11 @@
 
 
         <button mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Create Subject</button>
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
         <button mat-raised-button  (click)="onNoClick()" color="accent" >Cancel</button>
 
         </form>

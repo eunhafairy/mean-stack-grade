@@ -4,6 +4,9 @@
     <mat-card class="signin-form">
 
         <mat-card-content>
+            <div>
+              <img class="logo" src="\assets\images\grace logo.png" alt="logo">
+            </div>
             <h1 class="txtTitle">Sign in</h1>
             <form (submit) ="signIn(signInForm)" #signInForm = "ngForm" >
 
@@ -25,9 +28,13 @@
 
                 <button class="btnSignInForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Sign in</button><br>
 
-                <p>Need an Account?</p>
+                <br><br><p>Need an Account?</p>
                 <p class="signUpLink" color="primary" routerLink = '/sign-up' *ngIf="!isLoading">Sign up</p>
-                <mat-spinner *ngIf="isLoading"></mat-spinner>
+                <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
 
             </form>
         </mat-card-content>

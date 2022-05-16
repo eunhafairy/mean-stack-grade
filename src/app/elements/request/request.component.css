@@ -37,3 +37,10 @@ mat-card-content {
   max-height: 380px;
 
 }
+.content{
+  padding-left: 40px;
+}
+
+.deleteBtn{
+  background-color: brown;
+}

@@ -7,7 +7,7 @@
     <!--action // pass or failed?-->
   <mat-form-field class="full-width">
     <mat-label>Action</mat-label>
-    <mat-select 
+    <mat-select
     [(value)]="selectedAction"
     name = "action"
     formControlName ="action"
@@ -23,7 +23,7 @@
   <!--grade-->
   <mat-form-field class="full-width" *ngIf="selectedAction === 'Passed'">
     <mat-label>Grade</mat-label>
-    <mat-select 
+    <mat-select
     [(value)]="selectedVerdict"
     name = "verdict"
     formControlName ="verdict"
@@ -35,11 +35,15 @@
     </mat-select>
     <mat-error *ngIf = "form.get('verdict').invalid">Please choose a status.</mat-error>
 </mat-form-field>
-  
+
 
 
   <button class="btnSignUpForm positive" mat-raised-button color="primary" type="submit" *ngIf="!isLoading">Submit</button>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
 
 
 </form>

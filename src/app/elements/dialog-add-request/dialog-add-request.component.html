@@ -139,7 +139,11 @@
 
          <button class="btnSignUpForm positive" mat-flat-button color="primary" type="submit" *ngIf="!isLoading">Confirm</button>
 
-         <mat-spinner *ngIf="isLoading"></mat-spinner>
+         <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
          <button type="button" class="btnSignUpForm negative" mat-flat-button  color="primary" (click)="onNoClick()" >Cancel</button>
 
 

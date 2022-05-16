@@ -3,7 +3,7 @@ button{
     width: 150px;
     height: 150px;
     margin:10px;
-    background-color: #083d8d;
+    background-color: #ffffff;
 
 }
 .container{
@@ -21,4 +21,5 @@ button{
 
 .icon-display {
   transform: scale(5);
+  color: rgb(190, 172, 238);
 }

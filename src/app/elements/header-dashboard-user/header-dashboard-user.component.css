@@ -1,5 +1,9 @@
+
+
 .example-spacer {
     flex: 1 1 auto;
+
+
   }
 
   ul{
@@ -15,8 +19,19 @@ list-style: none;
     flex-direction: row;
     align-items: center;
     white-space: nowrap;
-    background-color: #075773;
+    background-color: hsl(196, 89%, 24%, 0);
   }
   ::ng-deep.mat-menu-panel {
     max-width: none !important;
+  }
+
+  .logo{
+    max-width: 15vh;
+  }
+
+  .toolbarContent{
+    margin-top: 30px;
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-bottom: 30px;
   }

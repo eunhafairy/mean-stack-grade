@@ -3,6 +3,7 @@ import { NgForm, FormsModule,  FormGroup, FormControl, Validators } from '@angul
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -19,7 +20,7 @@ export class SignupComponent implements OnInit {
   isLoading = false;
   selectedRole: string;
   public roles: any = [
-    {value : "Student"}, 
+    {value : "Student"},
     {value: "Faculty"}];
 
     public years: any = [
@@ -68,7 +69,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private userService: UserService, private router: Router) { }
 
-  
+
   ngOnInit(): void {
 
     this.form = new FormGroup({
@@ -94,14 +95,29 @@ export class SignupComponent implements OnInit {
   onSignUp(){
 
    if(this.form.value.__confirm_password !== this.form.value.__password){
-        window.alert("Make sure the password and confirm password are the same.");
+
+    Swal.fire({
+      icon: 'warning',
+      title: 'Oops!',
+      text: 'Make sure the Password and Confirm password are the same.',
+      allowOutsideClick: false
+
+    })
+
+        // window.alert("Make sure the password and confirm password are the same.");
         return;
     }
-  
+
   if(this.form.value.__role === 'Student' && (this.form.value.__student_no === null || this.form.value.__student_no === '' )){
 
-    window.alert("Make sure the student number is not empty.");
+    // window.alert("Make sure the student number is not empty.");
 
+    Swal.fire({
+      icon: 'warning',
+      title: 'Oops!',
+      text: 'Make sure the student number is not empty.',
+      allowOutsideClick: false
+    })
       return;
 
     }
@@ -111,48 +127,74 @@ export class SignupComponent implements OnInit {
 
     }
 
-    
+
       if(this.form.value.__password.length < 6){
-        window.alert('Minimum password length is 6');
+        // window.alert('Minimum password length is 6');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oops!',
+          text: 'Minimum password length is 6',
+          allowOutsideClick: false
+        })
         return;
-    
+
       }
   if(!this.form.value.__fileESig ){
 
-    window.alert('Please upload a signatures');
+    // window.alert('Please upload a signatures');
+    Swal.fire({
+      icon: 'warning',
+      title: 'Oops!',
+      text: 'Please upload a signatures',
+      allowOutsideClick: false
+    })
     return;
   }
 
-  
+
 
     console.log(this.findInvalidControls());
     this.isLoading = true;
-    
+
     this.userService.createUserFromAdmin(this.form.value.__first_name,
-      this.form.value.__last_name, 
-      this.selectedRole, 
-      this.form.value.__email,  
-      this.form.value.__password, 
+      this.form.value.__last_name,
+      this.selectedRole,
+      this.form.value.__email,
+      this.form.value.__password,
       this.form.value.__fileESig,this.form.value.__student_no,
       this.form.value.__course,
       this.form.value.__year,
       this.form.value.__section)
     .subscribe(
-      
+
       (response)=>{
 
         //success
         console.log(response);
-        window.alert("Success!");
+        // window.alert("Success!");
+        Swal.fire({
+          icon: 'success',
+          title: 'REGISTRATION SUCCESS',
+          allowOutsideClick: false
+        })
+
         this.isLoading = false;
         this.router.navigate(['/sign-in']);
-       
+
       },
-      
+
       (error) =>{
 
         //error
-      window.alert(error);
+      // window.alert(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: error,
+        allowOutsideClick: false
+
+      })
+
       this.isLoading = false;
       this.form.reset();
       this.fileTitleESig = '';
@@ -163,7 +205,7 @@ export class SignupComponent implements OnInit {
 
   }
 
-  
+
   onFilePickedESig(event: Event){
 
     const file = (event.target as HTMLInputElement).files[0];
@@ -179,7 +221,7 @@ export class SignupComponent implements OnInit {
 
   }
 
-  
+
 
 
   public findInvalidControls() {
@@ -194,7 +236,7 @@ export class SignupComponent implements OnInit {
   }
 
 
-  
+
 
 
 }

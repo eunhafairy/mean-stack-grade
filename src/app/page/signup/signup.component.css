@@ -43,7 +43,7 @@ mat-card-content {
   background-color: #ffd740;
 }
 .negative{
-  background-color: #302e2e;
+  background-color: brown;
 }
 
 
@@ -60,11 +60,10 @@ mat-card-header {
 
 .txtTitle{
   font-weight: bold;
-  padding-top: 0.5em;
-  margin-bottom: 0.5em;
-  font-size: xx-large;
-  width: 100%;
-  text-align: center;
+  padding-top: 0.4em;
+  margin-bottom: 0.4em;
+  font-size: x-large;
+  text-align: left;
 }
 
 

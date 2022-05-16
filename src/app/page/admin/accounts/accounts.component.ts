@@ -66,7 +66,7 @@ export class AccountsComponent  implements OnInit, OnDestroy {
     }
 
 
-    var willDelete = window.confirm('Are you sure you want to delete?');
+    var willDelete = window.confirm('Are you sure you want to archive this account?');
 
     if(willDelete){
       console.log("will delete: "+ u_id);
@@ -139,7 +139,6 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
 
     const dialogRef = this.dialog.open(AddAccountComponent, {
-      width: '80%',
       data: user
     });
 

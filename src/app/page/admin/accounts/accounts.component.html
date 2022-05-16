@@ -45,7 +45,11 @@
       <div class="example-container mat-elevation-z8">
 
 
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <mat-spinner *ngIf="isLoading"
+              [diameter]="30"
+              style="margin: 0; position: absolute; top: 50%; left: 50%;
+              -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);"></mat-spinner>
 
 
 
@@ -101,7 +105,7 @@
                 <div class="row">
                   <div class="col">
                     <button class="demo-button" mat-flat-button color="warn" (click)="deleteUser(row._id)">
-                      <mat-icon>delete</mat-icon>
+                      <mat-icon>archive</mat-icon>
                     </button>
                     <button class="positive demo-button" mat-flat-button color="primary"  (click) ="editUser(row)">
                       <mat-icon>edit</mat-icon>

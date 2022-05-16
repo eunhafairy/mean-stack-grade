@@ -1,15 +1,20 @@
+<div class="toolbarContent">
 <mat-toolbar color="primary">
 
+
+
+
     <!-- HEADER TITLE -->
-    <span>Grade Completion System</span>
+    <img class="logo" src="\assets\images\grace logo v1.png" alt="logo">
+
     <span class="example-spacer"></span>
-  
-  
+
+
 
     <!-- SHOW IF NOT LOGGED IN -->
       <!-- SIGN IN -->
       <!-- <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-in">Sign In</a>  -->
-      
+
 
       <!-- SIGN UP -->
       <!-- <a *ngIf="!userIsAuthenticated" mat-button  routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/sign-up"> Sign Up</a> -->
@@ -27,7 +32,7 @@
         <button matTooltip="Your requests" *ngIf="userIsAuthenticated  && role ==='Student'"   routerLink="/myrequest" mat-icon-button class="example-icon favorite-icon"  routerLinkActive="mat-accent"  aria-label="Example icon-button with heart icon">
             <mat-icon>event_note</mat-icon>
         </button>
-      
+
         <!-- PROFILE -->
         <button matTooltip="Profile" *ngIf="userIsAuthenticated  && role ==='Student'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/profile">
             <mat-icon>person</mat-icon>
@@ -80,13 +85,14 @@
         <button  matTooltip="Notifications" *ngIf="userIsAuthenticated  &&  role === 'Student'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/notif" routerLinkActive="mat-accent">
           <mat-icon [matBadge]="noOfUnreadNotif" [matBadgeHidden]="noOfUnreadNotif <= 0">notifications</mat-icon>
         </button>
-     
+
 
 
       <!-- LOGOUT -->
       <button matTooltip="Logout" *ngIf="userIsAuthenticated"  mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon" (click) = "onLogout();">
         <mat-icon>logout</mat-icon>
       </button>
-  
 
-</mat-toolbar>
+
+    </mat-toolbar>
+  </div>

@@ -29,6 +29,9 @@
     font-family:  sans-serif;
     margin: 0;
     background-color: #075773;
+    background-image: url("\assets\images\background.jpg");
+    background-repeat: no-repeat;
+    background-blend-mode: screen;
   }
 
   .container {
@@ -49,6 +52,11 @@ input[type="file"]{
 
   mat-form-field.full-width {
     font-size: 14px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
   }
 
 

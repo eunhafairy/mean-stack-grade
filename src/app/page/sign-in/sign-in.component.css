@@ -42,10 +42,10 @@ mat-form-field.full-width {
 
 .txtTitle{
   font-weight: bold;
-  padding-top: 1em;
-  margin-bottom: 1em;
-  font-size: xx-large;
-  text-align: center;
+  padding-top: 0.4em;
+  margin-bottom: 0.4em;
+  font-size: x-large;
+  text-align: left;
 }
 .signUpLink{
   font-weight: bold;
@@ -80,4 +80,12 @@ mat-spinner {
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
   background-color: rgb(240, 240, 240);
   border-radius: 5px;
+}
+
+.logo{
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
 }
