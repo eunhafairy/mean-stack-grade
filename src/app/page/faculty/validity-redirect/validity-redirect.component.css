@@ -1,0 +1,42 @@
+mat-card{
+  text-align: center;
+  max-width: 60vh;
+  background-color: rgba(255, 255, 255, 0.300);
+    /* center */
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+mat-card-header{
+  padding-top: 10px;
+  padding-bottom: 20px;
+  width: 100%;
+
+}
+mat-card-title{
+
+  text-align: center;
+}
+.rows{
+  padding-left: 15px;
+  padding-right: 15px;
+}
+h1{
+  font-size: medium;
+  font-weight: 500;
+}
+h2{
+  font-size: medium;
+  font-weight: 300;
+}
+h3{
+  font-size: large;
+  font-weight: 600;
+}
+p{
+  font-style: italic;
+
+}
