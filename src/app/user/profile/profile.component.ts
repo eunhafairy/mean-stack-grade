@@ -7,6 +7,7 @@ import { User } from 'src/app/models/user';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-profile',
@@ -61,13 +62,19 @@ requests:any[] =[];
           }
           this.isLoading = false;
 
-          
+
         },
         err=>{
           this.isLoading = false;
-          console.log(err);
-          window.alert(err);
+          // console.log(err);
+          // window.alert(err);
 
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong!',
+            allowOutsideClick: false
+        })
 
         }
       )
@@ -91,14 +98,26 @@ requests:any[] =[];
       .subscribe(result =>{
 
 
-        window.alert("Your account was successfully archive!");
+        // window.alert("Your account was successfully archive!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'Your account was successfully archive!!',
+          allowOutsideClick: false
+      })
         this.userService.logout();
 
 
       },
       err=>{
-        window.alert("Error: "+ err);
-        console.log("archive error: " + error);
+        // window.alert("Error: "+ err);
+        // console.log("archive error: " + error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
       });
     }
 

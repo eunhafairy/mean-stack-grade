@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-user-card',
@@ -47,21 +48,33 @@ export class UserCardComponent implements OnInit {
     }
     else{
       status = 'Pending';
-      
+
     }
 
     this.userService.updateUserStatus(status, id)
     .subscribe(
       res =>{
 
-        window.alert("User successfully restored!");
+        // window.alert("User successfully restored!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'User successfully restored!',
+          allowOutsideClick: false
+      })
         window.location.reload();
 
       },
       err=>{
 
-        window.alert("Error occured. "+err);
-        console.log('update status failed '+ err);
+        // window.alert("Error occured. "+err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
+        // console.log('update status failed '+ err);
 
       }
     );

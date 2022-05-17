@@ -13,6 +13,8 @@ import { UserService } from 'src/app/service/user.service';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AddAccountComponent } from 'src/app/elements/add-account/add-account.component';
+import Swal from 'sweetalert2'
+
 @Component({
   selector: 'app-accounts',
   templateUrl: './accounts.component.html',
@@ -60,7 +62,13 @@ export class AccountsComponent  implements OnInit, OnDestroy {
 
     if(this.userService.getUserId() === u_id){
 
-      window.alert("You have selected your own account. If you wish to continue, please do delete it in your settings page.");
+      // window.alert("You have selected your own account. If you wish to continue, please do delete it in your settings page.");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Hey!',
+        text: 'You have selected your own account. If you wish to continue, please do delete it in your settings page.',
+        allowOutsideClick: false
+      })
       return;
 
     }

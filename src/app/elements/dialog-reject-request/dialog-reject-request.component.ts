@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Request } from 'src/app/models/request';
 import { RequestService } from 'src/app/service/request.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-dialog-reject-request',
@@ -43,22 +44,22 @@ export class DialogRejectRequestComponent implements OnInit {
       this.requestService.getRequest(this.data)
       .subscribe(
         res =>{
-            
+
           request = res;
           console.log(request);
           let today = new Date();
          this.requestService.updateRequest(request._id,request.subject, request.faculty_id,
-          request.user_id, 
-          "Rejected", 
-          request.creator, 
-          request.desc, 
-          request.dateRequested, 
+          request.user_id,
+          "Rejected",
+          request.creator,
+          request.desc,
+          request.dateRequested,
           today,
-          request.semester, 
-          request.year, 
+          request.semester,
+          request.year,
           this.form.value.note,
           request.cys,
-          null, 
+          null,
           request.request_form).subscribe(res=>{
 
             this.requestService.createNotif('Reject',
@@ -67,39 +68,63 @@ export class DialogRejectRequestComponent implements OnInit {
             request.subject)
             .subscribe(res=>{
 
-              window.alert("Request rejected!");
+              // window.alert("Request rejected!");
+              Swal.fire({
+                icon: 'warning',
+                title: 'Hey!',
+                text: 'Request rejected!',
+                allowOutsideClick: false
+            })
               this.dialogRef.close("Success");
 
             },
             err=>{
-              window.alert("Error has occurred " +err);
+              // window.alert("Error has occurred " +err);
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops!',
+                text: 'Something went wrong!',
+                allowOutsideClick: false
+            })
               this.dialogRef.close();
 
             })
-            
+
 
           });
         },
         err =>{
-          
-          window.alert("Error has occurred " +err);
+
+          // window.alert("Error has occurred " +err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong!',
+            allowOutsideClick: false
+        })
           this.dialogRef.close();
         }
       );
 
-  
-      
+
+
 
     }
     else{
 
-      window.alert("Something went wrong");
+      // window.alert("Something went wrong");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Something went wrong!',
+        allowOutsideClick: false
+    })
 
     }
 
   }
 
-  
+
   onNoClick(): void {
     this.dialogRef.close();
   }

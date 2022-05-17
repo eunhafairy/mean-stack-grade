@@ -5,6 +5,7 @@ import { DialogChangePassComponent } from 'src/app/elements/dialog-change-pass/d
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-faculty-profile',
@@ -35,7 +36,7 @@ export class FacultyProfileComponent implements OnInit {
     .subscribe(user => {
 
     this.isLoading = false;
-      
+
       this.user = user;
       this.fullname = this.user.l_name + ", "+this.user.f_name;
       this.e_sig_path = this.user.e_sig;
@@ -63,12 +64,18 @@ export class FacultyProfileComponent implements OnInit {
           }
           this.isLoading = false;
 
-          
+
         },
         err=>{
           this.isLoading = false;
-          console.log(err);
-          window.alert(err);
+          // console.log(err);
+          // window.alert(err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong!',
+            allowOutsideClick: false
+        })
 
 
         }
@@ -84,7 +91,7 @@ export class FacultyProfileComponent implements OnInit {
 
 
 
-    
+
 
   }
 
@@ -101,14 +108,20 @@ export class FacultyProfileComponent implements OnInit {
 
         this.isLoading = false;
 
-        window.alert("Your account was successfully deleted!");
+        // window.alert("Your account was successfully deleted!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'Your account was successfully deleted!',
+          allowOutsideClick: false
+      })
         this.userService.logout();
-       
+
 
       });
     }
 
-    
+
   }
 
   changePassword(){
@@ -120,9 +133,9 @@ export class FacultyProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //realod 
+      //realod
       if(res){
-        
+
         window.location.reload();
 
       }
@@ -131,9 +144,9 @@ export class FacultyProfileComponent implements OnInit {
 
     });
 
-    
+
   }
-  
+
   editMyAccount(){
 
 
@@ -143,9 +156,9 @@ export class FacultyProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((res) => {
 
-      //reload 
+      //reload
       if(res){
-        
+
         window.location.reload();
 
       }

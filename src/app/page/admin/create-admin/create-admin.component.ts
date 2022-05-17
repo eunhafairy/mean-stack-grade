@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-create-admin',
@@ -29,31 +30,45 @@ export class CreateAdminComponent implements OnInit {
       'password' : new FormControl(null, {validators: [Validators.required]}),
       'confirm_password' : new FormControl(null, {validators: [Validators.required]})
 
-   
+
     })
 
 
   }
 
-  
+
   onRegister(){
-    
-    
+
+
     if(this.form.invalid){
       console.log(this.findInvalidControls());
-      window.alert("Complete all fields" );
+      // window.alert("Complete all fields" );
+      Swal.fire({
+        icon: 'warning',
+        title: 'Hey!',
+        text: 'Complete all fields!',
+        allowOutsideClick: false
+    })
       return;
     }
-    
+
     if(!this.checkPasswordIfSame(this.form.value.password, this.form.value.confirm_password)){
 
-    
-      window.alert('Make sure your password and confirm password is the same!');
+
+      // window.alert('Make sure your password and confirm password is the same!');
+
+    Swal.fire({
+        icon: 'warning',
+        title: 'Hey!',
+        text: 'Make sure your password and confirm password is the same!',
+        allowOutsideClick: false
+    })
+
       return;
 
     }
     else{
-      
+
     let passcode = prompt("Please enter the admin creation passcode");
 
     if(passcode === this.userService.getAdminPasscode()){
@@ -65,22 +80,40 @@ export class CreateAdminComponent implements OnInit {
         this.form.value.f_name,
         this.form.value.email,
         this.form.value.password
-  
+
       ).subscribe(res => {
         console.log(res)
-        window.alert('Success!');
+        // window.alert('Success!');
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'New Admin Created!',
+          allowOutsideClick: false
+      })
         this.isLoading=false;
         this.router.navigate(['/sign-in']);
       },
       error=>{
-        window.alert('Error! ' +error);
+        // window.alert('Error! ' +error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.isLoading=false;
         console.log(error)
       });
 
     }
     else {
-      window.alert('Wrong passcode!');
+      // window.alert('Wrong passcode!');
+      Swal.fire({
+        icon: 'warning',
+        title: 'Hey!',
+        text: 'Wrong Passcode',
+        allowOutsideClick: false
+    })
       this.isLoading=false;
 
       return;
@@ -112,7 +145,7 @@ export class CreateAdminComponent implements OnInit {
     if(pass === c_pass){
       return true;
 
-      
+
     }
     else{
 

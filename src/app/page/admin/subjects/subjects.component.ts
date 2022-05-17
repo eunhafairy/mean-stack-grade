@@ -8,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { DialogAddSubjectComponent } from 'src/app/elements/dialog-add-subject/dialog-add-subject.component';
 import { Subjects } from 'src/app/models/subjects';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-subjects',
@@ -112,8 +113,14 @@ export class SubjectsComponent implements OnInit  {
     err =>{
 
 
-      window.alert(err);
-console.log(err);
+      // window.alert(err);
+// console.log(err);
+Swal.fire({
+  icon: 'error',
+  title: 'Oops!',
+  text: 'Something went wrong!',
+  allowOutsideClick: false
+})
 
     });
 
@@ -146,7 +153,14 @@ console.log(err);
       error =>{
 
 
-        window.alert(error);
+        // window.alert(error);
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.refreshTable();
 
       });

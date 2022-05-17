@@ -4,6 +4,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-dialog-change-pass',
@@ -55,7 +57,13 @@ export class DialogChangePassComponent implements OnInit {
 
     if(this.form.value.new_password !== this.form.value.confirm_password){
 
-      window.alert("Make sure your new password and confirmed password are the same!");
+      // window.alert("Make sure your new password and confirmed password are the same!");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Hey!',
+        text: 'Make sure your new password and confirmed password are the same!',
+        allowOutsideClick: false
+    })
       this.isLoading=false;
       return;
     }
@@ -71,13 +79,25 @@ export class DialogChangePassComponent implements OnInit {
 
         this.isLoading= false;
         console.log(res);
-        window.alert("Success!");
+        // window.alert("Success!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'Password Changed!',
+          allowOutsideClick: false
+      })
         this.dialogRef.close("Success");
       },
       err=>{
 
 
-        console.log("Error occured! " + err);
+        // console.log("Error occured! " + err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.dialogRef.close();
       })
 
@@ -85,7 +105,14 @@ export class DialogChangePassComponent implements OnInit {
     err=>{
 
       console.log(err);
-      window.alert("Wrong password!");
+      // window.alert("Wrong password!");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Wrong Password!',
+        allowOutsideClick: false
+      })
+
       this.isLoading= false;
 
     })
@@ -105,7 +132,19 @@ export class DialogChangePassComponent implements OnInit {
   }
   onNoClick(){
 
-    this.dialogRef.close();
+    Swal.fire({
+      title: 'Are you sure you want to discard your progress?',
+      text: "",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#5a68f0',
+      cancelButtonColor: '#f05a5a',
+      confirmButtonText: 'Confirm'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dialogRef.close();
+      }
+    })
 
   }
 

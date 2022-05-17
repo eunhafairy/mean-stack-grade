@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NgForm, NgModel, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subjects } from 'src/app/models/subjects';
 import { AdminServiceService } from 'src/app/service/admin-service.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-dialog-add-subject',
@@ -28,7 +29,7 @@ export class DialogAddSubjectComponent implements OnInit {
       'subjectCode' : new FormControl(null, {validators: [Validators.required]}),
       'subjectName' : new FormControl(null, {validators: [Validators.required]}),
       'subjectDesc' : new FormControl(null, {validators: [Validators.required]})
-      
+
 
 
     });
@@ -39,7 +40,7 @@ export class DialogAddSubjectComponent implements OnInit {
       this.form.patchValue({subjectCode : this.data.subject_code});
       this.form.patchValue({subjectName : this.data.subject_name});
       this.form.patchValue({subjectDesc : this.data.subject_description});
-     
+
      }
      else{
        this.mode = 'create';
@@ -48,8 +49,8 @@ export class DialogAddSubjectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
-    
+
+
   }
 
   onNoClick(): void {
@@ -59,8 +60,8 @@ export class DialogAddSubjectComponent implements OnInit {
   }
 
   onCreateSubject(){
-  
-  
+
+
     this.isLoading = true;
 
     if(this.form.invalid){
@@ -71,23 +72,35 @@ export class DialogAddSubjectComponent implements OnInit {
 
       this.adminService.createSubject(this.form.value.subjectCode,this.form.value.subjectName, this.form.value.subjectDesc)
       .subscribe(
-        
+
         (response)=>{
-  
+
           //success
           console.log(response);
-          window.alert("Success!");
+          // window.alert("Success!");
+          Swal.fire({
+            icon: 'success',
+            title: 'Yehey!',
+            text: 'Added subject successfully!',
+            allowOutsideClick: false
+          })
           this.isLoading = false;
           this.dialogRef.close("Success");
         },
-        
+
         (error) =>{
-  
+
           //error
-        window.alert(error);
+        // window.alert(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.isLoading = false;
         this.dialogRef.close("Failed");
-  
+
       });
 
     }
@@ -107,24 +120,36 @@ export class DialogAddSubjectComponent implements OnInit {
       .subscribe(
         response =>{
 
-          window.alert("Subject udpated!");
+          // window.alert("Subject udpated!");
+          Swal.fire({
+            icon: 'success',
+            title: 'Yehey!',
+            text: 'Subject updated!',
+            allowOutsideClick: false
+        })
           this.isLoading = false;
           this.dialogRef.close();
         },
         error =>{
 
-          window.alert(error);
-          console.log(error);
+          // window.alert(error);
+          // console.log(error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong!',
+            allowOutsideClick: false
+        })
           this.isLoading = false;
         }
       );;
 
-      
+
     }
 
-    
 
-  
+
+
 
   }
 }

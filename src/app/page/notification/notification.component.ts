@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Notif } from 'src/app/models/notif';
 import { RequestService } from 'src/app/service/request.service';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-notification',
@@ -22,12 +23,12 @@ export class NotificationComponent implements OnInit {
   ngOnInit(): void {
 
     this.getNotifs();
-    
+
 
   }
 
   getNotifs(){
-    
+
     this.isLoading = false;
     this.requestService.getNotifs();
     this.requestService.getNotifsUpdateListener()
@@ -36,8 +37,14 @@ export class NotificationComponent implements OnInit {
     },
     err =>{
 
-      window.alert(err);
-      console.log(err);
+      // window.alert(err);
+      // console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: 'Something went wrong!',
+        allowOutsideClick: false
+    })
 
     });
 
@@ -62,14 +69,26 @@ export class NotificationComponent implements OnInit {
 
       this.requestService.deleteNotif(id)
       .subscribe(res=>{
-      
-        window.alert("Successfully deleted notification");
+
+        // window.alert("Successfully deleted notification");
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'Successfully deleted notification!',
+          allowOutsideClick: false
+      })
         window.location.reload();
       },
       err=>{
         window.alert(" delete notification failed");
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Delete notification failed!',
+          allowOutsideClick: false
+      })
         console.log(err);
-  
+
       })
 
     }
@@ -89,23 +108,23 @@ export class NotificationComponent implements OnInit {
     this.isLoading =true;
     for(let i= 0; i < temp.length; i++){
 
-     
+
       let _studentID = temp[i].user_id;
       let _facultyID = temp[i].faculty_id;
-      
+
 
         this.userService.getUser(_studentID)
         .subscribe(
           res=>{
-          
-    
+
+
             temp[i].user_id =  res['f_name'] + " " + res['l_name'];
 
             this.userService.getUser(_facultyID)
             .subscribe(res=>{
 
               temp[i].faculty_id =  res['f_name'] + " " + res['l_name'];
-              
+
               switch(temp[i].type){
                   case "Create":
                     temp[i].desc = "You created a completion request form for the subject "+ temp[i].subject +" to "+ temp[i].faculty_id;
@@ -122,13 +141,13 @@ export class NotificationComponent implements OnInit {
 
               }
 
-              
+
               if(_studentID === this.userService.getUserId() || _facultyID === this.userService.getUserId()){
-                
+
                 this.notifs.push(temp[i]);
-                
+
               }
-              
+
               if((i+1) === temp.length){
                   this.sortByDueDate();
 
@@ -153,11 +172,11 @@ export class NotificationComponent implements OnInit {
                 this.isLoading = false;
 
               }
-            
+
 
             })
 
-            
+
           },
           err=>{
 
@@ -170,7 +189,7 @@ export class NotificationComponent implements OnInit {
 
 
     }
-    
+
 
 
 

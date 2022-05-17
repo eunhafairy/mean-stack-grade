@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/service/user.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-add-account',
@@ -20,8 +21,8 @@ export class AddAccountComponent implements OnInit {
  isLoading = false;
  selectedRole: string;
  public roles: any = [
-   {value : "Student"}, 
-   {value: "Faculty"}, 
+   {value : "Student"},
+   {value: "Faculty"},
    {value: "Admin"}];
 
    public years: any = [
@@ -72,14 +73,14 @@ role : string;
     private userService: UserService) { }
 
   ngOnInit(): void {
-    
+
     console.log(this.data);
-    
+
     if(this.data){
 
       //edit account
       this.mode = 'edit';
-    
+
 
 
       console.log('editing...');
@@ -116,7 +117,7 @@ role : string;
       this.form.patchValue({__role : this.data.role});
       this.form.patchValue({__email : this.data.email});
       this.form.patchValue({__fileESig : this.data.e_sig});
-      
+
       if(this.data.role === 'Student'){
 
         this.form.patchValue({__student_no : this.data.student_no});
@@ -139,7 +140,7 @@ role : string;
 
     }
 
-  //if edit 
+  //if edit
 
 }
 
@@ -153,7 +154,13 @@ role : string;
 
       //NOT MATCHING PASSWORD
       if(this.mode === 'create' && this.form.value.__confirm_password !== this.form.value.__password){
-        window.alert("Make sure the password and confirm password are the same.");
+        // window.alert("Make sure the password and confirm password are the same.");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Hey!',
+          text: 'Make sure the password and confirm password are the same.',
+          allowOutsideClick: false
+        })
         return;
       }
 
@@ -161,23 +168,35 @@ role : string;
       if(this.form.value.__role === "Student"){
 
           if(!this.form.value.__course || !this.form.value.__year || !this.form.value.__section ||  !this.form.value.__student_no){
-            window.alert('Please complete all fields!');
+            // window.alert('Please complete all fields!');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Hey!',
+              text: 'Please complete all fields!',
+              allowOutsideClick: false
+            })
             return;
           }
       }
 
       if(this.form.value.password.length<6){
 
-        window.alert("Minimum password length is 6");
+        // window.alert("Minimum password length is 6");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Hey!',
+          text: 'Minimum password length is 6!',
+          allowOutsideClick: false
+        })
         return;
 
       }
 
-    
+
 
 
       //FORM IS VALID
-  
+
       if(this.mode === 'edit'){
 
         this.isLoading = true;
@@ -194,21 +213,33 @@ role : string;
           this.form.value.__section)
         .subscribe(
           response =>{
-  
-            window.alert("User edited!");
+
+            // window.alert("User edited!");
+            Swal.fire({
+              icon: 'success',
+              title: 'Yehey!',
+              text: 'User edited successfully!',
+              allowOutsideClick: false
+            })
             this.isLoading = false;
             this.dialogRef.close('success');
           },
           error =>{
-  
-            window.alert(error);
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops!',
+              text: error,
+              allowOutsideClick: false
+          })
+            // window.alert(error);
             this.isLoading = false;
           }
         );
 
       }
 
-      //if create new 
+      //if create new
 
       else{
 
@@ -216,8 +247,8 @@ role : string;
         this.userService.createUserFromAdmin(this.form.value.__first_name,
         this.form.value.__last_name,
         this.selectedRole,
-        this.form.value.__email,  
-        this.form.value.__password, 
+        this.form.value.__email,
+        this.form.value.__password,
         this.form.value.__fileESig,
         this.form.value.__student_no,
         this.form.value.__course,
@@ -227,15 +258,28 @@ role : string;
       (response)=>{
         //success
         console.log(response);
-        window.alert("Success!");
+        // window.alert("Success!");
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Yehey!',
+          text: 'New user added!',
+          allowOutsideClick: false
+        })
         this.isLoading = false;
         this.dialogRef.close('success');
       },
-      
+
       (error) =>{
 
         //error
-      window.alert(error);
+      // window.alert(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: error,
+        allowOutsideClick: false
+    })
       this.isLoading = false;
       this.dialogRef.close('failed');
 
@@ -256,8 +300,8 @@ role : string;
           this.imagePreviewESig = reader.result as string;
       }
       reader.readAsDataURL(file);
-  
-  
+
+
     }
 
 
@@ -271,5 +315,5 @@ role : string;
       }
       return invalid;
     }
-  
+
 }

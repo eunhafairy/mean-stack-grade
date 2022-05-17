@@ -13,6 +13,8 @@ import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { map } from 'rxjs';
 import { DialogAddRequestComponent } from 'src/app/elements/dialog-add-request/dialog-add-request.component';
+import Swal from 'sweetalert2'
+
 @Component({
   selector: 'app-admin-request',
   templateUrl: './admin-request.component.html',
@@ -94,8 +96,8 @@ export class AdminRequestComponent implements OnInit {
     this.requests = request;
 
     for(let i = 0; i < request.length; i++){
-      
-    
+
+
      this.requestService.autoCompleteStatus(request[i])
 
       this.userService.getUser(request[i].user_id)
@@ -196,12 +198,24 @@ export class AdminRequestComponent implements OnInit {
         (response) =>{
 
           console.log(response);
-          window.alert("Successfully deleted request!");
+          // window.alert("Successfully deleted request!");
+          Swal.fire({
+            icon: 'success',
+            title: 'Yehey!',
+            text: 'Successfully deleted request!',
+            allowOutsideClick: false
+        })
           this.isLoading = true;
           this.refreshTable();
       },
       (error) =>{
-        window.alert("Error deleting" + error);
+        // window.alert("Error deleting" + error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.isLoading= false;
       });
     }

@@ -6,6 +6,7 @@ import { AdminServiceService } from 'src/app/service/admin-service.service';
 import { UserService } from 'src/app/service/user.service';
 import { Notif } from 'src/app/models/notif';
 import { RequestService } from 'src/app/service/request.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-header-dashboard-user',
@@ -23,37 +24,37 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
   noOfUnreadNotif: number;
   notifs : any =[];
   constructor(private userService: UserService, public router: Router, private requestService: RequestService) { }
-  
+
   ngOnInit(): void {
 
 
-     
+
       this.userIsAuthenticated = this.userService.getAuth();
       this.authListenerSubs = this.userService
       .getAuthStatusListener()
       .subscribe( isAuthenticated => {
 
         this.userIsAuthenticated = isAuthenticated;
-      
-       
+
+
       });
 
       if(this.userIsAuthenticated){
 
         this.role = this.userService.getRole();
 
-  
+
         this.userService.getUser(this.userService.getUserId())
         .subscribe(res=>{
-  
+
           this.status = (res as User).status;
-  
+
         })
 
       }
 
       if(this.role !== 'Admin'){
-        
+
         if(this.role === 'Faculty'){
 
           this.checkNotifFaculty();
@@ -65,9 +66,9 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
 
         }
       }
-        
-      
-    
+
+
+
 
   }
   ngOnDestroy(): void {
@@ -78,9 +79,22 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
 
 
   onLogout(){
-      
-    this.userService.logout();
-   
+
+    Swal.fire({
+      title: 'Are you sure you want to logout?',
+      text: "",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#5a68f0',
+      cancelButtonColor: '#f05a5a',
+      confirmButtonText: 'Logout'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.logout();
+      }
+    });
+
+
 
   }
 
@@ -112,7 +126,7 @@ export class HeaderDashboardUserComponent implements OnInit, OnDestroy{
 
 
 
-  
+
 
 
 }

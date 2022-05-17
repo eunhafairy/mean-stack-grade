@@ -5,6 +5,7 @@ import {Subject, Subscription} from 'rxjs'
 import { UserService } from 'src/app/service/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddRequestComponent } from '../dialog-add-request/dialog-add-request.component';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-request',
@@ -44,13 +45,13 @@ private requestSub: Subscription = new Subscription;
       this.requestService.getRequest(requestId)
       .subscribe(res=>{
         request = res;
-      
-  
+
+
         this.requestService.updateRequest(res['_id'],
          res['subject'],
           res['faculty_id'],
-           res['user_id'], 
-           "Completed", 
+           res['user_id'],
+           "Completed",
            res['creator'],
            res['desc'],
            res['dateRequested'],
@@ -62,49 +63,55 @@ private requestSub: Subscription = new Subscription;
            res['verdict'],
            res['request_form'] )
            .subscribe(res=>{
-  
-  
-  
+
+
+
             this.isLoading = false;
             this.requestService.createNotif('Completed'
             ,request.user_id,
             request.faculty_id,
             request.subject)
             .subscribe(res=>{
-  
-  
-              window.alert("Successfully completed request!");
+
+
+              // window.alert("Successfully completed request!");
+              Swal.fire({
+                icon: 'success',
+                title: 'Yehey!',
+                text: 'Successfully completed request!',
+                allowOutsideClick: false
+            })
               window.location.reload();
-  
-  
+
+
             },
             err=>{
-  
+
               this.isLoading = false;
-  
+
               console.log(err);
             });
-  
+
            },
            err=>{
             this.isLoading = false;
-  
+
             console.log(err);
-  
+
            })
-        
-      
-  
+
+
+
       })
-  
+
 
 
     }
-   
+
    // this.requestService.updateRequest(request._id, request.subject, request.fac);
 
   }
-  
+
 
 deleteRequest(requestId: string){
 
@@ -130,8 +137,8 @@ deleteRequest(requestId: string){
       return;
 
     }
-    
-      
+
+
   }
 
   readableDate(date : Date){
@@ -141,26 +148,26 @@ deleteRequest(requestId: string){
 
   }
   transformAcadYear(year: number){
-    
-    return "20"+year+"-"+"20"+(year+1); 
+
+    return "20"+year+"-"+"20"+(year+1);
   }
 
 
   openEditRequestDialog(id: string){
 
-     
+
     const dialogRef = this.dialog.open(DialogAddRequestComponent, {
       data: id
     });
 
     dialogRef.afterClosed().subscribe((res) => {
-    
+
       if(res === "Success"){
 
         window.location.reload();
 
       }
-     
+
     });
 
 
@@ -184,18 +191,18 @@ deleteRequest(requestId: string){
     this.requests = [];
     for(let i = 0; i < request.length; i++){
 
-  
+
       this.requestService.autoCompleteStatus(request[i]);
-  
+
       if(this.role !== 'Admin'){
 
         if(request[i].user_id === this.userService.getUserId()){
-  
+
           this.requests.push(request[i]);
-  
+
         }
-      
-      
+
+
       }
       else {
         this.requests.push(request[i]);
@@ -205,7 +212,7 @@ deleteRequest(requestId: string){
 
     for(let i = 0; i < this.requests.length; i++){
 
-    
+
       this.userService.getUser(this.requests[i].user_id)
       .subscribe(responseData =>{
 
@@ -223,15 +230,15 @@ deleteRequest(requestId: string){
         this.isLoading=false;
 
       });
-     
-     
+
+
 
     }
     console.log(this.requests);
 
   }
 
-  
+
 
   ngOnDestroy() {
     this.requestSub.unsubscribe();

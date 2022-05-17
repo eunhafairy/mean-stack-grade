@@ -7,6 +7,8 @@ import { RequestService } from 'src/app/service/request.service';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas'
 import { PDFDocument } from 'pdf-lib'
+import Swal from 'sweetalert2'
+
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -30,7 +32,7 @@ export class RequestFormComponent implements AfterViewInit {
   // @ViewChild('viewer') viewerRef : ElementRef;
 
 
-  constructor(  
+  constructor(
     public dialogRef: MatDialogRef<RequestFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Request,
     private requestService: RequestService,
@@ -39,8 +41,8 @@ export class RequestFormComponent implements AfterViewInit {
       this.dialogRef.disableClose=true;
 
      }
- 
- 
+
+
   ngAfterViewInit(): void {
 
     this.isLoading = true;
@@ -67,32 +69,45 @@ export class RequestFormComponent implements AfterViewInit {
         this.e_sig_path = res['e_sig'];
           this.student_name = res['f_name'] + " " + res['l_name'];
           this.student_no = res['student_no'];
-      
+
           this.userService.getUser(this.data.faculty_id as string)
           .subscribe(res =>{
-      
-            
+
+
             this.prof_name = res['f_name'] + " "+res['l_name'];
             this.e_sig_path_prof = res['e_sig'];
             this.acad_year2 = +this.data.year + 1;
             this.date_requested = new Date();
             this.date_accepted = new Date();
             this.isLoading = false;
-      
-      
+
+
           });
-          
+
         });
-        
 
 
-   
- 
+
+
+
   }
 
   onNoClick(){
 
-    this.dialogRef.close();
+    // this.dialogRef.close();
+    Swal.fire({
+      title: 'Are you sure you want to discard your progress?',
+      text: "",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#5a68f0',
+      cancelButtonColor: '#f05a5a',
+      confirmButtonText: 'Confirm'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dialogRef.close();
+      }
+    })
 
   }
 
@@ -102,7 +117,7 @@ export class RequestFormComponent implements AfterViewInit {
        setTimeout(()=>{this.fillForm()},3000);
 
   }
- 
+
 
   readableDate(date : Date){
 
@@ -110,19 +125,19 @@ export class RequestFormComponent implements AfterViewInit {
 
   }
 
-  // 
-  
+  //
+
 
 
 
 async fillForm() {
 
- 
+
   this.isLoading=true;
- 
+
       if(this.edit){
 
-      
+
         //get pdf form url
       const formUrl = this.data.request_form;
       const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
@@ -132,9 +147,9 @@ async fillForm() {
 
       //check image
       const checkImageBytes = await fetch('assets/files/check.png').then(res => res.arrayBuffer())
-      
 
-       //load pdf 
+
+       //load pdf
       const pdfDoc = await PDFDocument.load(formPdfBytes)
 
       //load image
@@ -158,7 +173,7 @@ async fillForm() {
 
       }
       else{
-        
+
         actionPassedField.setImage(checkImage)
         ratingPassedField.setText(this.data.verdict)
 
@@ -169,7 +184,7 @@ async fillForm() {
 
       form.flatten();
       const pdfBytes = await pdfDoc.save();
-  
+
       const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
       console.log("blob" +blob);
       //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -177,37 +192,54 @@ async fillForm() {
 
       this.requestService.updateRequest(this.data.request_id,this.data.subject,this.data.faculty_id, this.data.user_id, "Processing", this.data.creator, this.data.desc, this.data.dateRequested, new Date(), this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict, file).
       subscribe(res =>{
-      
-        
+
+
         this.requestService.createNotif('Processing',this.data.user_id, this.data.faculty_id, this.data.subject)
         .subscribe(
           res=>{
-            
-            window.alert("Success!");
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Yehey!',
+              text: 'Request Updated!',
+              allowOutsideClick: false
+          })
             this.dialogRef.close("Success");
             this.isLoading = false;
           },
           err=>{
             this.isLoading = false;
 
-            window.alert("Error! "+err);    
-      
+            // window.alert("Error! "+err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops!',
+              text: 'Something went wrong!',
+              allowOutsideClick: false
+          })
+
             this.dialogRef.close();
           }
         )
-   
+
       },
       err=>{
-        window.alert("Error! "+err);    
-      
+        // window.alert("Error! "+err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
+
         this.dialogRef.close();
-      
-      
+
+
       });
 
-      
 
-        
+
+
 
       }
 
@@ -225,7 +257,7 @@ async fillForm() {
 
 
 
-      //load pdf 
+      //load pdf
       const pdfDoc = await PDFDocument.load(formPdfBytes)
 
       //load image
@@ -239,7 +271,7 @@ async fillForm() {
       const professorNameField = form.getTextField('professor_name')
       const professorNameField2 = form.getTextField('prof_name2')
       const dateRequestedField = form.getTextField('dateRequested')
-     
+
       const studIdField = form.getTextField('stud_id')
       const cysField = form.getTextField('cys')
       const subjectField = form.getTextField('subject')
@@ -249,7 +281,7 @@ async fillForm() {
       const reasonField = form.getTextField('reason')
 
       const studentSignatureImageField = form.getButton('student_sig')
-      
+
 
       studentNameField.setText(this.student_name.toUpperCase())
       professorNameField.setText(this.prof_name.toUpperCase())
@@ -262,10 +294,10 @@ async fillForm() {
       year1Field.setText(this.data.year.toString())
       year2Field.setText((this.acad_year2).toString())
       reasonField.setText(this.data.desc.toUpperCase())
-      
+
       studentSignatureImageField.setImage(sigImage)
       const pdfBytes = await pdfDoc.save();
-    
+
       const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
       console.log("blob" +blob);
       //const blob = new Blob([pdfBytes], { type: 'application/pdf' });
@@ -278,24 +310,42 @@ async fillForm() {
         this.requestService.createNotif( 'Create',   this.data.user_id, this.data.faculty_id, this.data.subject)
         .subscribe(res=>{
 
-          window.alert("Success!");
+          // window.alert("Success!");
+          Swal.fire({
+            icon: 'success',
+            title: 'Yehey!',
+            text: 'Request Added!',
+            allowOutsideClick: false
+        })
           this.dialogRef.close("Success");
 
         },
         err=>{
 
-          window.alert("Error! "+err);
+          // window.alert("Error! "+err);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Something went wrong!',
+            allowOutsideClick: false
+        })
           this.dialogRef.close();
 
         })
-        
+
         //   window.alert("Success!");
         //   this.dialogRef.close("Success");
 
 
       },
       err=>{
-        window.alert("Error! "+err);
+        // window.alert("Error! "+err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: 'Something went wrong!',
+          allowOutsideClick: false
+      })
         this.dialogRef.close();
 
       });
@@ -304,7 +354,7 @@ async fillForm() {
       }
     }
 
-  
+
 
 
 }
@@ -313,13 +363,13 @@ async fillForm() {
 
 
 
-      
+
 
     //----------------------------PDF LIB FILL FORM----------------------------------------
 
 
     //------------------------ WEB VIEWER (BACKUP) --------------------------------------
-   
+
     // let pdfPath = 'assets/files/Completion_Form_Fields.pdf';
     // if(this.userService.getRole() != 'Student'){
     //   pdfPath = this.data.request_form;
@@ -329,7 +379,7 @@ async fillForm() {
           // WebViewer({
           //   path:'assets/lib',
           //   initialDoc: pdfPath,
-            
+
 
           // },this.viewerRef.nativeElement)
           // .then(instance => {
@@ -350,12 +400,12 @@ async fillForm() {
           //           });
           //           const arr = new Uint8Array(data);
           //           const blob = new Blob([arr], { type: 'application/pdf' });
-              
+
           //           // add code for handling Blob here
           //           var file = new File([blob], "blob_name.pdf");
           //           this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
           //           subscribe(res =>{
-                    
+
           //             window.alert("Success!");
           //             window.location.reload();
           //           },
@@ -370,23 +420,23 @@ async fillForm() {
 
           //   documentViewer.addEventListener('documentLoaded', () => {
           //     documentViewer.getAnnotationsLoadedPromise().then(() => {
-                
+
           //       // iterate over fields
           //       const fieldManager = annotationManager.getFieldManager();
           //       fieldManager.forEachField(field =>{
-                
+
 
 
           //         if(this.userService.getRole() === 'Student'){
 
           //           if(field.name !== "student_sig"){
-  
+
           //             field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
           //           }
 
           //         }
           //         else if (this.userService.getRole() === 'Faculty'){
-                    
+
           //           if(field.name !== "professor_sig"){
           //             field.widgets.map(annot =>{ annot.fieldFlags.set('ReadOnly', true);})
           //           }
@@ -396,7 +446,7 @@ async fillForm() {
           //           }
 
           //         }
-                  
+
           //       });
           //       fieldManager.forEachField(field => {
           //         switch (field.name){
@@ -426,7 +476,7 @@ async fillForm() {
           //             //do something
           //             break;
           //           case "year2":
-                    
+
           //             field.setValue(this.acad_year2);
           //             //do something
           //             break;
@@ -441,7 +491,7 @@ async fillForm() {
           //                 field.setValue("✔");
           //               }
           //             }
-                    
+
           //             //do something
           //             break;
           //           case "rating_passed":
@@ -499,15 +549,15 @@ async fillForm() {
 
 
 
-         
-           
-          
-              // Add header button that will get file data on click
-           
-         
 
-  
-    
+
+
+              // Add header button that will get file data on click
+
+
+
+
+
 
 
   //----------------------CONVERT UNIT8ARRAY TO BLOB SYNTAX----------------------------------
@@ -522,11 +572,11 @@ async fillForm() {
   //   if(!this.edit){
 
   //     html2canvas(this.pdfRef.nativeElement,{
-  
+
   //     useCORS: true
-  
+
   //     }).then(canvas =>{
-  
+
   //       var imgData = canvas.toDataURL('image/png');
   //       var doc = new jspdf.jsPDF('p', 'pt');
   //       doc.addImage(imgData, 0,0, 612, 791);
@@ -540,7 +590,7 @@ async fillForm() {
 
 
   //   }
-  
+
 
   // }
 
@@ -555,18 +605,18 @@ async fillForm() {
   //     //get form
   //     const formUrl = this.data.request_form;
   //     const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer());
-      
+
   //     //get signature png
   //     const sig = this.e_sig_path_prof;
   //     const sigImageBytes = await fetch(sig).then(res => res.arrayBuffer());
-      
+
   //     //load doc
   //     const pdfDoc = await PDFDocument.load(formPdfBytes);
-      
+
   //     //assign image
   //     const sigImage = await pdfDoc.embedJpg(sigImageBytes);
   //     const jpgDims = sigImage.scale(0.5)
-  
+
   //     //get page and embed
   //     const page = pdfDoc.getPage(0);
   //     page.drawImage(sigImage, {
@@ -575,7 +625,7 @@ async fillForm() {
   //       width: jpgDims.width,
   //       height: jpgDims.height,
   //     })
-  
+
   //     console.log('went here');
   //    const pdfBytes = await pdfDoc.save();
   //     pdfDoc.save();
@@ -587,16 +637,16 @@ async fillForm() {
   //    this.requestService.updateRequest(this.data.request_id, this.data.subject, this.data.faculty_id,this.data.user_id,
   //     "Processing", this.data.creator, this.data.desc, this.data.dateRequested, now, this.data.semester, this.data.year, this.data.note, this.data.cys, this.data.verdict,file).
   //    subscribe(res =>{
-     
+
   //      window.alert("Success!");
   //      window.location.reload();
   //    },
   //    err=>{
   //      window.alert("Error! "+err);
   //    });
-    
-  
-   
+
+
+
 
   // }
 
@@ -604,13 +654,13 @@ async fillForm() {
 
 
     //   if(!this.edit){
-  
+
     //     html2canvas(this.pdfRef.nativeElement,{
-    
+
     //     useCORS: true
-    
+
     //     }).then(canvas =>{
-    
+
     //       var imgData = canvas.toDataURL('image/png');
     //       var doc = new jspdf.jsPDF('p', 'pt');
     //       doc.addImage(imgData, 0,0, 612, 791);
@@ -618,7 +668,7 @@ async fillForm() {
     //       var file = new File([blob], "Request_Form.pdf");
     //       this.requestService.addRequest(this.data.subject, this.data.user_id, this.data.faculty_id, this.data.status, this.data.desc, this.data.creator, this.data.semester, this.data.year, this.data.cys, this.data.verdict, file).
     //       subscribe(res =>{
-          
+
     //         window.alert("Success!");
     //         window.location.reload();
     //       },
@@ -626,8 +676,8 @@ async fillForm() {
     //         window.alert("Error! "+err);
     //       });
     //     });
-  
+
     //   }
-  
-      
+
+
     // }

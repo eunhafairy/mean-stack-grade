@@ -11,6 +11,7 @@ import { User } from "src/app/models/user";
 import { AdminServiceService } from "src/app/service/admin-service.service";
 import { RequestService } from "src/app/service/request.service";
 import { UserService } from "src/app/service/user.service";
+import Swal from 'sweetalert2'
 
 
 
@@ -90,7 +91,13 @@ export class DialogAddRequestComponent implements AfterViewInit{
     }, err=>{
 
 
-      window.alert(err);
+      // window.alert(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops!',
+        text: err,
+        allowOutsideClick: false
+    })
 
     });
 
@@ -286,13 +293,25 @@ addOne(year : string){
             null).subscribe(
               res=>{
 
-                window.alert('Success');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Yehey!',
+                  text: 'Request updated successfully!',
+                  allowOutsideClick: false
+                })
                 console.log(res);
                 this.dialogRef.close("Success");
               },
               err =>{
 
-                window.alert("Something went wrong. " + err);
+                // window.alert("Something went wrong. " + err);
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops!',
+                  text: 'Something went wrong!',
+                  allowOutsideClick: false
+                })
+
                 this.dialogRef.close();
 
               }
