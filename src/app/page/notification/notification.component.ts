@@ -76,8 +76,14 @@ export class NotificationComponent implements OnInit {
           title: 'Yehey!',
           text: 'Successfully deleted notification!',
           allowOutsideClick: false
-      })
-        window.location.reload();
+      }).then(result=>{
+
+        if(result.isConfirmed){
+          window.location.reload();
+        
+        }
+
+    })
       },
       err=>{
         window.alert(" delete notification failed");

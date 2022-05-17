@@ -80,10 +80,14 @@ private requestSub: Subscription = new Subscription;
                 title: 'Yehey!',
                 text: 'Successfully completed request!',
                 allowOutsideClick: false
-            })
-              window.location.reload();
+            }).then(result=>{
 
+              if(result.isConfirmed){
+                window.location.reload();
+              
+              }
 
+          })
             },
             err=>{
 

@@ -79,10 +79,16 @@ export class AccountCardComponent implements OnInit {
             title: 'Yehey!',
             text: 'Faculty successfully updated!',
             allowOutsideClick: false
+          }).then(result=>{
+
+              if(result.isConfirmed){
+                window.location.reload();
+              
+              }
+
           })
 
 
-          window.location.reload();
 
         },
         err=>{
