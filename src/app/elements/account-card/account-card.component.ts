@@ -127,8 +127,13 @@ export class AccountCardComponent implements OnInit {
           title: 'Yehey!',
           text: 'User successfully restored!',
           allowOutsideClick: false
+      }).then(result =>{
+
+        if(result.isConfirmed){
+
+          window.location.reload();
+        }
       })
-        window.location.reload();
 
       },
       err=>{

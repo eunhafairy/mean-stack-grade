@@ -130,9 +130,7 @@ export class FacultyRequestElementComponent implements OnInit {
       if(result){
         
         const dialogRef = this.dialog.open(RequestFormComponent, {
-           data: result,
-           height: '50%',
-           width: '40%'
+           data: result
         });
         dialogRef.afterClosed().subscribe(result =>{
 

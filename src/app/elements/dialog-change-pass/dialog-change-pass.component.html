@@ -24,7 +24,7 @@
 
            [type]="hidePass ? 'password' : 'text'">
 
-           <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
+           <button type="button" mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePass">
             <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
            </button>
 
@@ -41,7 +41,7 @@
 
            [type]="hideNewPass ? 'password' : 'text'">
 
-           <button mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPass">
+           <button type="button" mat-icon-button matSuffix (click)="hideNewPass = !hideNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideNewPass">
             <mat-icon>{{hideNewPass ? 'visibility_off' : 'visibility'}}</mat-icon>
            </button>
 
@@ -58,7 +58,7 @@
 
              [type]="hideReEnterNewPass ? 'password' : 'text'">
 
-             <button mat-icon-button matSuffix (click)="hideReEnterNewPass = !hideReEnterNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideReEnterNewPass">
+             <button type="button" mat-icon-button matSuffix (click)="hideReEnterNewPass = !hideReEnterNewPass" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideReEnterNewPass">
               <mat-icon>{{hideReEnterNewPass ? 'visibility_off' : 'visibility'}}</mat-icon>
              </button>
 

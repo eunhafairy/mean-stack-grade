@@ -179,7 +179,7 @@ role : string;
           }
       }
 
-      if(this.form.value.password.length<6){
+      if(this.mode === 'create' && this.form.value.__password.length<6){
 
         // window.alert("Minimum password length is 6");
         Swal.fire({
@@ -220,9 +220,15 @@ role : string;
               title: 'Yehey!',
               text: 'User edited successfully!',
               allowOutsideClick: false
+            }).then(result =>{
+
+              this.isLoading = false;
+              if(result.isConfirmed){
+                this.dialogRef.close('success');
+
+              }
+
             })
-            this.isLoading = false;
-            this.dialogRef.close('success');
           },
           error =>{
 

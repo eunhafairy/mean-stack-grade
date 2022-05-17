@@ -41,9 +41,9 @@
       <!-- SHOW IF ADMIN -->
 
         <!-- HOME BUTTON -->
-        <!-- <button matTooltip="Admin Dashboard" *ngIf="userIsAuthenticated && role ==='Admin'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/admin-dashboard">
+        <button matTooltip="Admin Dashboard" *ngIf="userIsAuthenticated && role ==='Admin'" mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon" routerLink="/admin-dashboard">
           <mat-icon>home</mat-icon>
-        </button> -->
+        </button>
 
         <!-- PROFILE -->
         <button matTooltip="Accounts" *ngIf="userIsAuthenticated  && role ==='Admin'"  mat-icon-button class="example-icon favorite-icon" routerLinkActive="mat-accent" aria-label="Example icon-button with heart icon"  routerLink="/accounts">

@@ -34,7 +34,7 @@
         <!-- ACTION ROW -->
         <mat-action-row *ngIf = "request.status === 'Requested'">
             <button mat-button color="primary" mat-flat-button color="primary" (click)= "acceptRequest(request._id)">Accept</button>
-            <button mat-button color="warn" mat-flat-button color="primary" (click) = "rejectRequest(request._id)">Reject</button>
+            <button mat-button color="warn" mat-flat-button color="warn" (click) = "rejectRequest(request._id)">Reject</button>
         </mat-action-row>
 
     </mat-expansion-panel>

@@ -81,24 +81,25 @@ export class AccountsComponent  implements OnInit, OnDestroy {
       this.userService.updateUserStatus('Archive',u_id)
       .subscribe(result =>{
 
-        this.isLoading = true;
-        this.adminService.getUsers();
-        this.adminService.geUsersUpdateListener()
-        .subscribe((userData: {users: User[], userCount : number}) => {
-          this.isLoading = false;
-          this.users = userData.users;
-          this.totalRequests = userData.userCount;
-          this.dataSource = new MatTableDataSource(this.users);
-          this.dataSource.sort = this.sort;
-          //set page size options
-          if( this.dataSource.data.length > 10){
-            this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
-          }
-          else{
-            this.pageSizeOptions =  [1, 2, 5,  10];
-          }
+        // this.isLoading = true;
+        // this.adminService.getUsers();
+        // this.adminService.geUsersUpdateListener()
+        // .subscribe((userData: {users: User[], userCount : number}) => {
+        //   this.isLoading = false;
+        //   this.users = userData.users;
+        //   this.totalRequests = userData.userCount;
+        //   this.dataSource = new MatTableDataSource(this.users);
+        //   this.dataSource.sort = this.sort;
+        //   //set page size options
+        //   if( this.dataSource.data.length > 10){
+        //     this.pageSizeOptions =  [1, 2, 5,  10, this.dataSource.data.length];
+        //   }
+        //   else{
+        //     this.pageSizeOptions =  [1, 2, 5,  10];
+        //   }
 
-        });
+        // });
+        window.location.reload();
 
       });
     }

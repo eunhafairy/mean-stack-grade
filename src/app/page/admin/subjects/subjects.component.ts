@@ -114,11 +114,11 @@ export class SubjectsComponent implements OnInit  {
 
 
       // window.alert(err);
-// console.log(err);
+ console.log(err);
 Swal.fire({
   icon: 'error',
   title: 'Oops!',
-  text: 'Something went wrong!',
+  text: 'Something went wrong!' + err,
   allowOutsideClick: false
 })
 
