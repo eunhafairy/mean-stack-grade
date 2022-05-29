@@ -9,7 +9,6 @@
   <div class="container">
     <mat-card class="signup-form">
 
-
       <mat-spinner *ngIf="isLoading"
       [diameter]="30"
       style="margin: 0; position: absolute; top: 50%; left: 50%;
@@ -17,15 +16,15 @@
       transform: translate(-50%, -50%);"></mat-spinner>
 
 
-          <h1 *ngIf="isLoading===false">Are you sure?</h1>
-          <div class="row">
+          <h1 *ngIf="!isLoading">Are you sure?</h1>
+          <div class="row"  *ngIf="!isLoading">
 
             <div class="col">
-              <button  *ngIf="isLoading===false" class="btnSignUpForm positive" mat-flat-button  color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Save Request</button>
+              <button class="btnSignUpForm positive" mat-flat-button  color="primary" (click) = "clickBtn()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Save Request</button>
             </div>
 
             <div class="col">
-              <button  *ngIf="isLoading===false" class="btnSignUpForm negative" mat-flat-button  color="primary" (click) = "onNoClick()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Cancel</button>
+              <button   class="btnSignUpForm negative" mat-flat-button  color="primary" (click) = "onNoClick()" [ngStyle]="(isLoading) ? {'visibility' : 'hidden'} : {'visibility': 'visible'} ">Cancel</button>
             </div>
 
           </div>
@@ -35,8 +34,8 @@
 
 
 
-      </mat-card>
-</div>
+    </mat-card>
+    </div>
 
 </div>
 

@@ -203,9 +203,16 @@ async fillForm() {
               title: 'Yehey!',
               text: 'Request Updated!',
               allowOutsideClick: false
+          }).then(result =>{
+          
+            if(result.isConfirmed){
+              this.dialogRef.close("Success");
+              this.isLoading = false;
+
+            }
+
           })
-            this.dialogRef.close("Success");
-            this.isLoading = false;
+            
           },
           err=>{
             this.isLoading = false;
@@ -216,9 +223,16 @@ async fillForm() {
               title: 'Oops!',
               text: 'Something went wrong!',
               allowOutsideClick: false
+          }).then(result =>{
+          
+            if(result.isConfirmed){
+              this.dialogRef.close();
+
+            }
+
           })
 
-            this.dialogRef.close();
+        
           }
         )
 
@@ -230,9 +244,17 @@ async fillForm() {
           title: 'Oops!',
           text: 'Something went wrong!',
           allowOutsideClick: false
+      }).then(result =>{
+        this.isLoading = false;
+        if(result.isConfirmed){
+
+          this.dialogRef.close();
+          
+        }
+
       })
 
-        this.dialogRef.close();
+    
 
 
       });
@@ -316,8 +338,15 @@ async fillForm() {
             title: 'Yehey!',
             text: 'Request Added!',
             allowOutsideClick: false
+        }).then(result =>{
+          this.isLoading = false;
+          if(result.isConfirmed){
+
+            this.dialogRef.close("Success");
+            
+          }
+
         })
-          this.dialogRef.close("Success");
 
         },
         err=>{
@@ -328,8 +357,15 @@ async fillForm() {
             title: 'Oops!',
             text: 'Something went wrong!',
             allowOutsideClick: false
+        }).then(result =>{
+          this.isLoading = false;
+          if(result.isConfirmed){
+
+            this.dialogRef.close();
+            
+          }
+
         })
-          this.dialogRef.close();
 
         })
 
@@ -345,8 +381,15 @@ async fillForm() {
           title: 'Oops!',
           text: 'Something went wrong!',
           allowOutsideClick: false
+      }).then(result =>{
+        this.isLoading = false;
+        if(result.isConfirmed){
+
+          this.dialogRef.close();
+          
+        }
+
       })
-        this.dialogRef.close();
 
       });
 

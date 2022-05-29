@@ -298,9 +298,16 @@ addOne(year : string){
                   title: 'Yehey!',
                   text: 'Request updated successfully!',
                   allowOutsideClick: false
+                }).then(result =>{
+                  this.isLoading = false;
+                  if(result.isConfirmed){
+        
+                    this.dialogRef.close('success');
+                    
+                  }
+        
                 })
-                console.log(res);
-                this.dialogRef.close("Success");
+              
               },
               err =>{
 
@@ -310,9 +317,17 @@ addOne(year : string){
                   title: 'Oops!',
                   text: 'Something went wrong!',
                   allowOutsideClick: false
+                }).then(result =>{
+                  this.isLoading = false;
+                  if(result.isConfirmed){
+        
+                    this.dialogRef.close();
+                    
+                  }
+        
                 })
 
-                this.dialogRef.close();
+            
 
               }
             );

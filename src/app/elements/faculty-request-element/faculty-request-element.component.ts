@@ -145,6 +145,12 @@ export class FacultyRequestElementComponent implements OnInit {
      
     });
   }
+
+    viewPDF(url:string){
+
+    window.open(url,'_blank');
+
+  }
   rejectRequest(id: string){
 
     const dialogRef = this.dialog.open(DialogRejectRequestComponent, {

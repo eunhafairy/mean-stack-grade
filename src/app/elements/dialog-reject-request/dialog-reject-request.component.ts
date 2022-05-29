@@ -74,8 +74,15 @@ export class DialogRejectRequestComponent implements OnInit {
                 title: 'Hey!',
                 text: 'Request rejected!',
                 allowOutsideClick: false
+            }).then(result =>{
+              this.isLoading = false;
+              if(result.isConfirmed){
+    
+                this.dialogRef.close("Success");
+                
+              }
+    
             })
-              this.dialogRef.close("Success");
 
             },
             err=>{
@@ -85,8 +92,16 @@ export class DialogRejectRequestComponent implements OnInit {
                 title: 'Oops!',
                 text: 'Something went wrong!',
                 allowOutsideClick: false
+            }).then(result =>{
+              this.isLoading = false;
+              if(result.isConfirmed){
+    
+                this.dialogRef.close();
+                
+              }
+    
             })
-              this.dialogRef.close();
+           
 
             })
 
@@ -101,8 +116,16 @@ export class DialogRejectRequestComponent implements OnInit {
             title: 'Oops!',
             text: 'Something went wrong!',
             allowOutsideClick: false
+        }).then(result =>{
+          this.isLoading = false;
+          if(result.isConfirmed){
+
+            this.dialogRef.close();
+            
+          }
+
         })
-          this.dialogRef.close();
+       
         }
       );
 

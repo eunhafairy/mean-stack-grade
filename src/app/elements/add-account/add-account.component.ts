@@ -271,9 +271,15 @@ role : string;
           title: 'Yehey!',
           text: 'New user added!',
           allowOutsideClick: false
+        }).then(result =>{
+          this.isLoading = false;
+          if(result.isConfirmed){
+
+            this.dialogRef.close('success');
+            
+          }
+
         })
-        this.isLoading = false;
-        this.dialogRef.close('success');
       },
 
       (error) =>{
@@ -285,9 +291,15 @@ role : string;
         title: 'Oops!',
         text: error,
         allowOutsideClick: false
-    })
+    }).then(result =>{
       this.isLoading = false;
-      this.dialogRef.close('failed');
+      if(result.isConfirmed){
+
+        this.dialogRef.close('failed');
+        
+      }
+
+    })
 
     });
 

@@ -247,5 +247,11 @@ deleteRequest(requestId: string){
   ngOnDestroy() {
     this.requestSub.unsubscribe();
   }
+  
+  viewPDF(url:string){
+
+    window.open(url,'_blank');
+
+  }
 
 }

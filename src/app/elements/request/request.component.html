@@ -15,9 +15,14 @@
   <mat-expansion-panel  *ngFor = "let request of requests" >
 
       <!-- TITLE -->
-      <mat-expansion-panel-header>
-          <b style= "color: #302e2e;"><b>Subject: </b>{{request.subject}}</b>
+      <mat-expansion-panel-header *ngIf="role === 'Admin'">
+          <b style= "color: #302e2e;">{{"["+request.subject +"] Grade Completion Request of "+ request.user_id+" to "+request.faculty_id}}</b>
       </mat-expansion-panel-header>
+
+      <mat-expansion-panel-header  *ngIf="role !== 'Admin'">
+        <b style= "color: #302e2e;">{{"["+request.subject +"] Grade Completion Request to "+request.faculty_id}}</b>
+    </mat-expansion-panel-header>
+
 
       <div class="content">
       <!-- INFORMATION -->
@@ -32,22 +37,22 @@
 
       <li><b>Date requested: </b>{{readableDate(request.dateRequested)}}</li>
       <li *ngIf="request.status==='Completed' || request.status ==='Processing'"><b>Date accepted: </b>{{readableDate(request.dateAccepted)}}</li>
-      <li><b>PDF File: </b><a [href]="request.request_form" target="_blank" rel="noopener noreferrer">PDF Form file</a></li>
+     
       <li *ngIf="request.status === 'Rejected'" style="color:red"><b>Note: </b>{{request.note}}</li>
       <li *ngIf="request.status === 'Processing'" style="color:red"><b>Note: </b>Processing can take up to 10 days!</li>
 
       <!-- ACTION ROW -->
-      <mat-action-row *ngIf = "request.status === 'Requested'">
+      <mat-action-row >
           <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
 
-          <button class="deleteBtn" mat-flat-button color="primary" (click)="deleteRequest(request._id)">DELETE</button>
-
+          <button mat-flat-button color="primary" (click)="viewPDF(request.request_form)">View PDF</button>
+          <button *ngIf = "request.status === 'Requested'" class="deleteBtn" mat-flat-button color="primary" (click)="deleteRequest(request._id)">DELETE</button>
+          <button *ngIf="role ==='Admin' && request.status === 'Processing'" mat-flat-button color="primary" (click)="viewPDF(request.request_form)">View PDF</button>
+          <button *ngIf="role ==='Admin' && request.status === 'Processing'"  mat-flat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
       </mat-action-row>
 
-      <mat-action-row *ngIf="role ==='Admin' && request.status === 'Processing'">
-          <!-- <button  mat-button color="primary" (click) ="openEditRequestDialog(request._id)">EDIT</button> -->
-          <button  mat-flat-button color="primary" (click)="completeRequest(request._id)">Complete Request</button>
-      </mat-action-row>
+    
+  
       </div>
 
 

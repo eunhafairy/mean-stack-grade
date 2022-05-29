@@ -83,9 +83,17 @@ export class DialogAddSubjectComponent implements OnInit {
             title: 'Yehey!',
             text: 'Added subject successfully!',
             allowOutsideClick: false
+          }).then(result =>{
+            this.isLoading = false;
+            if(result.isConfirmed){
+  
+        
+              this.isLoading = false;
+              this.dialogRef.close();
+              
+            }
+  
           })
-          this.isLoading = false;
-          this.dialogRef.close("Success");
         },
 
         (error) =>{
@@ -97,9 +105,17 @@ export class DialogAddSubjectComponent implements OnInit {
           title: 'Oops!',
           text: 'Something went wrong!',
           allowOutsideClick: false
-      })
+      }).then(result =>{
         this.isLoading = false;
-        this.dialogRef.close("Failed");
+        if(result.isConfirmed){
+
+    
+          this.isLoading = false;
+          this.dialogRef.close("Failed");
+          
+        }
+
+      })
 
       });
 
@@ -126,9 +142,16 @@ export class DialogAddSubjectComponent implements OnInit {
             title: 'Yehey!',
             text: 'Subject updated!',
             allowOutsideClick: false
-        })
+        }).then(result =>{
           this.isLoading = false;
-          this.dialogRef.close();
+          if(result.isConfirmed){
+
+            this.dialogRef.close();
+            
+            this.isLoading = false;
+          }
+
+        })
         },
         error =>{
 

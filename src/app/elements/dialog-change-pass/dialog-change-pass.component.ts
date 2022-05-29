@@ -85,8 +85,15 @@ export class DialogChangePassComponent implements OnInit {
           title: 'Yehey!',
           text: 'Password Changed!',
           allowOutsideClick: false
+      }).then(result =>{
+        this.isLoading = false;
+        if(result.isConfirmed){
+
+          this.dialogRef.close("Success");
+          
+        }
+
       })
-        this.dialogRef.close("Success");
       },
       err=>{
 
@@ -97,8 +104,16 @@ export class DialogChangePassComponent implements OnInit {
           title: 'Oops!',
           text: 'Something went wrong!',
           allowOutsideClick: false
+      }).then(result =>{
+        this.isLoading = false;
+        if(result.isConfirmed){
+
+          this.dialogRef.close();
+          
+        }
+
       })
-        this.dialogRef.close();
+     
       })
 
     },
